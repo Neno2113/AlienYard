@@ -29,3 +29,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 //User
 Route::post('/user', 'UserController@store');
 Route::post('/user/{id}', 'UserController@show');
+Route::post('/user/delete/{id}', 'UserController@destroy');
+Route::post('/avatar', 'UserController@upload');
+Route::get('/avatar/{filname}', 'UserController@getImage');

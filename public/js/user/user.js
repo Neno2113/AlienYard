@@ -41,7 +41,6 @@ $(document).ready(function() {
     //         }
     //     }
     // })
-   
 
     var tabla;
 
@@ -52,22 +51,45 @@ $(document).ready(function() {
     }
 
     function limpiar() {
-        $("#name").val("").attr('readonly', false);
-        $("#surname").val("").attr('readonly', false);
-        $("#edad").val("").attr('readonly', false);
-        $("#telefono").val("").attr('readonly', false);
-        $("#celular").val("").attr('readonly', false);
-        $("#direccion").val("").attr('readonly', false);
-        $("#email").val("").attr('readonly', false);
-        $("#role").val("").attr('disabled', false);
-        $("#password").val("").attr('readonly', false);
+        $("#name")
+            .val("")
+            .attr("readonly", false);
+        $("#surname")
+            .val("")
+            .attr("readonly", false);
+        $("#edad")
+            .val("")
+            .attr("readonly", false);
+        $("#telefono")
+            .val("")
+            .attr("readonly", false);
+        $("#celular")
+            .val("")
+            .attr("readonly", false);
+        $("#direccion")
+            .val("")
+            .attr("readonly", false);
+        $("#email")
+            .val("")
+            .attr("readonly", false);
+        $("#role")
+            .val("")
+            .attr("disabled", false);
+        $("#password")
+            .val("")
+            .attr("readonly", false);
         $("#ver-contra").show();
+      
     }
 
     $("#btn-guardar").click(function(e) {
         // validacion(e);
         e.preventDefault();
-        
+        guardar();
+      
+    });
+
+    function guardar(){
         var user = {
             name: $("#name").val(),
             surname: $("#surname").val(),
@@ -80,7 +102,6 @@ $(document).ready(function() {
             password: $("#password").val()
         };
 
-
         $.ajax({
             url: "user",
             type: "POST",
@@ -90,9 +111,9 @@ $(document).ready(function() {
             success: function(datos) {
                 if (datos.status == "success") {
                     Swal.fire(
-                        'Success',
-                        'Usuario creado correctamente',
-                        'success'
+                        "Success",
+                        "Usuario creado correctamente",
+                        "success"
                     );
                     limpiar();
                     tabla.ajax.reload();
@@ -104,41 +125,44 @@ $(document).ready(function() {
                 }
             },
             error: function(datos) {
-                console.log(datos.responseJSON.errors); 
+                console.log(datos.responseJSON.errors);
                 let errores = datos.responseJSON.errors;
 
                 Object.entries(errores).forEach(([key, val]) => {
                     bootbox.alert({
-                        message:"<h4 class='invalid-feedback d-block'>"+val+"</h4>",
-                        size: 'small'
+                        message:
+                            "<h4 class='invalid-feedback d-block'>" +
+                            val +
+                            "</h4>",
+                        size: "small"
                     });
-                });            
+                });
             }
         });
-    });
+    }
 
     function listar() {
         tabla = $("#users").DataTable({
             serverSide: true,
             responsive: true,
             ajax: "api/users",
-            dom: 'Bfrtip',
-            iDisplayLength: 5,  
+            dom: "Bfrtip",
+            iDisplayLength: 5,
             buttons: [
-                'pageLength',
-                'copyHtml5',
-                 {
-                    extend: 'excelHtml5',
-                    autoFilter: true,
-                    sheetnombre: 'Exported data'
-                },
-                'csvHtml5',
+                "pageLength",
+                "copyHtml5",
                 {
-                    extend: 'pdfHtml5',
-                    orientation: 'landscape',
-                    pageSize: 'LEGAL'
+                    extend: "excelHtml5",
+                    autoFilter: true,
+                    sheetnombre: "Exported data"
+                },
+                "csvHtml5",
+                {
+                    extend: "pdfHtml5",
+                    orientation: "landscape",
+                    pageSize: "LEGAL"
                 }
-                ],
+            ],
             columns: [
                 { data: "Expandir", orderable: false, searchable: false },
                 { data: "Ver", orderable: false, searchable: false },
@@ -148,11 +172,11 @@ $(document).ready(function() {
                 { data: "email" },
                 { data: "role" },
                 { data: "edad" },
-                { data: "celular" },
+                { data: "celular" }
             ],
-            order: [[6, 'asc']],
+            order: [[6, "asc"]],
             rowGroup: {
-                dataSrc: 'role'
+                dataSrc: "role"
             }
         });
     }
@@ -171,7 +195,7 @@ $(document).ready(function() {
             role: $("#role").val(),
             password: $("#password").val()
         };
-     
+
         $.ajax({
             url: "user",
             type: "post",
@@ -181,9 +205,9 @@ $(document).ready(function() {
             success: function(datos) {
                 if (datos.status == "success") {
                     Swal.fire(
-                        'Success',
-                        'Usuario actualizado correctamente',
-                        'success'
+                        "Success",
+                        "Usuario actualizado correctamente",
+                        "success"
                     );
                     $("#id").val("");
                     limpiar();
@@ -195,7 +219,6 @@ $(document).ready(function() {
                     // $("#btn-edit").hide();
                     // $("#btn-guardar").show();
                     // $("#btnAgregar").show();
-
                 } else {
                     bootbox.alert(
                         "Ocurrio un error durante la creacion del usuario verifique los datos suministrados!!"
@@ -208,15 +231,15 @@ $(document).ready(function() {
                 );
             }
         });
-       
     });
+
 
     $("#formUpload").submit(function(e) {
         e.preventDefault();
         var formData = new FormData($(this)[0]);
-
+        // console.log( JSON.stringify(formData));
         $.ajax({
-            url: "user/avatar",
+            url: "avatar",
             type: "POST",
             data: formData,
             dataType: "JSON",
@@ -226,12 +249,11 @@ $(document).ready(function() {
             success: function(datos) {
                 if (datos.status == "success") {
                     Swal.fire(
-                        'Success',
-                        'Imagen subida correctamente',
-                        'success'
-                    )
+                        "Success",
+                        "Imagen subida correctamente",
+                        "success"
+                    );
                     $("#avatar").val("");
-                  ;
                 } else {
                     bootbox.alert(
                         "Ocurrio un error durante la creacion de la composicion"
@@ -254,12 +276,8 @@ $(document).ready(function() {
             }
         });
     });
-    // setInterval(function(){
-    //     tabla.ajax.reload();
-    // }, 30000)
 
-    $("#btn-upload").click(function(e){
-        e.preventDefault();
+    $("#btn-upload").click(function() {
         // Swal.fire(
         //     'Success',
         //     'Usuario creado correctamente',
@@ -281,6 +299,7 @@ $(document).ready(function() {
             $("#permisoForm").hide();
             $("#btnCancelar").hide();
             $("#btnAgregar").show();
+            $("#vatar").hide();
             $("#btn-edit").hide();
             $("#btn-guardar").show();
         }
@@ -295,7 +314,6 @@ $(document).ready(function() {
         mostrarForm(false);
     });
 
-
     init();
 });
 
@@ -309,20 +327,39 @@ function mostrar(id_user) {
         $("#btnAgregar").hide();
         $("#btn-guardar").hide();
         $("#ver-contra").show();
+        $("#vatar").show();
 
         // console.log(data);
+        // $("#test").attr("src", '/AlienYard/public/avatar/'+data.user.avatar)
         $("#id").val(data.user.id);
-        $("#name").val(data.user.name).attr('readonly', false);
-        $("#surname").val(data.user.surname).attr('readonly', false);
-        $("#edad").val(data.user.edad).attr('readonly', false);
-        $("#telefono").val(data.user.telefono).attr('readonly', false);
-        $("#celular").val(data.user.celular).attr('readonly', false);
-        $("#direccion").val(data.user.direccion).attr('readonly', false);
-        $("#email").val(data.user.email).attr('readonly', false);
-        $("#role").val(data.user.role).attr('disabled', false);
+        $("#avatar").val("")
+        $("#user_id").val(data.user.id);
+        $("#name")
+            .val(data.user.name)
+            .attr("readonly", false);
+        $("#surname")
+            .val(data.user.surname)
+            .attr("readonly", false);
+        $("#edad")
+            .val(data.user.edad)
+            .attr("readonly", false);
+        $("#telefono")
+            .val(data.user.telefono)
+            .attr("readonly", false);
+        $("#celular")
+            .val(data.user.celular)
+            .attr("readonly", false);
+        $("#direccion")
+            .val(data.user.direccion)
+            .attr("readonly", false);
+        $("#email")
+            .val(data.user.email)
+            .attr("readonly", false);
+        $("#role")
+            .val(data.user.role)
+            .attr("disabled", false);
     });
 }
-
 
 function ver(id_user) {
     $.post("user/" + id_user, function(data, status) {
@@ -332,28 +369,90 @@ function ver(id_user) {
         $("#btnAgregar").hide();
         $("#btn-guardar").hide();
 
-        
-        $("#name").val(data.user.name).attr('readonly', true);
+        $("#name")
+            .val(data.user.name)
+            .attr("readonly", true);
         $("#ver-contra").hide();
-        $("#surname").val(data.user.surname).attr('readonly', true);
-        $("#edad").val(data.user.edad).attr('readonly', true);
-        $("#telefono").val(data.user.telefono).attr('readonly', true);
-        $("#celular").val(data.user.celular).attr('readonly', true);
-        $("#direccion").val(data.user.direccion).attr('readonly', true);
-        $("#email").val(data.user.email).attr('readonly', true);
-        $("#role").val(data.user.role).attr('disabled', true);
+        $("#surname")
+            .val(data.user.surname)
+            .attr("readonly", true);
+        $("#edad")
+            .val(data.user.edad)
+            .attr("readonly", true);
+        $("#telefono")
+            .val(data.user.telefono)
+            .attr("readonly", true);
+        $("#celular")
+            .val(data.user.celular)
+            .attr("readonly", true);
+        $("#direccion")
+            .val(data.user.direccion)
+            .attr("readonly", true);
+        $("#email")
+            .val(data.user.email)
+            .attr("readonly", true);
+        $("#role")
+            .val(data.user.role)
+            .attr("disabled", true);
     });
 }
 
-
-function eliminar(id_user){
-    bootbox.confirm("¿Estas seguro de eliminar este usuario?", function(result){
-        if(result){
-            $.post("user/delete/" + id_user, function(){
-                // bootbox.alert(e);
-                bootbox.alert("Usuario eliminado correctamente");
-                $("#users").DataTable().ajax.reload();
-            })
+function eliminar(id_user) {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then(result => {
+        if (result.value) {
+            accionEliminar(id_user);
         }
-    })
+    });
+    // bootbox.confirm("¿Estas seguro de eliminar este usuario?", function(
+    //     result
+    // ) {
+    //     if (result) {
+    //         $.post("user/delete/" + id_user, function() {
+    //             // bootbox.alert(e);
+    //             bootbox.alert("Usuario eliminado correctamente");
+    //             $("#users")
+    //                 .DataTable()
+    //                 .ajax.reload();
+    //         });
+    //     }
+    // });
+}
+
+function accionEliminar(id){
+ 
+
+    $.ajax({
+        url: "user/delete/"+id,
+        type: "post",
+        dataType: "json",
+        // data: JSON.stringify(user),
+        contentType: "application/json",
+        success: function(datos) {
+            if (datos.status == "success") {
+                Swal.fire("Deleted!", "Your file has been deleted.", "success");    
+                $("#id").val("");
+
+                $("#users").DataTable().ajax.reload();
+              
+            
+            } else {
+                bootbox.alert(
+                    "Ocurrio un error durante la creacion del usuario verifique los datos suministrados!!"
+                );
+            }
+        },
+        error: function() {
+            bootbox.alert(
+                "Ocurrio un error, trate rellenando los campos obligatorios(*)"
+            );
+        }
+    });
 }

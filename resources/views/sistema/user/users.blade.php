@@ -100,30 +100,32 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <form action="" method="POST" id="formUpload" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label for="exampleInputFile">Avatar</label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input"  name="avatar" id="avatar">
-                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <button class="input-group-text" id="btn-upload">Upload</button>
-                                    </div>
+                </form>
+                <div class="row mt-3" id="vatar">
+                    <form action="" method="POST" id="formUpload" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="exampleInputFile">Avatar</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="avatar" id="avatar">
+                                    <input type="hidden" name="user_id" id="user_id" value="">
+                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                </div>
+                                <div class="input-group-append">
+                                    <button type="submit" class="input-group-text" id="btn-upload">Upload</button>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <ul class="error" id="error">
-
-                            </ul>
                         </div>
+                    </form>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="error" id="error">
+
+                        </ul>
                     </div>
+                </div>
             </div>
             <div class="card-footer  text-muted ">
                 <button class="btn  btn-danger mt-1" id="btnCancelar"><i class="fas fa-arrow-alt-circle-left fa-lg"></i>
@@ -134,7 +136,7 @@
                         class="far fa-edit fa-lg"></i> Editar</button>
 
             </div>
-            </form>
+
         </div>
     </div>
     <div class="col-md-4">
