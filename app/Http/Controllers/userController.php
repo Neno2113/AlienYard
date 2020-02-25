@@ -24,6 +24,7 @@ class userController extends Controller
         $direccion = $request->input('direccion', true);
         $telefono = $request->input('telefono', true);
         $celular = $request->input('celular', true);
+        $avatar = $request->input('avatar');
 
         if(empty($id)){
             $validar = $request->validate([
@@ -44,6 +45,7 @@ class userController extends Controller
             $user->celular = $celular;
             $user->surname = $apellido;
             $user->edad = $edad;
+            $user->avatar = $avatar;
 
             $user->save();
         }else{
@@ -66,6 +68,7 @@ class userController extends Controller
             $user->celular = $celular;
             $user->surname = $apellido;
             $user->edad = $edad;
+            $user->avatar = $avatar;
 
             $user->save();
         }
@@ -150,8 +153,7 @@ class userController extends Controller
     {
         //validar la imagen 
         $validate = \Validator::make($request->all(), [
-            'avatar' => 'required|image|mimes:jpg,jpeg,png',
-            'user_id' => 'required'
+            'avatar' => 'required|image|mimes:jpg,jpeg,png'
            
         ]);
         // Guardar la imagen
@@ -169,21 +171,21 @@ class userController extends Controller
             // die();
           
 
-            if (!empty($avatar)) {
-                $select = DB::select("SHOW TABLE STATUS LIKE 'users'");
-                $nextId = $select[0]->Auto_increment;
+            // if (!empty($avatar)) {
+            //     $select = DB::select("SHOW TABLE STATUS LIKE 'users'");
+            //     $nextId = $select[0]->Auto_increment;
 
-                $user = User::find($id);
-                $user->avatar = $image_name_1;
+            //     $user = User::find($id);
+            //     $user->avatar = $image_name_1;
              
-                $user->save();
-            } else {
-                $data = [
-                    'code' => 400,
-                    'status' => 'error',
-                    'message' => 'WTF'
-                ];
-            }
+            //     $user->save();
+            // } else {
+            //     $data = [
+            //         'code' => 400,
+            //         'status' => 'error',
+            //         'message' => 'WTF'
+            //     ];
+            // }
 
             \Storage::disk('avatar')->put($image_name_1, \File::get($avatar));
       
@@ -191,7 +193,7 @@ class userController extends Controller
             $data = [
                 'code' => 200,
                 'status' => 'success',
-                'avatar' =>$user
+                'avatar' =>$image_name_1
             ];
         }
 

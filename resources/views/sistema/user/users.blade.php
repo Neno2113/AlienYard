@@ -12,7 +12,7 @@
 </div>
 
 <div class="row ">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class="card  mb-3" id="registroForm">
             <div class="card-header text-center ">
                 <div class="card-tools">
@@ -101,14 +101,14 @@
                         </div>
                     </div>
                 </form>
-                <div class="row mt-3" id="vatar">
+                <div class="row mt-3" id="avatar">
                     <form action="" method="POST" id="formUpload" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="exampleInputFile">Avatar</label>
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" name="avatar" id="avatar">
-                                    <input type="hidden" name="user_id" id="user_id" value="">
+                                    <input type="hidden" name="avatar_name" id="avatar_name">
                                     <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                 </div>
                                 <div class="input-group-append">
@@ -139,7 +139,7 @@
 
         </div>
     </div>
-    <div class="col-md-4">
+    {{-- <div class="col-md-4">
         <div class="card  mb-3" id="permisoForm">
             <div class="card-header text-center ">
                 <div class="card-tools">
@@ -165,7 +165,7 @@
             </div>
             </form>
         </div>
-    </div>
+    </div> --}}
 </div>
 {{-- </div> --}}
 

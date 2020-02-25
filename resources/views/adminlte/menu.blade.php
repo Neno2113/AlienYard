@@ -4,7 +4,7 @@
   <a href="#" class="brand-link">
     <img src="{{asset('/adminlte/img/AdminLTELogo.png')}}" alt="AdminLTE Logo"
       class="brand-image img-circle elevation-3" style="opacity: .8">
-    <span class="brand-text font-weight-light">Alienyard</span>
+    <span class="brand-text font-weight-light">AlenYard</span>
   </a>
 
   <!-- Sidebar -->
@@ -54,6 +54,31 @@
               <a href="/AlienYard/public/user" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Usuarios</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+            <i class="fas fa-sitemap"></i>
+            <p>
+              Categorias
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/AlienYard/public/categoria-ingredientes" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Ingredientes</p>
+              </a>
+            </li>
+          </ul>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/AlienYard/public/" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Producto</p>
               </a>
             </li>
           </ul>

@@ -51,34 +51,10 @@ $(document).ready(function() {
     }
 
     function limpiar() {
-        $("#name")
+        $("#nombre")
             .val("")
             .attr("readonly", false);
-        $("#surname")
-            .val("")
-            .attr("readonly", false);
-        $("#edad")
-            .val("")
-            .attr("readonly", false);
-        $("#telefono")
-            .val("")
-            .attr("readonly", false);
-        $("#celular")
-            .val("")
-            .attr("readonly", false);
-        $("#direccion")
-            .val("")
-            .attr("readonly", false);
-        $("#email")
-            .val("")
-            .attr("readonly", false);
-        $("#role")
-            .val("")
-            .attr("disabled", false);
-        $("#password")
-            .val("")
-            .attr("readonly", false);
-        $("#ver-contra").show();
+    
       
     }
 
@@ -90,30 +66,22 @@ $(document).ready(function() {
     });
 
     function guardar(){
-        var user = {
-            name: $("#name").val(),
-            surname: $("#surname").val(),
-            email: $("#email").val(),
-            edad: $("#edad").val(),
-            telefono: $("#telefono").val(),
-            celular: $("#celular").val(),
-            direccion: $("#direccion").val(),
-            role: $("#role").val(),
-            password: $("#password").val(),
-            avatar: $("#avatar_name").val()
+        var categoria = {
+            nombre: $("#nombre").val(),
+    
         };
 
         $.ajax({
-            url: "user",
+            url: "categoria/ingrediente",
             type: "POST",
             dataType: "json",
-            data: JSON.stringify(user),
+            data: JSON.stringify(categoria),
             contentType: "application/json",
             success: function(datos) {
                 if (datos.status == "success") {
                     Swal.fire(
                         "Success",
-                        "Usuario creado correctamente",
+                        "Categoria creada correctamente",
                         "success"
                     );
                     limpiar();
@@ -146,7 +114,7 @@ $(document).ready(function() {
         tabla = $("#users").DataTable({
             serverSide: true,
             responsive: true,
-            ajax: "api/users",
+            ajax: "api/cat-ingredientes",
             dom: "Bfrtip",
             iDisplayLength: 5,
             buttons: [
@@ -167,42 +135,29 @@ $(document).ready(function() {
             columns: [
                 { data: "Expandir", orderable: false, searchable: false },
                 { data: "Ver", orderable: false, searchable: false },
+                { data: "nombre" },
                 { data: "Editar", orderable: false, searchable: false },
-                { data: "name" },
-                { data: "surname" },
-                { data: "email" },
-                { data: "role" },
-                { data: "edad" },
-                { data: "celular" }
+            
             ],
-            order: [[6, "asc"]],
-            rowGroup: {
-                dataSrc: "role"
-            }
+            order: [[1, "asc"]],
+            // rowGroup: {
+            //     dataSrc: "role"
+            // }
         });
     }
 
     $("#btn-edit").click(function(e) {
         e.preventDefault();
-        var user = {
+        var categoria = {
             id: $("#id").val(),
-            name: $("#name").val(),
-            surname: $("#surname").val(),
-            email: $("#email").val(),
-            edad: $("#edad").val(),
-            telefono: $("#telefono").val(),
-            celular: $("#celular").val(),
-            direccion: $("#direccion").val(),
-            role: $("#role").val(),
-            password: $("#password").val(),
-            avatar: $("#avatar_name").val()
+            nombre: $("#nombre").val(),
         };
 
         $.ajax({
-            url: "user",
+            url: "categoria/ingrediente",
             type: "post",
             dataType: "json",
-            data: JSON.stringify(user),
+            data: JSON.stringify(categoria),
             contentType: "application/json",
             success: function(datos) {
                 if (datos.status == "success") {
@@ -321,7 +276,7 @@ $(document).ready(function() {
 });
 
 function mostrar(id_user) {
-    $.post("user/" + id_user, function(data, status) {
+    $.post("categoria/" + id_user, function(data, status) {
         // data = JSON.parse(data);
         $("#listadoUsers").hide();
         $("#registroForm").show();
@@ -334,33 +289,11 @@ function mostrar(id_user) {
 
         // console.log(data);
         // $("#test").attr("src", '/AlienYard/public/avatar/'+data.user.avatar)
-        $("#id").val(data.user.id);
-        $("#avatar").val("")
-        $("#user_id").val(data.user.id);
-        $("#name")
-            .val(data.user.name)
+        $("#id").val(data.categoria.id);
+        $("#nombre")
+            .val(data.categoria.nombre)
             .attr("readonly", false);
-        $("#surname")
-            .val(data.user.surname)
-            .attr("readonly", false);
-        $("#edad")
-            .val(data.user.edad)
-            .attr("readonly", false);
-        $("#telefono")
-            .val(data.user.telefono)
-            .attr("readonly", false);
-        $("#celular")
-            .val(data.user.celular)
-            .attr("readonly", false);
-        $("#direccion")
-            .val(data.user.direccion)
-            .attr("readonly", false);
-        $("#email")
-            .val(data.user.email)
-            .attr("readonly", false);
-        $("#role")
-            .val(data.user.role)
-            .attr("disabled", false);
+       
     });
 }
 
@@ -372,31 +305,10 @@ function ver(id_user) {
         $("#btnAgregar").hide();
         $("#btn-guardar").hide();
 
-        $("#name")
+        $("#nombre")
             .val(data.user.name)
             .attr("readonly", true);
-        $("#ver-contra").hide();
-        $("#surname")
-            .val(data.user.surname)
-            .attr("readonly", true);
-        $("#edad")
-            .val(data.user.edad)
-            .attr("readonly", true);
-        $("#telefono")
-            .val(data.user.telefono)
-            .attr("readonly", true);
-        $("#celular")
-            .val(data.user.celular)
-            .attr("readonly", true);
-        $("#direccion")
-            .val(data.user.direccion)
-            .attr("readonly", true);
-        $("#email")
-            .val(data.user.email)
-            .attr("readonly", true);
-        $("#role")
-            .val(data.user.role)
-            .attr("disabled", true);
+     
     });
 }
 
@@ -433,7 +345,7 @@ function accionEliminar(id){
  
 
     $.ajax({
-        url: "user/delete/"+id,
+        url: "categoria/delete/"+id,
         type: "post",
         dataType: "json",
         // data: JSON.stringify(user),
