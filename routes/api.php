@@ -20,3 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('users', 'UserController@users');
 Route::get('cat-ingredientes', 'ingredienteController@categorias');
+Route::get('ingredientes', 'ingredienteController@ingredientes');
+Route::get('cat-productos', 'productoController@categorias');
+

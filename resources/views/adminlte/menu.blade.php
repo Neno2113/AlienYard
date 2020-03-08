@@ -60,9 +60,9 @@
         </li>
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
-            <i class="fas fa-sitemap"></i>
+            <i class="fas fa-bacon"></i>
             <p>
-              Categorias
+            Ingredientes
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
@@ -70,13 +70,38 @@
             <li class="nav-item">
               <a href="/AlienYard/public/categoria-ingredientes" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Ingredientes</p>
+                <p>Categoria ingredientes</p>
               </a>
             </li>
           </ul>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="/AlienYard/public/" class="nav-link">
+              <a href="/AlienYard/public/ingredientes" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Ingredientes</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+            <i class="fas fa-hamburger"></i>
+            <p>
+              Producto
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/AlienYard/public/categoria-producto" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Categoria</p>
+              </a>
+            </li>
+          </ul>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/AlienYard/public/productos" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Producto</p>
               </a>

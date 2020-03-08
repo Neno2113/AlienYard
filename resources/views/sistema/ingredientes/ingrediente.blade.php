@@ -7,13 +7,13 @@
 @section('content')
 {{-- <div class="container"> --}}
 <div class="row mt-3 ml-3">
-    <button class="btn btn-primary mb-3 " id="btnAgregar"><i class="fas fa-user-plus"></i> Agregar</button>
+    <button class="btn btn-primary mb-3 " id="btnAgregar"><i class="fas fa-plus-circle"></i> Agregar</button>
     {{-- <button class="btn btn-danger mb-3 " id="btnCancelar"><i class="fas fa-window-close"></i></button> --}}
 </div>
 
-<div class="row "> 
-    <div class="col-md-3"></div>
-    <div class="col-md-5">
+<div class="row ">
+
+    <div class="col-12">
         <div class="card  mb-3" id="registroForm">
             <div class="card-header text-center ">
                 <div class="card-tools">
@@ -22,18 +22,40 @@
                     <button type="button" class="btn btn-tool" data-card-widget="remove"><i
                             class="fas fa-remove"></i></button>
                 </div>
-                <h4>Categoria Ingrediente</h4>
+                <h4>Ingrediente</h4>
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8">
-                        <label for="">Nombre</label>
-                        <input type="text" name="nombre" id="nombre" class="form-control">
+                    <div class="col-md-4">
+                        <label for="">Categoria</label>
+                        <select name="categoria" id="categoria" class="form-control selectpicker">
+                            <option value="" disabled>Elige una categoria</option>
+                        </select>
                         <input type="hidden" name="id" id="id">
                     </div>
+                    <div class="col-md-4">
+                        <label for="">Nombre</label>
+                        <input type="text" name="nombre" id="nombre" placeholder="Nombre" class="form-control">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="">Disponible</label>
+                        <input type="text" name="disponible" id="disponible" placeholder="Disponible"
+                            class="form-control text-center" data-inputmask='"mask": "9[99]"' data-mask>
+                    </div>
+                  
                 </div>
-               
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <label for="">Costo</label>
+                        <input type="text" name="costo" id="costo" placeholder="Costo" class="form-control text-center"
+                            data-inputmask='"mask": "RD$ 9[9[9[9]]]"' data-mask>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="">Fecha</label>
+                        <input type="date" name="fecha_ingreso" id="fecha_ingreso" class="form-control" placeholder="Fecha">
+                    </div>
+                </div>
+
             </div>
             <div class="card-footer  text-muted ">
                 <button class="btn  btn-danger mt-1" id="btnCancelar"><i class="fas fa-arrow-alt-circle-left fa-lg"></i>
@@ -47,34 +69,36 @@
 
         </div>
     </div>
-  
+
 </div>
 {{-- </div> --}}
 
 <div class="card" id="listadoUsers">
     <div class="card-header text-center">
-        <h4> Listado de usuarios</h4>
+        <h4> Listado de ingredientes</h4>
     </div>
     <div class="card-body">
 
         <table id="users" class="table table-bordered table-hover datatables" style="width: 100%">
             <thead>
                 <tr>
-                    <th></th>
-                    <th>Ver</th>
-                
                     <th>Nombre</th>
+                    <th>Categoria</th>
+                    <th>Disponible</th>
+                    <th>Costo</th>
+                    <th>Fecha ingreso</th>
                     <th>Actions</th>
-                
+
                 </tr>
             </thead>
             <tbody></tbody>
             <tfoot>
                 <tr>
-                    <th></th>
-                    <th>Ver</th>
-               
                     <th>Nombre</th>
+                    <th>Categoria</th>
+                    <th>Disponible</th>
+                    <th>Costo</th>
+                    <th>Fecha ingreso</th>
                     <th>Actions</th>
                 </tr>
             </tfoot>
@@ -86,6 +110,6 @@
 
 
 @include('adminlte/scripts')
-<script src="{{asset('js/ingredientes/categoria-ingredientes.js')}}"></script>
+<script src="{{asset('js/ingredientes/ingrediente.js')}}"></script>
 
 @endsection

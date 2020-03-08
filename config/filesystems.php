@@ -62,6 +62,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'producto' => [
+            'driver' => 'local',
+            'root' => storage_path('app/producto'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
 
         's3' => [
             'driver' => 's3',
