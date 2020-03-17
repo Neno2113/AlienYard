@@ -49,7 +49,8 @@ $(document).ready(function() {
         mostrarForm(false);
         $("#btn-edit").hide();
         categorias();
-        ingredientes();
+        // ingredientes();
+        categoriaingrediente();
     }
 
 
@@ -80,14 +81,48 @@ $(document).ready(function() {
         });
     }
 
+    function categoriaingrediente(){
 
-    
+        $.ajax({
+            url: "catIngrediente-select",
+            type: "get",
+            dataType: "json",
+            contentType: "application/json",
+            success: function(datos) {
+                if (datos.status == "success") {
+               
+
+                    let longitud = datos.categoria.length;
+                    
+                    for (let i = 0; i < longitud; i++) {
+                        var fila =  "<option value="+datos.categoria[i].id +">"+datos.categoria[i].nombre+"</option>"
+                        
+                        $("#ingrediente_cat").append(fila);
+                    }
+                    $("#ingrediente_cat").select2();
+            
+                 
+                }
+            },
+            error: function() {
+                console.log("Ocurrio un error");
+            }
+        });
+    }
+
+
     function ingredientes(){
+
+        var categoria = {
+            categoria: $("#ingrediente_cat").val(),
+        };
+       
 
         $.ajax({
             url: "ingrediente-select",
-            type: "get",
+            type: "post",
             dataType: "json",
+            data: JSON.stringify(categoria),
             contentType: "application/json",
             success: function(datos) {
                 if (datos.status == "success") {
@@ -108,6 +143,10 @@ $(document).ready(function() {
             }
         });
     }
+    $("#ingrediente_cat").change(function(){
+        ingredientes();
+    });
+    
 
     function limpiar() {
         $("#categoria").val("").trigger("change").select2();
@@ -120,38 +159,46 @@ $(document).ready(function() {
     }
 
     $("#btn-guardar").click(function(e) {
-        // validacion(e);
-        e.preventDefault();
-        guardar();
+      e.preventDefault();
+      limpiar();
+      tabla.ajax.reload();
+      mostrarForm(false);
+      Swal.fire("Success!", "Producto creaqdo correctamente!.", "success");  
       
     });
 
     function guardar(){
+
         var producto = {
             id: $("#id").val(),
-            categoria: $("#categoria").val(),
             nombre: $("#nombre").val(),
+            categoria: $("#categoria").val(),
             costo: $("#costo").val(),
-            fechaIngreso: $("#fecha_ingreso").val()
+            imagen:$("#image_name").val()
         };
        
     
         $.ajax({
-            url: "ingrediente",
+            url: "producto",
             type: "POST",
             dataType: "json",
-            data: JSON.stringify(ingrediente),
+            data: JSON.stringify(producto),
             contentType: "application/json",
             success: function(datos) {
                 if (datos.status == "success") {
+               
+                    $("#producto_id").val(datos.producto.id);
                     Swal.fire(
                         "Success",
-                        datos.message,
+                        "Producto creado correctamente",
                         "success"
                     );
-                    limpiar();
-                    tabla.ajax.reload();
-                    mostrarForm(false);
+                    $("#receta-div").show();
+                    $("#producto-div").hide();
+                    $("#formUpload").hide();
+                    $("#btn-guardar").show();
+                    $("#button-div").hide();
+                    
                 } else {
                     bootbox.alert(
                         "Ocurrio un error durante la creacion del usuario verifique los datos suministrados!!"
@@ -159,27 +206,79 @@ $(document).ready(function() {
                 }
             },
             error: function(datos) {
-                console.log(datos.responseJSON.errors);
-                let errores = datos.responseJSON.errors;
-
-                Object.entries(errores).forEach(([key, val]) => {
-                    bootbox.alert({
-                        message:
-                            "<h4 class='invalid-feedback d-block'>" +
-                            val +
-                            "</h4>",
-                        size: "small"
-                    });
-                });
+                Swal.fire(
+                    "Error",
+                    "Ya existe un producto con este nombre",
+                    "error"
+                );
             }
         });
     }
+
+    function guardarReceta(){
+
+        var receta = {
+            producto: $("#producto_id").val(),
+            id_ingrediente: $("#ingrediente").val()
+        };
+    
+        $.ajax({
+            url: "receta",
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(receta),
+            contentType: "application/json",
+            success: function(datos) {
+                if (datos.status == "success") {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        onOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+            
+                    Toast.fire({
+                        type: 'success',
+                        title: 'Ingrediente agregado correctamente.'
+                    })
+                    var fila =
+                    '<tr id="fila'+datos.receta.id+'">'+
+                    "<td class=''><input type='hidden' id='usuario"+datos.receta.id+"' value="+datos.receta.id+">"+datos.receta.producto.nombre+"</td>"+
+                    "<td class='font-weight-bold'><input type='hidden' id='permiso"+datos.receta.id+"' value="+datos.receta.id+">"+datos.receta.ingrediente.nombre+"</td>"+
+                    "<td><button type='button' id='btn-eliminar' onclick='delIngrediente("+datos.receta.id+")' class='btn btn-danger'><i class='fas fa-minus-square'></i></button></td>"+
+                    "</tr>";
+                    $("#ingredientes").append(fila);
+
+                } else {
+                    bootbox.alert(
+                        "Ocurrio un error durante la creacion del usuario verifique los datos suministrados!!"
+                    );
+                }
+            },
+            error: function(datos) {
+                Swal.fire(
+                    "Error",
+                    "Ya tiene este ingrediente agregado el producto",
+                    "error"
+                );
+            }
+        });
+    }
+
+    $("#btn-agregar").click(function(){
+        guardarReceta();
+    }); 
 
     function listar() {
         tabla = $("#users").DataTable({
             serverSide: true,
             responsive: true,
-            ajax: "api/ingredientes",
+            ajax: "api/productos",
             dom: "Bfrtip",
             iDisplayLength: 5,
             buttons: [
@@ -198,17 +297,15 @@ $(document).ready(function() {
                 }
             ],
             columns: [
-                { data: "nombre", name: "ingrediente.nombre"},
-                { data: "categoria", name: "categoriaingrediente.nombre"},
-                { data: "disponible", name: "inventario.disponible"},
-                { data: "costo", name: "inventario.costo"},
-                { data: "fecha_ingreso", name: "inventario.fecha_ingreso"},
+                { data: "nombre", name: "producto.nombre"},
+                { data: "categoria", name: "categoriaproducto.nombre"},
+                { data: "precio", name: "producto.disponible"},
                 { data: "Opciones", orderable: false, searchable: false },
             ],
             order: [[1, "asc"]],
-            // rowGroup: {
-            //     dataSrc: "role"
-            // }
+            rowGroup: {
+                dataSrc: "categoria"
+            }
         });
     }
 
@@ -238,7 +335,8 @@ $(document).ready(function() {
                         "success"
                     );
                     $("#producto_imagen").val("");
-                    $("#avatar_name").val(datos.producto);
+                    $("#image_name").val(datos.producto);
+                    $("#button-div").show();
                     $("#btn-crear").attr("disabled", false);
                 } else {
                     bootbox.alert(
@@ -269,28 +367,9 @@ $(document).ready(function() {
 
 
     $("#btn-crear").click(function() {
-        $("#receta-div").show();
-        $("#producto-div").hide();
-        $("#formUpload").hide();
-        $("#btn-guardar").show();
-        $("#button-div").hide();
-
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            onOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-
-        Toast.fire({
-            type: 'success',
-            title: 'Producto creado correctamente.'
-        })
+      
+        guardar();
+      
     });
 
     function mostrarForm(flag) {
@@ -331,8 +410,8 @@ $(document).ready(function() {
 });
 
 function mostrar(id) {
-    $.get("ingrediente/" + id, function(data, status) {
-      
+    $.get("producto/mostrar/" + id, function(datos, status) {
+        console.log(datos);
         // data = JSON.parse(data);
         $("#listadoUsers").hide();
         $("#registroForm").show();
@@ -341,16 +420,33 @@ function mostrar(id) {
         $("#btnAgregar").hide();
         $("#btn-guardar").hide();
         $("#ver-contra").show();
-        $("#vatar").show();
-
+        $("#receta-div").show();
+        $("#producto-div").hide();
+        $("#formUpload").hide();
+        $("#btn-guardar").show();
+        $("#button-div").hide();
+        $("#ingredientes").empty();
         // console.log(data);
         // $("#test").attr("src", '/AlienYard/public/avatar/'+data.user.avatar)
-        $("#id").val(data.ingrediente.id);
-        $("#categoria").val(data.ingrediente.categoria.id).trigger("change").select2();
-        $("#nombre").val(data.ingrediente.nombre).attr("readonly", false);
-        $("#disponible").val(data.inventario.disponible).attr("readonly", false);
-        $("#costo").val(data.inventario.costo).attr("readonly", false);
-        $("#fecha_ingreso").val(data.inventario.fecha_ingreso).attr("readonly", false);
+        $("#producto_id").val(datos.receta.id_producto);
+        // $("#categoria").val(data.ingrediente.categoria.id).trigger("change").select2();
+        // $("#nombre").val(data.ingrediente.nombre).attr("readonly", false);
+        // $("#disponible").val(data.inventario.disponible).attr("readonly", false);
+        // $("#costo").val(data.inventario.costo).attr("readonly", false);
+        // $("#fecha_ingreso").val(data.inventario.fecha_ingreso).attr("readonly", false);
+
+        for (let i = 0; i < datos.receta.length; i++) {
+
+            var fila =
+            '<tr id="fila'+datos.receta.id+'">'+
+            "<td class=''><input type='hidden' id='usuario"+datos.receta[i].id+"' value="+datos.receta[i].id+">"+datos.receta[i].producto.nombre+"</td>"+
+            "<td class='font-weight-bold'><input type='hidden' id='permiso"+datos.receta.id+"' value="+datos.receta.id+">"+datos.receta[i].ingrediente.nombre+"</td>"+
+            "<td><button type='button' id='btn-eliminar' onclick='delIngrediente("+datos.receta[i].id+")' class='btn btn-danger'><i class='fas fa-minus-square'></i></button></td>"+
+            "</tr>";
+
+            $("#ingredientes").append(fila);
+            
+        }
     });
 }
 
@@ -401,7 +497,7 @@ function eliminar(id) {
 function accionEliminar(id){
  
     $.ajax({
-        url: "ingrediente/delete/"+id,
+        url: "producto/delete/"+id,
         type: "post",
         dataType: "json",
         // data: JSON.stringify(user),
@@ -409,7 +505,7 @@ function accionEliminar(id){
         success: function(datos) {
             if (datos.status == "success") {
                 Swal.fire("Deleted!", 
-                "El ingrediente ha sido eliminado.", 
+                "Producto eliminado correctamente!.", 
                 "success");    
                 $("#id").val("");
 
@@ -426,4 +522,60 @@ function accionEliminar(id){
            console.log(datos.responseJSON);
         }
     });
+}
+
+
+function delIngrediente(id) {
+    Swal.fire({
+        title: "Estas seguro de eliminar este ingrediente?",
+        text: "Lo puede volver agregar si lo borra",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, eliminarlo!"
+    }).then(result => {
+        if (result.value) {
+            
+            $.ajax({
+                url: "ingrediente/receta/"+id,
+                type: "post",
+                dataType: "json",
+                // data: JSON.stringify(user),
+                contentType: "application/json",
+                success: function(datos) {
+                    if (datos.status == "success") {
+                        Swal.fire("Deleted!", 
+                        "El ingrediente ha sido eliminado.", 
+                        "success");    
+                        $("#id").val("");
+        
+                        $("#fila"+id).remove();
+                      
+                    
+                    } else {
+                        bootbox.alert(
+                            "Ocurrio un error durante la creacion del usuario verifique los datos suministrados!!"
+                        );
+                    }
+                },
+                error: function(datos) {
+                   console.log(datos.responseJSON);
+                }
+            });
+        }
+    });
+    // bootbox.confirm("¿Estas seguro de eliminar este usuario?", function(
+    //     result
+    // ) {
+    //     if (result) {
+    //         $.post("user/delete/" + id_user, function() {
+    //             // bootbox.alert(e);
+    //             bootbox.alert("Usuario eliminado correctamente");
+    //             $("#users")
+    //                 .DataTable()
+    //                 .ajax.reload();
+    //         });
+    //     }
+    // });
 }

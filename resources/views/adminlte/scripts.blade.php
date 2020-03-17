@@ -56,6 +56,9 @@
 <!-- Knob-->
 <script src="{{asset('adminlte/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
 
+{{-- 
+<script src="{{asset('/adminlte/plugins/bootbox/bootbox.min.js')}}"></script>
+<script src="{{asset('/adminlte/plugins/bootbox/bootbox.locales.min.js')}}"></script> --}}
 
 <!-- SweetAlert-->
 <script src="{{asset('adminlte/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>

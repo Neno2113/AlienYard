@@ -21,46 +21,44 @@ class ingredienteController extends Controller
         if ($validator->fails()) {
             $data = [
                 'code' => 400,
-                'status'=> 'error',
+                'status' => 'error',
                 'message' => $validator->errors()
             ];
-        }else{
+        } else {
             $id = $request->input('id');
 
-            if(!empty($id)){
+            if (!empty($id)) {
                 $categoria = CategoriaIngrediente::find($id);
 
-                
+
                 $nombre = $request->input('nombre');
 
-                
+
                 $categoria->nombre = $nombre;
                 $categoria->save();
 
-    
+
                 $data = [
                     'code' => 200,
                     'status' => 'success',
                     'categoria' => $categoria
                 ];
-            }else{
+            } else {
 
                 $nombre = $request->input('nombre');
 
                 $categoria = new CategoriaIngrediente();
-    
+
                 $categoria->nombre = $nombre;
                 $categoria->save();
-    
-    
+
+
                 $data = [
                     'code' => 200,
                     'status' => 'success',
                     'categoria' => $categoria
                 ];
             }
-
-           
         }
         return response()->json($data, $data['code']);
     }
@@ -76,21 +74,21 @@ class ingredienteController extends Controller
             })
             ->addColumn('Ver', function ($categoria) {
                 return '<button id="btnEdit" onclick="ver(' . $categoria->id . ')" class="btn btn-info btn-sm" > <i class="fas fa-eye"></i></button>';
-               
             })
             ->addColumn('Editar', function ($categoria) {
-                return '<button id="btnEdit" onclick="mostrar(' . $categoria->id . ')" class="btn btn-warning btn-sm mr-1"> <i class="fas fa-pencil-alt"></i></button>'.
-                '<button onclick="eliminar(' . $categoria->id . ')" class="btn btn-danger btn-sm ml-1"> <i class="fas fa-trash-alt"></i></button>';
+                return '<button id="btnEdit" onclick="mostrar(' . $categoria->id . ')" class="btn btn-warning btn-sm mr-1"> <i class="fas fa-pencil-alt"></i></button>' .
+                    '<button onclick="eliminar(' . $categoria->id . ')" class="btn btn-danger btn-sm ml-1"> <i class="fas fa-trash-alt"></i></button>';
             })
-           
+
             ->rawColumns(['Editar', 'Ver'])
             ->make(true);
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $categoria = CategoriaIngrediente::find($id);
 
-        if(is_object($categoria)){
+        if (is_object($categoria)) {
             $categoria->delete();
 
             $data = [
@@ -98,7 +96,7 @@ class ingredienteController extends Controller
                 'status' => 'success',
                 'categoria' => $categoria
             ];
-        }else{
+        } else {
             $data = [
                 'code' => 404,
                 'status' => 'error',
@@ -109,16 +107,17 @@ class ingredienteController extends Controller
         return response()->json($data, $data['code']);
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $categoria = CategoriaIngrediente::find($id);
 
-        if(is_object($categoria)){
+        if (is_object($categoria)) {
             $data = [
                 'code' => 200,
                 'status' => 'success',
                 'categoria' => $categoria
             ];
-        }else{
+        } else {
             $data = [
                 'code' => 400,
                 'status' => 'error',
@@ -130,8 +129,9 @@ class ingredienteController extends Controller
     }
 
 
-    public function store(Request $request){
-        
+    public function store(Request $request)
+    {
+
         $id = $request->input('id');
         $id_categoria = $request->input('categoria');
         $nombre = $request->input('nombre');
@@ -139,14 +139,14 @@ class ingredienteController extends Controller
         $costo = $request->input('costo');
         $fecha_ingreso = $request->input('fechaIngreso');
 
-        if(empty($id)){
+        if (empty($id)) {
             $validar = $request->validate([
                 'categoria' => 'required',
                 'disponible' => 'required',
                 'costo' => 'required',
                 'fechaIngreso' => 'required'
             ]);
-           
+
 
             $ingrediente = new Ingredientes();
             $ingrediente->id_categoria = $id_categoria;
@@ -154,7 +154,7 @@ class ingredienteController extends Controller
             $ingrediente->save();
 
             $costo = trim($costo, 'RD$_');
-            $disponible= trim($disponible, "_");
+            $disponible = trim($disponible, "_");
 
 
             $inventario = new Inventario();
@@ -170,22 +170,21 @@ class ingredienteController extends Controller
                 'ingrediente' => $ingrediente,
                 'message' => 'Ingrediente agregado correctamente"'
             ];
-       
-        }else{
+        } else {
             $validar = $request->validate([
                 'categoria' => 'required',
                 'disponible' => 'required',
                 'costo' => 'required',
                 'fechaIngreso' => 'required'
             ]);
-  
+
             $ingrediente = Ingredientes::find($id);
             $ingrediente->id_categoria = $id_categoria;
             $ingrediente->nombre = $nombre;
             $ingrediente->save();
 
-            $costo = trim($costo, 'RD$_' );
-            $disponible= trim($disponible, "_");
+            $costo = trim($costo, 'RD$_');
+            $disponible = trim($disponible, "_");
 
 
             $inventario = Inventario::where('id_ingrediente', $id)->get()->first();
@@ -207,16 +206,17 @@ class ingredienteController extends Controller
         return response()->json($data, $data['code']);
     }
 
-    public function categoriasSelect(){
+    public function categoriasSelect()
+    {
         $categoria = CategoriaIngrediente::all();
 
-        if(!empty($categoria)){
+        if (!empty($categoria)) {
             $data = [
                 'code' => 200,
                 'status' => 'success',
                 'categoria' => $categoria
             ];
-        }else{
+        } else {
             $data = [
                 'code' => 400,
                 'status' => 'error',
@@ -230,36 +230,37 @@ class ingredienteController extends Controller
     public function ingredientes()
     {
         $ingredientes = DB::table('ingrediente')->join('categoriaingrediente', 'ingrediente.id_categoria', '=', 'categoriaingrediente.id')
-        ->join('inventario', 'inventario.id_ingrediente','=', 'ingrediente.id')    
-        ->select([
-                'ingrediente.id', 'ingrediente.nombre', 'categoriaingrediente.nombre as categoria', 
+            ->join('inventario', 'inventario.id_ingrediente', '=', 'ingrediente.id')
+            ->select([
+                'ingrediente.id', 'ingrediente.nombre', 'categoriaingrediente.nombre as categoria',
                 'inventario.disponible', 'inventario.costo', 'inventario.fecha_ingreso'
             ]);
 
         return DataTables::of($ingredientes)
-        ->editColumn('fecha_ingreso', function ($ingrediente) {
-            return date("d-m-20y", strtotime($ingrediente->fecha_ingreso));
-        })
-        ->editColumn('costo', function ($ingrediente) {
-            return number_format($ingrediente->costo);
-        })
-        ->addColumn('Opciones', function ($ingrediente) {
-            return '<button id="btnEdit" onclick="mostrar(' . $ingrediente->id . ')" class="btn btn-warning btn-sm mr-1"> <i class="fas fa-pencil-alt"></i></button>'.
-            '<button onclick="eliminar(' . $ingrediente->id . ')" class="btn btn-danger btn-sm ml-1"> <i class="fas fa-trash-alt"></i></button>';
-        })
+            ->editColumn('fecha_ingreso', function ($ingrediente) {
+                return date("d-m-20y", strtotime($ingrediente->fecha_ingreso));
+            })
+            ->editColumn('costo', function ($ingrediente) {
+                return number_format($ingrediente->costo);
+            })
+            ->addColumn('Opciones', function ($ingrediente) {
+                return '<button id="btnEdit" onclick="mostrar(' . $ingrediente->id . ')" class="btn btn-warning btn-sm mr-1"> <i class="fas fa-pencil-alt"></i></button>' .
+                    '<button onclick="eliminar(' . $ingrediente->id . ')" class="btn btn-danger btn-sm ml-1"> <i class="fas fa-trash-alt"></i></button>';
+            })
 
-        ->rawColumns(['Opciones'])
-        ->make(true);
+            ->rawColumns(['Opciones'])
+            ->make(true);
     }
 
-    public function destroyIngrediente($id){
+    public function destroyIngrediente($id)
+    {
         $ingrediente = Ingredientes::find($id);
 
-        if(is_object($ingrediente)){
+        if (is_object($ingrediente)) {
             $ingrediente->delete();
 
             $inventario = Inventario::where('id_ingrediente', $id)->get()->last();
-            if(is_object($inventario)){
+            if (is_object($inventario)) {
                 $inventario->delete();
             }
 
@@ -268,7 +269,7 @@ class ingredienteController extends Controller
                 'status' => 'success',
                 'ingrediente' => $ingrediente
             ];
-        }else{
+        } else {
             $data = [
                 'code' => 404,
                 'status' => 'error',
@@ -279,10 +280,11 @@ class ingredienteController extends Controller
         return response()->json($data, $data['code']);
     }
 
-    public function showIngrediente($id){
+    public function showIngrediente($id)
+    {
         $ingrediente = Ingredientes::find($id)->load('categoria');
 
-        if(is_object($ingrediente)){
+        if (is_object($ingrediente)) {
             $inventario = Inventario::where('id_ingrediente', $ingrediente->id)->get()->first();
             $inventario->costo = str_replace('.00', '', $inventario->costo);
             // $inventario->fecha_ingreso =  date("d-m-20y", strtotime($inventario->fecha_ingreso));
@@ -294,7 +296,7 @@ class ingredienteController extends Controller
                 'ingrediente' => $ingrediente,
                 'inventario' => $inventario
             ];
-        }else{
+        } else {
             $data = [
                 'code' => 400,
                 'status' => 'error',

@@ -70,22 +70,30 @@
                     <button type="button" class="btn btn-primary float-right" id="btn-crear"><i class="fas fa-plus"></i> Crear</button>
                 </div>
                 <div id="receta-div">
-                    <div class="row mt-5" >
+                    <div class="row mt-4" >
+                        <div class="col-md-6">
+                            <label for="">Categoria</label>
+                            <input type="hidden" name="producto_id" id="producto_id">
+                            <select name="ingrediente_cat" id="ingrediente_cat" class="form-control">
+                                <option value="" >Elige un tipo de ingrediente</option>
+                            </select>
+                        </div>
                         <div class="col-md-6">
                             <label for="">Ingredientes</label>
                             <select name="ingrediente" id="ingrediente" class="form-control">
                                 <option value="" disabled>Elige un ingrediente</option>
                             </select>
                         </div>
-                        <div class="col-md-3 mt-4 pt-2">
-                            <button type="button" class="btn btn-primary ">Agregar</button>
-                        </div>
+                     
                         
+                    </div>
+                    <div class="col-md-3 mt-4 pt-2">
+                        <button type="button" id="btn-agregar" class="btn btn-primary "><i class="fas fa-plus-circle"></i> Agregar</button>
                     </div>
                     <div class="row mt-4">
                         <h5 class="">Receta</h5>
                         <hr>
-                        <table class="table tabla-existencia table-bordered">
+                        <table class="table tabla-existencia table-bordered" id="table-receta">
                             <thead class="text-center">
                                 <tr>
                                     <th>Producto</th>
@@ -93,7 +101,7 @@
                                     <th id="editar-permisos">Eliminar</th>
                                 </tr>
                             </thead>
-                            <tbody id="permisos-agregados">
+                            <tbody id="ingredientes">
     
                             </tbody>
                         </table>
@@ -129,9 +137,7 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Categoria</th>
-                    <th>Disponible</th>
                     <th>Costo</th>
-                    <th>Fecha ingreso</th>
                     <th>Actions</th>
 
                 </tr>
@@ -141,9 +147,7 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Categoria</th>
-                    <th>Disponible</th>
                     <th>Costo</th>
-                    <th>Fecha ingreso</th>
                     <th>Actions</th>
                 </tr>
             </tfoot>
