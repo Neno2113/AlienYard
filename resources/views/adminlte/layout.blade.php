@@ -17,6 +17,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{asset('adminlte/plugins/fontawesome-free/css/all.min.css')}}">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('adminlte/css/adminlte.min.css')}}">
   <!-- Bootstrap -->
@@ -75,8 +76,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <aside class="control-sidebar control-sidebar-dark">
       <!-- Control sidebar content goes here -->
       <div class="p-3">
-        <h5>Title</h5>
-        <p>Sidebar content</p>
+        @yield('orden')
       </div>
     </aside>
     <!-- /.control-sidebar -->
@@ -93,7 +93,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </script>
 
     <script>
-
+      $("#cSideBar").hide();
  /** add active class and stay opened when selected */
  var url = window.location;
 

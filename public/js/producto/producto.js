@@ -1,46 +1,6 @@
 $(document).ready(function() {
     $("[data-mask]").inputmask();
 
-    // $("#formulario").validate({
-    //     rules: {
-    //         name: {
-    //             required: true,
-    //             minlength: 3
-    //         },
-    //         surname: {
-    //             required: true,
-    //             minlength: 4
-    //         },
-    //         edad: "required",
-    //         email: {
-    //             required: true,
-    //             email: true
-    //         },
-    //         password: {
-    //             required: true,
-    //             minlength: 8
-    //         }
-    //     },
-    //     messages: {
-    //         name: {
-    //             required: "Introduzca el name",
-    //             minlength: "Debe contener al menos 3 letras"
-    //         },
-    //         surname: {
-    //             required: "Introduzca el surname",
-    //             minlength: "Debe contener al menos 4 letras"
-    //         },
-    //         edad: "La edad es obligatoria",
-    //         email: {
-    //             required: "El email es obligatorio",
-    //             email: "Debe itroducir un email valido"
-    //         },
-    //         password: {
-    //             required: "La contraseña es obligatoria",
-    //             minlength: "Debe contener al menos 8 caracteres"
-    //         }
-    //     }
-    // })
 
     var tabla;
 
@@ -170,7 +130,7 @@ $(document).ready(function() {
     function guardar(){
 
         var producto = {
-            id: $("#id").val(),
+            id: $("#producto_id").val(),
             nombre: $("#nombre").val(),
             categoria: $("#categoria").val(),
             costo: $("#costo").val(),
@@ -197,7 +157,7 @@ $(document).ready(function() {
                     $("#producto-div").hide();
                     $("#formUpload").hide();
                     $("#btn-guardar").show();
-                    $("#button-div").hide();
+                    // $("#button-div").hide();
                     
                 } else {
                     bootbox.alert(
@@ -219,7 +179,7 @@ $(document).ready(function() {
 
         var receta = {
             producto: $("#producto_id").val(),
-            id_ingrediente: $("#ingrediente").val()
+            ingrediente: $("#ingrediente").val()
         };
     
         $.ajax({
@@ -263,7 +223,7 @@ $(document).ready(function() {
             error: function(datos) {
                 Swal.fire(
                     "Error",
-                    "Ya tiene este ingrediente agregado el producto",
+                    "Ya tienes este ingrediente agregado a el producto",
                     "error"
                 );
             }
@@ -297,10 +257,12 @@ $(document).ready(function() {
                 }
             ],
             columns: [
+                { data: "Receta", orderable: false, searchable: false },
                 { data: "nombre", name: "producto.nombre"},
                 { data: "categoria", name: "categoriaproducto.nombre"},
                 { data: "precio", name: "producto.disponible"},
                 { data: "Opciones", orderable: false, searchable: false },
+                { data: "status", orderable: false, searchable: false },
             ],
             order: [[1, "asc"]],
             rowGroup: {
@@ -312,6 +274,10 @@ $(document).ready(function() {
     $("#btn-edit").click(function(e) {
         e.preventDefault();
         guardar();
+        limpiar();
+        tabla.ajax.reload();
+        mostrarForm(false);
+        Swal.fire("Success!", "Producto actualizado correctamente!.", "success"); 
     });
 
 
@@ -336,7 +302,7 @@ $(document).ready(function() {
                     );
                     $("#producto_imagen").val("");
                     $("#image_name").val(datos.producto);
-                    $("#button-div").show();
+                    // $("#button-div").show();
                     $("#btn-crear").attr("disabled", false);
                 } else {
                     bootbox.alert(
@@ -418,27 +384,23 @@ function mostrar(id) {
         $("#btnCancelar").show();
         $("#btn-edit").show();
         $("#btnAgregar").hide();
-        $("#btn-guardar").hide();
         $("#ver-contra").show();
         $("#receta-div").show();
-        $("#producto-div").hide();
-        $("#formUpload").hide();
-        $("#btn-guardar").show();
+        $("#producto-div").show();
+        $("#formUpload").show();
+        $("#btn-guardar").hide();
         $("#button-div").hide();
         $("#ingredientes").empty();
-        // console.log(data);
-        // $("#test").attr("src", '/AlienYard/public/avatar/'+data.user.avatar)
-        $("#producto_id").val(datos.receta.id_producto);
-        // $("#categoria").val(data.ingrediente.categoria.id).trigger("change").select2();
-        // $("#nombre").val(data.ingrediente.nombre).attr("readonly", false);
-        // $("#disponible").val(data.inventario.disponible).attr("readonly", false);
-        // $("#costo").val(data.inventario.costo).attr("readonly", false);
-        // $("#fecha_ingreso").val(data.inventario.fecha_ingreso).attr("readonly", false);
+       
+        $("#producto_id").val(datos.producto.id);
+        $("#nombre").val(datos.producto.nombre);
+        $("#costo").val(datos.producto.precio);
+        $("#categoria").val(datos.producto.id_categoria).trigger('change');
 
         for (let i = 0; i < datos.receta.length; i++) {
 
             var fila =
-            '<tr id="fila'+datos.receta.id+'">'+
+            '<tr id="fila'+datos.receta[i].id+'">'+
             "<td class=''><input type='hidden' id='usuario"+datos.receta[i].id+"' value="+datos.receta[i].id+">"+datos.receta[i].producto.nombre+"</td>"+
             "<td class='font-weight-bold'><input type='hidden' id='permiso"+datos.receta.id+"' value="+datos.receta.id+">"+datos.receta[i].ingrediente.nombre+"</td>"+
             "<td><button type='button' id='btn-eliminar' onclick='delIngrediente("+datos.receta[i].id+")' class='btn btn-danger'><i class='fas fa-minus-square'></i></button></td>"+
@@ -450,25 +412,49 @@ function mostrar(id) {
     });
 }
 
-function ver(id_user) {
-    $.post("user/" + id_user, function(data, status) {
+function mostrarReceta(id) {
+    $.get("producto/mostrar/" + id, function(datos, status) {
+        console.log(datos);
+        // data = JSON.parse(data);
         $("#listadoUsers").hide();
         $("#registroForm").show();
         $("#btnCancelar").show();
+        $("#btn-edit").hide();
         $("#btnAgregar").hide();
+        $("#ver-contra").show();
+        $("#receta-div").show();
+        $("#producto-div").hide();
+        $("#formUpload").hide();
         $("#btn-guardar").hide();
+        $("#button-div").hide();
+        $("#ingredientes").empty();
+       
+        $("#producto_id").val(datos.producto.id);
+        $("#nombre").val(datos.producto.nombre);
+        $("#costo").val(datos.producto.precio);
+        $("#categoria").val(datos.producto.id_categoria).trigger('change');
 
-        $("#nombre")
-            .val(data.user.name)
-            .attr("readonly", true);
-     
+        for (let i = 0; i < datos.receta.length; i++) {
+
+            var fila =
+            '<tr id="fila'+datos.receta[i].id+'">'+
+            "<td class=''><input type='hidden' id='usuario"+datos.receta[i].id+"' value="+datos.receta[i].id+">"+datos.receta[i].producto.nombre+"</td>"+
+            "<td class='font-weight-bold'><input type='hidden' id='permiso"+datos.receta.id+"' value="+datos.receta.id+">"+datos.receta[i].ingrediente.nombre+"</td>"+
+            "<td><button type='button' id='btn-eliminar' onclick='delIngrediente("+datos.receta[i].id+")' class='btn btn-danger'><i class='fas fa-minus-square'></i></button></td>"+
+            "</tr>";
+
+            $("#ingredientes").append(fila);
+            
+        }
     });
 }
+
+
 
 function eliminar(id) {
     Swal.fire({
         title: "Estas seguro de eliminar este ingrediente?",
-        text: "You won't be able to revert this!",
+        text: "Se va a eliminar tambien la receta guardada de este producto",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -479,19 +465,7 @@ function eliminar(id) {
             accionEliminar(id);
         }
     });
-    // bootbox.confirm("¿Estas seguro de eliminar este usuario?", function(
-    //     result
-    // ) {
-    //     if (result) {
-    //         $.post("user/delete/" + id_user, function() {
-    //             // bootbox.alert(e);
-    //             bootbox.alert("Usuario eliminado correctamente");
-    //             $("#users")
-    //                 .DataTable()
-    //                 .ajax.reload();
-    //         });
-    //     }
-    // });
+  
 }
 
 function accionEliminar(id){
@@ -548,10 +522,9 @@ function delIngrediente(id) {
                         Swal.fire("Deleted!", 
                         "El ingrediente ha sido eliminado.", 
                         "success");    
-                        $("#id").val("");
-        
+                    
                         $("#fila"+id).remove();
-                      
+                        $("#id").val("");
                     
                     } else {
                         bootbox.alert(
@@ -578,4 +551,86 @@ function delIngrediente(id) {
     //         });
     //     }
     // });
+}
+
+function desactivar(id) {
+    Swal.fire({
+        title: "Estas seguro de desactivar este producto",
+        text: "Lo puede volver activar si lo desactiva",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, desactivarlo!"
+    }).then(result => {
+        if (result.value) {
+            
+            $.ajax({
+                url: "producto/desactivar/"+id,
+                type: "post",
+                dataType: "json",
+                // data: JSON.stringify(user),
+                contentType: "application/json",
+                success: function(datos) {
+                    if (datos.status == "success") {
+                        Swal.fire("Desactivado!", 
+                        "Este producto no estara disponible para la venta.", 
+                        "success");    
+                    
+                        $("#users").DataTable().ajax.reload();
+                    
+                    } else {
+                        bootbox.alert(
+                            "Ocurrio un error durante la creacion del usuario verifique los datos suministrados!!"
+                        );
+                    }
+                },
+                error: function(datos) {
+                   console.log(datos.responseJSON);
+                }
+            });
+        }
+    });
+
+}
+
+function activar(id) {
+    Swal.fire({
+        title: "Estas seguro de activar este producto",
+        text: "Lo puede volver desactivar si lo activa",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, activarlo!"
+    }).then(result => {
+        if (result.value) {
+            
+            $.ajax({
+                url: "producto/activar/"+id,
+                type: "post",
+                dataType: "json",
+                // data: JSON.stringify(user),
+                contentType: "application/json",
+                success: function(datos) {
+                    if (datos.status == "success") {
+                        Swal.fire("Actvado!", 
+                        "El producto estara disponible en el menu.", 
+                        "success");    
+                    
+                        $("#users").DataTable().ajax.reload();
+                    
+                    } else {
+                        bootbox.alert(
+                            "Ocurrio un error durante la creacion del usuario verifique los datos suministrados!!"
+                        );
+                    }
+                },
+                error: function(datos) {
+                   console.log(datos.responseJSON);
+                }
+            });
+        }
+    });
+
 }

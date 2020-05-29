@@ -23,4 +23,6 @@ Route::get('cat-ingredientes', 'ingredienteController@categorias');
 Route::get('ingredientes', 'ingredienteController@ingredientes');
 Route::get('cat-productos', 'productoController@categorias');
 Route::get('productos', 'productoController@productos');
+Route::get('ordenes', 'OrdenesController@ordenesListas');
+Route::post('permisos', 'PermisoController@permisos');
 

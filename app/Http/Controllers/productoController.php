@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\CategoriaProducto;
 use App\CategoriaIngrediente;
 use App\Ingredientes;
@@ -279,6 +280,7 @@ class productoController extends Controller
             $producto->precio = $costo;
             $producto->nombre = $nombre;
             $producto->imagen = $imagen;
+            $producto->enum = 1;
 
             $producto->save();
 
@@ -291,33 +293,27 @@ class productoController extends Controller
             ];
         } else {
             $validar = $request->validate([
+                'nombre' => 'required',
                 'categoria' => 'required',
-                'disponible' => 'required',
                 'costo' => 'required',
-                'fechaIngreso' => 'required'
+                'imagen' => 'required'
             ]);
-
-            $ingrediente = Ingredientes::find($id);
-            $ingrediente->id_categoria = $id_categoria;
-            $ingrediente->nombre = $nombre;
-            $ingrediente->save();
-
             $costo = trim($costo, 'RD$_');
-            $disponible = trim($disponible, "_");
 
+            $producto = Producto::find($id);
+            $producto->id_categoria = $categoria;
+            $producto->precio = $costo;
+            $producto->nombre = $nombre;
+            $producto->imagen = $imagen;
+            $producto->save();
 
-            $inventario = Inventario::where('id_ingrediente', $id)->get()->first();
-            $inventario->disponible = $disponible;
-            $inventario->costo = $costo;
-            $inventario->fecha_ingreso = $fecha_ingreso;
-            $inventario->save();
-
+            
 
             $data = [
                 'code' => 200,
                 'status' => 'success',
-                'ingrediente' => $ingrediente,
-                'message' => 'Ingrediente actualizado correctamente'
+                'producto' => $producto,
+                'message' => 'Producto actualizado correctamente'
             ];
         }
 
@@ -326,39 +322,55 @@ class productoController extends Controller
 
     public function storeReceta(Request $request)
     {
-        $producto = $request->input('producto');
-        $ingrediente = $request->input('id_ingrediente');
 
-        $validar = $request->validate([
-            'id_ingrediente' => 'required|unique:recetas',
+        $validar = Validator::make($request->all(), [
+            'producto' => 'required',
+            'ingrediente' => 'required'
         ]);
 
-        if (!empty($producto)) {
-            $receta = new Recetas();
-            $receta->id_producto = $producto;
-            $receta->id_ingrediente = $ingrediente;
-            $receta->save();
-
-            $data = [
-                'code' => 200,
-                'status' => 'success',
-                'receta' => $receta->load('producto')->load('ingrediente')
-            ];
-        } else {
+        if ($validar->fails()) {
             $data = [
                 'code' => 400,
                 'status' => 'error',
-                'message' => 'No hay ningun producto para guardar'
+                'message' => $validar->errors()
             ];
-        }
+        } else {
+            $producto = $request->input('producto');
+            $ingrediente = $request->input('ingrediente');
 
+            //verificar que no se repitan un producto y un ingrediente en la tabla receta
+            $verificar = Recetas::where('id_producto', $producto)
+                ->where('id_ingrediente', $ingrediente)
+                ->get()
+                ->last();
+
+            if (!is_object($verificar)) {
+                $receta = new Recetas();
+                $receta->id_producto = $producto;
+                $receta->id_ingrediente = $ingrediente;
+                $receta->save();
+
+                $data = [
+                    'code' => 200,
+                    'status' => 'success',
+                    'receta' => $receta->load('producto')->load('ingrediente')
+                ];
+            } else {
+                $data = [
+                    'code' => 400,
+                    'status' => 'error',
+                    'message' => 'No hay ningun producto para guardar'
+                ];
+            }
+        }
         return response($data, $data['code']);
     }
 
-    public function delIngrediente($id){
+    public function delIngrediente($id)
+    {
         $receta = Recetas::find($id);
 
-        if(is_object($receta)){
+        if (is_object($receta)) {
 
             $receta->delete();
 
@@ -367,7 +379,7 @@ class productoController extends Controller
                 'status' => 'success',
                 'receta' => $receta
             ];
-        }else{
+        } else {
             $data = [
                 'code' => 400,
                 'status' => 'error',
@@ -377,25 +389,38 @@ class productoController extends Controller
         return response()->json($data, $data['code']);
     }
 
-    
+
     public function productos()
     {
         $productos = DB::table('producto')->join('categoriaproducto', 'producto.id_categoria', '=', 'categoriaproducto.id')
             ->select([
                 'producto.id', 'producto.nombre', 'categoriaproducto.nombre as categoria',
-                'producto.precio'
+                'producto.precio', 'producto.enum'
             ]);
 
         return DataTables::of($productos)
             ->editColumn('precio', function ($producto) {
                 return number_format($producto->precio);
             })
+            ->addColumn('Receta', function ($producto) {
+                if($producto->enum == 1){
+                    return '<button id="btnEdit" onclick="mostrarReceta(' . $producto->id . ')" class="btn btn-secondary btn-sm mr-1"> <i class="fas fa-bread-slice"></i></button>'.
+                    '<button id="btnEdit" onclick="desactivar(' . $producto->id . ')" class="btn btn-danger btn-sm mr-1"><i class="fas fa-ban"></i></button>';
+                }else{
+                    return '<button id="btnEdit" onclick="mostrarReceta(' . $producto->id . ')" class="btn btn-secondary btn-sm mr-1"> <i class="fas fa-bread-slice"></i></button>'.
+                    '<button id="btnEdit" onclick="activar(' . $producto->id . ')" class="btn btn-success btn-sm mr-1"><i class="far fa-check-square"></i></button>';
+                }
+                
+            })
             ->addColumn('Opciones', function ($producto) {
-                return '<button id="btnEdit" onclick="mostrar(' . $producto->id . ')" class="btn btn-warning btn-sm mr-1"> <i class="fas fa-pencil-alt"></i></button>' .
-                    '<button onclick="eliminar(' . $producto->id . ')" class="btn btn-danger btn-sm ml-1"> <i class="fas fa-trash-alt"></i></button>';
+                return '<button id="btnEdit" onclick="mostrar(' . $producto->id . ')" class="btn btn-warning btn-sm mr-1"> <i class="fas fa-pencil-alt"></i></button>';
+            })
+            ->addColumn('status', function ($producto) {
+                return ($producto->enum == 1) ? '<span class="badge badge-success ">Activo</span>' :
+                '<span  class="badge badge-danger ">Desactivado</span>';
             })
 
-            ->rawColumns(['Opciones'])
+            ->rawColumns(['Opciones', 'Receta', 'status'])
             ->make(true);
     }
 
@@ -404,6 +429,13 @@ class productoController extends Controller
         $producto = producto::find($id);
 
         if (is_object($producto)) {
+            $receta = Recetas::where('id_producto', $id)->get();
+            // echo $receta;
+            // die();
+
+            for ($i=0; $i < count($receta); $i++) { 
+                $receta[$i]->delete();
+            }
             $producto->delete();
 
             $data = [
@@ -415,22 +447,25 @@ class productoController extends Controller
             $data = [
                 'code' => 404,
                 'status' => 'error',
-                'message' => 'no se encontro la categoria'
+                'message' => 'no se encontro el producto'
             ];
         }
 
         return response()->json($data, $data['code']);
     }
 
-    
+
     public function showProducto($id)
     {
-        $receta = Recetas::where('id_producto', $id)->get()->load('producto')->load('ingrediente');
-
+        $producto = producto::find($id);
+        $receta = Recetas::where('id_producto', $id)->get()->load('ingrediente')
+            ->load('producto');
+        $producto->precio = number_format($producto->precio);
         if (!empty($receta)) {
             $data = [
                 'code' => 200,
                 'status' => 'success',
+                'producto' => $producto,
                 'receta' => $receta
             ];
         } else {
@@ -444,5 +479,104 @@ class productoController extends Controller
         return response()->json($data, $data['code']);
     }
 
+    public function categoriaMenu(){
 
+        $categoria = CategoriaProducto::all();
+
+        $data = [
+            'code' => 200,
+            'status' => 'success',
+            'categoria' => $categoria
+        ];
+
+        return response()->json($data, $data['code']);
+    }
+
+    public function menu($id)
+    {
+        $producto = producto::where('id_categoria', $id)
+        ->where('enum', '1')
+        ->get();
+
+        $data = [
+            'code' => 200,
+            'status' => 'success',
+            'producto' => $producto
+        ];
+
+        return response()->json($data, $data['code']);
+    }
+
+
+    public function verMenu($id)
+    {
+        $producto = producto::find($id);
+
+        if (is_object($producto)) {
+            $receta = Recetas::where('id_producto', $id)->get()->load('ingrediente');
+
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'producto' => $producto,
+                'receta' => $receta
+            ];
+        } else {
+            $data = [
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'No se encontro ningun producto'
+            ];
+        }
+
+        return response()->json($data, $data['code']);
+    }
+
+
+    public function desactivar($id){
+        $producto = Producto::find($id);
+
+        if(is_object($producto)){
+            $producto->enum = 0;
+            $producto->save();
+
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'producto' => $producto
+            ];
+        }else{
+            $data = [
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'No se encontro ningun producto'
+            ];
+        }
+
+        return response()->json($data, $data['code']);
+    }
+
+    
+    public function activar($id){
+        $producto = Producto::find($id);
+
+        if(is_object($producto)){
+            $producto->enum = 1;
+            $producto->save();
+
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'producto' => $producto
+            ];
+        }else{
+            $data = [
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'No se encontro ningun producto'
+            ];
+        }
+
+        return response()->json($data, $data['code']);
+    }
 }

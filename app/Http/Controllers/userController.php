@@ -26,7 +26,7 @@ class userController extends Controller
         $celular = $request->input('celular', true);
         $avatar = $request->input('avatar');
 
-        if(empty($id)){
+        if (empty($id)) {
             $validar = $request->validate([
                 'name' => 'required|alpha|',
                 'surname' => 'required|alpha',
@@ -48,7 +48,7 @@ class userController extends Controller
             $user->avatar = $avatar;
 
             $user->save();
-        }else{
+        } else {
             $validar = $request->validate([
                 'name' => 'required|alpha|',
                 'surname' => 'required|alpha',
@@ -57,7 +57,7 @@ class userController extends Controller
             ]);
 
             $pwd = Hash::make($password);
-            
+
             $user = User::find($id);
             $user->name = $nombre;
             $user->email = $email;
@@ -72,7 +72,7 @@ class userController extends Controller
 
             $user->save();
         }
-    
+
 
         $data = [
             'code' => 200,
@@ -87,35 +87,52 @@ class userController extends Controller
 
     public function users()
     {
-        $users = User::query();
+       
+        $users = DB::table('users')
+            ->select([
+                'users.name', 'users.surname', 'users.id',
+                'users.role', 'users.email', 'users.edad', 'users.celular'
+            ]);
 
-        return DataTables::eloquent($users)
+        return DataTables::of($users)
             ->addColumn('Expandir', function ($user) {
                 return "";
             })
             ->addColumn('Ver', function ($user) {
                 return '<button id="btnEdit" onclick="ver(' . $user->id . ')" class="btn btn-info btn-sm" > <i class="fas fa-eye"></i></button>';
-               
+            })
+            ->editColumn('role', function ($user) {
+                if ($user->role == 1) {
+                    return "Administrador";
+                } else if ($user->role == 2) {
+                    return "Mesero";
+                } else if ($user->role == 3) {
+                    return "Cocinero";
+                } else if ($user->role == 4) {
+                    return "General";
+                }
             })
             ->addColumn('Editar', function ($user) {
-                return '<button id="btnEdit" onclick="mostrar(' . $user->id . ')" class="btn btn-warning btn-sm mr-1"> <i class="fas fa-user-edit "></i></button>'.
-                '<button onclick="eliminar(' . $user->id . ')" class="btn btn-danger btn-sm ml-1"> <i class="fas fa-user-times"></i></button>';
+                return '<button id="btnEdit" onclick="mostrar(' . $user->id . ')" class="btn btn-warning btn-sm mr-1"> <i class="fas fa-user-edit "></i></button>' .
+                    '<button onclick="eliminar(' . $user->id . ')" class="btn btn-danger btn-sm ml-1"> <i class="fas fa-user-times"></i></button>';
             })
-           
+
             ->rawColumns(['Editar', 'Ver'])
             ->make(true);
     }
 
-    public function show($id){
+    public function show($id)
+    {
+     
         $user = User::find($id);
 
-        if(is_object($user)){
+        if (is_object($user)) {
             $data = [
                 'code' => 200,
                 'status' => 'success',
                 'user' => $user
             ];
-        }else{
+        } else {
             $data = [
                 'code' => 400,
                 'status' => 'error',
@@ -127,10 +144,11 @@ class userController extends Controller
     }
 
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $user = User::find($id);
 
-        if(is_object($user)){
+        if (is_object($user)) {
             $user->delete();
 
             $data = [
@@ -138,7 +156,7 @@ class userController extends Controller
                 'status' => 'success',
                 'user' => $user
             ];
-        }else{
+        } else {
             $data = [
                 'code' => 400,
                 'status' => 'error',
@@ -154,7 +172,7 @@ class userController extends Controller
         //validar la imagen 
         $validate = \Validator::make($request->all(), [
             'avatar' => 'required|image|mimes:jpg,jpeg,png'
-           
+
         ]);
         // Guardar la imagen
         if ($validate->fails()) {
@@ -169,7 +187,7 @@ class userController extends Controller
             $image_name_1 = time() . $avatar->getClientOriginalName();
             // echo $id;
             // die();
-          
+
 
             // if (!empty($avatar)) {
             //     $select = DB::select("SHOW TABLE STATUS LIKE 'users'");
@@ -177,7 +195,7 @@ class userController extends Controller
 
             //     $user = User::find($id);
             //     $user->avatar = $image_name_1;
-             
+
             //     $user->save();
             // } else {
             //     $data = [
@@ -188,29 +206,29 @@ class userController extends Controller
             // }
 
             \Storage::disk('avatar')->put($image_name_1, \File::get($avatar));
-      
+
 
             $data = [
                 'code' => 200,
                 'status' => 'success',
-                'avatar' =>$image_name_1
+                'avatar' => $image_name_1
             ];
         }
 
         return response()->json($data, $data['code']);
     }
 
-    public function getImage($filename){
-        
+    public function getImage($filename)
+    {
+
         $isset = \Storage::disk('avatar')->exists($filename);
-        if($isset){
-           
+        if ($isset) {
+
             $file = \Storage::disk('avatar')->get($filename);
 
             //Devolver imagen
             return new Response($file, 200);
-
-        }else{
+        } else {
             $data = [
                 'code' => 404,
                 'status' => 'error',
@@ -220,5 +238,4 @@ class userController extends Controller
 
         return response()->json($data, $data['code']);
     }
-
 }

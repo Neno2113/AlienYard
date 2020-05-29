@@ -14,7 +14,7 @@
 <div class="row ">
     <div class="col-12">
         <div class="card  mb-3" id="registroForm">
-            <div class="card-header text-center ">
+            <div class="card-header text-center bg-dark">
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
                             class="fas fa-minus"></i></button>
@@ -93,8 +93,8 @@
                     <div class="row mt-4">
                         <h5 class="">Receta</h5>
                         <hr>
-                        <table class="table tabla-existencia table-bordered" id="table-receta">
-                            <thead class="text-center">
+                        <table class="table tabla-existencia table-bordered text-center" id="table-receta">
+                            <thead class="text-center bg-dark">
                                 <tr>
                                     <th>Producto</th>
                                     <th>Ingredientes</th>
@@ -127,7 +127,7 @@
 {{-- </div> --}}
 
 <div class="card" id="listadoUsers">
-    <div class="card-header text-center">
+    <div class="card-header text-center bg-dark">
         <h4> Listado de productos</h4>
     </div>
     <div class="card-body">
@@ -135,20 +135,24 @@
         <table id="users" class="table table-bordered table-hover datatables" style="width: 100%">
             <thead>
                 <tr>
+                    <th>Receta</th>
                     <th>Nombre</th>
                     <th>Categoria</th>
                     <th>Costo</th>
                     <th>Actions</th>
+                    <th>Estatus</th>
 
                 </tr>
             </thead>
             <tbody></tbody>
             <tfoot>
                 <tr>
+                    <th>Receta</th>
                     <th>Nombre</th>
                     <th>Categoria</th>
                     <th>Costo</th>
                     <th>Actions</th>
+                    <th>Estatus</th>
                 </tr>
             </tfoot>
         </table>

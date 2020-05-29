@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-03-2020 a las 11:05:29
+-- Tiempo de generación: 29-05-2020 a las 22:52:50
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.1
 
@@ -40,7 +40,10 @@ CREATE TABLE `categoriaingrediente` (
 --
 
 INSERT INTO `categoriaingrediente` (`id`, `nombre`, `updated_at`, `created_at`) VALUES
-(2, 'Vegetales', '2020-02-23 13:42:20', '2020-02-23 13:42:20');
+(2, 'Vegetales', '2020-02-23 13:42:20', '2020-02-23 13:42:20'),
+(5, 'Carnes', '2020-03-24 14:34:18', '2020-03-24 14:34:18'),
+(6, 'Pan', '2020-03-25 14:28:06', '2020-03-25 14:28:06'),
+(7, 'Salsa', '2020-03-25 14:31:43', '2020-03-25 14:31:43');
 
 -- --------------------------------------------------------
 
@@ -56,7 +59,7 @@ CREATE TABLE `users` (
   `telefono` varchar(30) DEFAULT NULL,
   `celular` varchar(30) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
-  `role` varchar(50) DEFAULT NULL,
+  `role` int(10) DEFAULT NULL,
   `direccion` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `avatar` varchar(255) DEFAULT NULL,
@@ -70,8 +73,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `surname`, `edad`, `telefono`, `celular`, `email`, `role`, `direccion`, `password`, `avatar`, `remember_token`, `created_at`, `updated_at`) VALUES
-(8, 'Gabriel', 'Dominguez', 23, '(809) 288-2113', '(829) 943-6531', 'gabriel@alienyard.com', 'General', 'c/primera', '$2y$10$Un5ZLYie6aBWBWAkVeY0Pu2e3qqd/ycQghPU/guYYoRs/Onfc8.lC', '1582447657Joker Finish.png', NULL, '2020-02-23 08:47:39', '2020-02-23 08:47:39'),
-(10, 'Anel', 'Dominguez', 23, '(809) 288-2113', '(829) 943-6531', 'anel@anel.com', 'Administrador', 'c/ primera', '$2y$10$rhndfFhWg0i9U1QZOjBBAucpR6KzR1mik86FkoCtxTzLKFsy/v/Eq', '1582465508678027.jpg', NULL, '2020-02-23 13:45:10', '2020-02-23 13:45:10');
+(8, 'Gabriel', 'Dominguez', 23, '(809) 288-2113', '(829) 943-6531', 'gabriel@alienyard.com', 2, 'c/primera', '$2y$10$Un5ZLYie6aBWBWAkVeY0Pu2e3qqd/ycQghPU/guYYoRs/Onfc8.lC', '1582447657Joker Finish.png', NULL, '2020-02-23 08:47:39', '2020-02-23 08:47:39'),
+(10, 'Anel', 'Dominguez', 23, '(809) 288-2113', '(829) 943-6531', 'anel@anel.com', 1, 'c/ primera', '$2y$10$rhndfFhWg0i9U1QZOjBBAucpR6KzR1mik86FkoCtxTzLKFsy/v/Eq', '1582465508678027.jpg', NULL, '2020-02-23 13:45:10', '2020-02-23 13:45:10');
 
 --
 -- Índices para tablas volcadas
@@ -97,7 +100,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `categoriaingrediente`
 --
 ALTER TABLE `categoriaingrediente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `users`

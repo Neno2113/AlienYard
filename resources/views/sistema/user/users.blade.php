@@ -14,7 +14,7 @@
 <div class="row ">
     <div class="col-md-12">
         <div class="card  mb-3" id="registroForm">
-            <div class="card-header text-center ">
+            <div class="card-header text-center bg-dark">
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
                             class="fas fa-minus"></i></button>
@@ -89,16 +89,19 @@
                             <label for="password">Contraseña(*):</label>
                             <input type="password" name="password" id="password" class="form-control">
                         </div>
+                        @if (auth()->user()->role == 1)
                         <div class="col-md-4 mt-3">
                             <label for="name">Rol:</label>
                             <select name="" id="role" class="form-control">
                                 <option value="General"></option>
-                                <option value="Administrador">Adminitrador</option>
-                                <option value="Soporte">Soporte</option>
-                                <option value="Oficina">Oficina</option>
-                                <option value="General">General</option>
+                                <option value="1">Adminitrador</option>
+                                <option value="2">Mesero</option>
+                                <option value="3">Cocinero</option>
+                                <option value="4">General</option>
                             </select>
                         </div>
+                        @endif
+                        
                     </div>
                 </form>
                 <div class="row mt-3" id="avatar">
@@ -170,7 +173,7 @@
 {{-- </div> --}}
 
 <div class="card" id="listadoUsers">
-    <div class="card-header text-center">
+    <div class="card-header text-center bg-dark">
         <h4> Listado de usuarios</h4>
     </div>
     <div class="card-body">
@@ -179,7 +182,7 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>Ver</th>
+                  
                     <th>Actions</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
@@ -193,7 +196,7 @@
             <tfoot>
                 <tr>
                     <th></th>
-                    <th>Ver</th>
+                   
                     <th>Actions</th>
                     <th>Nombre</th>
                     <th>Apellido</th>

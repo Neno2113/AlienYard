@@ -134,7 +134,7 @@ $(document).ready(function() {
             ],
             columns: [
                 { data: "Expandir", orderable: false, searchable: false },
-                { data: "Ver", orderable: false, searchable: false },
+                // { data: "Ver", orderable: false, searchable: false },
                 { data: "nombre" },
                 { data: "Editar", orderable: false, searchable: false },
             

@@ -15,7 +15,7 @@
     <div class="col-md-3"></div>
     <div class="col-md-5">
         <div class="card  mb-3" id="registroForm">
-            <div class="card-header text-center ">
+            <div class="card-header text-center bg-dark">
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
                             class="fas fa-minus"></i></button>
@@ -52,7 +52,7 @@
 {{-- </div> --}}
 
 <div class="card" id="listadoUsers">
-    <div class="card-header text-center">
+    <div class="card-header text-center bg-dark">
         <h4> Listado de categorias</h4>
     </div>
     <div class="card-body">
@@ -60,9 +60,7 @@
         <table id="users" class="table table-bordered table-hover datatables" style="width: 100%">
             <thead>
                 <tr>
-                    <th></th>
-                    <th>Ver</th>
-                
+                    <th></th>    
                     <th>Nombre</th>
                     <th>Actions</th>
                 
@@ -72,8 +70,6 @@
             <tfoot>
                 <tr>
                     <th></th>
-                    <th>Ver</th>
-               
                     <th>Nombre</th>
                     <th>Actions</th>
                 </tr>

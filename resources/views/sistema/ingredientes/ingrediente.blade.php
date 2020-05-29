@@ -15,7 +15,7 @@
 
     <div class="col-12">
         <div class="card  mb-3" id="registroForm">
-            <div class="card-header text-center ">
+            <div class="card-header text-center bg-dark">
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
                             class="fas fa-minus"></i></button>
@@ -74,7 +74,7 @@
 {{-- </div> --}}
 
 <div class="card" id="listadoUsers">
-    <div class="card-header text-center">
+    <div class="card-header text-center bg-dark">
         <h4> Listado de ingredientes</h4>
     </div>
     <div class="card-body">

@@ -151,7 +151,7 @@ $(document).ready(function() {
             responsive: true,
             ajax: "api/ingredientes",
             dom: "Bfrtip",
-            iDisplayLength: 5,
+            // iDisplayLength: 5,
             buttons: [
                 "pageLength",
                 "copyHtml5",
@@ -176,9 +176,9 @@ $(document).ready(function() {
                 { data: "Opciones", orderable: false, searchable: false },
             ],
             order: [[1, "asc"]],
-            // rowGroup: {
-            //     dataSrc: "role"
-            // }
+            rowGroup: {
+                dataSrc: "categoria"
+            }
         });
     }
 
