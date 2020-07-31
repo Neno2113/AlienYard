@@ -8,12 +8,12 @@
 
 <div id="listadoUsers">
   <div class="card card-solid">
-    <div class="card-body pb-0">
+    <div class="card-body pb-0 carta-menu">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
             <div class="page-header">
-              <h1 class="text-center">Menu</h1>
+              <h1 class="text-center" style="color: #fff;">Menu</h1>
             </div>
             {{-- <hr class="menuLineUp"> --}}
           </div>
@@ -21,8 +21,8 @@
 
 
         <ul class="nav nav-pills" id="myTab" role="tablist">
-          <div class="">
-            <button class="btn btn-dark mb-3 mr-4 " id="btnAgregar"><i class="fas fa-utensils"></i> Tomar
+          <div class="" style="margin-right: 561px;" >
+            <button class="btn btn-danger mb-3 mr-4 " id="btnAgregar"><i class="fas fa-utensils"></i> Tomar
               Pedido</button>
           </div>
           {{-- <hr> --}}
@@ -82,12 +82,12 @@
             </div>
 
             <div class="col-md-4">
-              <label for="">Delivery</label>
+              <label for="">Entrega</label>
               <select name="delivery" id="delivery" class="form-control">
                 <option value="" disabled>Elige una opcion de servir el plato </option>
-                <option  >Para comer aqui</option>
-                <option  >Para llevar</option>
-                <option  >Delivery</option>
+                <option value="001" >Para comer aqui</option>
+                <option value="002" >Para llevar</option>
+                <option value="003" >Delivery</option>
                 <option  ></option>
               </select>
             </div>
@@ -134,8 +134,8 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i></button>
+        {{-- <button type="button" class="btn btn-primary"></button> --}}
       </div>
     </div>
   </div>
@@ -146,7 +146,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Comentarios Pedido: <span id="nombre_plato" class="font-wright-bold"></span></h5>
+        <h5 class="modal-title">Comentarios Pedido <span id="nombre_plato" class="font-weight-bold"></span></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -154,7 +154,7 @@
       <div id="" class="modal-body">
         <div class="row">
           <div class="col-md-6">
-            <div class="card">
+            <div class="card bg-dark">
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="fas fa-text-width"></i>
@@ -163,24 +163,19 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <div class="form-group">
+                <div class="form-group" id="terminosCarne">
                   <div class="custom-control custom-checkbox">
-                    <input class="custom-control-input" type="checkbox" name="termino1" id="customCheckbox1"
-                      value="Carne: Termino rojo o crudo">
-                    <label for="customCheckbox1" class="custom-control-label">Termino rojo o crudo</label>
-                  </div>
-                  <div class="custom-control custom-checkbox">
-                    <input class="custom-control-input" name="termino2" type="checkbox" id="customCheckbox2"
+                    <input class="custom-control-input" name="termino" type="checkbox" id="customCheckbox2"
                       value="Carne: Termino medio">
                     <label for="customCheckbox2" class="custom-control-label">Termino medio</label>
                   </div>
                   <div class="custom-control custom-checkbox">
-                    <input class="custom-control-input" name="termino3" type="checkbox" id="customCheckbox3"
+                    <input class="custom-control-input" name="termino" type="checkbox" id="customCheckbox3"
                       value="Carne: Tres cuartos">
                     <label for="customCheckbox3" class="custom-control-label">Tres cuartos</label>
                   </div>
                   <div class="custom-control custom-checkbox">
-                    <input class="custom-control-input" name="termino4" type="checkbox" id="customCheckbox4"
+                    <input class="custom-control-input" name="termino" type="checkbox" id="customCheckbox4"
                       value="Carne: Bien cocida">
                     <label for="customCheckbox4" class="custom-control-label">Bien cocida</label>
                   </div>
@@ -192,7 +187,43 @@
             <!-- /.card -->
           </div>
           <div class="col-md-6">
-            <div class="card">
+            <div class="card bg-dark">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fas fa-text-width"></i>
+                  Entrega del plato
+                </h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <div class="form-group" id="terminosCarne">
+                  <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox" name="entrega" id="entrega1"
+                      value="001">
+                    <label for="entrega1" class="custom-control-label">Para comer aqui</label>
+                  </div>
+                  <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" name="entrega" type="checkbox" id="entrega2"
+                      value="002">
+                    <label for="entrega2" class="custom-control-label">Para llevar</label>
+                  </div>
+                  <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" name="entrega" type="checkbox" id="entrega3"
+                      value="003">
+                    <label for="entrega3" class="custom-control-label">Delivery</label>
+                  </div>
+               
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+     
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card bg-dark">
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="fas fa-text-width"></i>
@@ -215,6 +246,7 @@
             </div>
             <!-- /.card -->
           </div>
+         
         </div>
         <div class="row">
           <div class="col-md-12">

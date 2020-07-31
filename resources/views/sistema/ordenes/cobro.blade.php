@@ -18,7 +18,7 @@
                     <button type="button" class="btn btn-tool" data-card-widget="remove"><i
                             class="fas fa-remove"></i></button>
                 </div>
-                <h4>Cobros</h4>
+                <h4>Pagos</h4>
             </div>
             <div class="card-body">
                 <div class="d-flex flex-row-reverse ">
@@ -46,10 +46,7 @@
                     </div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-2">
-                        <label for="">Total</label>
-                        <input type="text" name="total" id="total" class="form-control text-center font-weight-bold">
-                    </div>
+
                     <div class="col-md-4">
                         <label for="">Tipos de factura</label>
                         <select name="tipo_factura" id="tipo_factura" class="form-control select2">
@@ -64,6 +61,10 @@
                             data-inputmask='"mask": "99999[99999]"' data-mask>
                         <input type="hidden" name="factura" id="factura">
                     </div>
+                    <div class="col-md-2">
+                        <label for="">Total</label>
+                        <input type="text" name="total" id="total" class="form-control text-center font-weight-bold">
+                    </div>
                     <div class="col-md-3">
                         <label for="">Efectivo</label>
                         <input type="text" name="efectivo" id="efectivo" class="form-control text-center"
@@ -71,57 +72,65 @@
                     </div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-2">
-                        <label for="">itbis</label>
+                    {{-- <div class="col-md-2">
+                        <label for="">Itbis</label>
                         <input type="text" name="itbis" id="itbis" class="form-control text-center">
-                    </div>
+                    </div> --}}
                     <div class="col-md-2">
-                        <label for="">Descuento</label>
+                        <label for="">Oferta</label>
                         <input type="text" name="descuento" id="descuento" class="form-control text-center">
                     </div>
-                    
-                    <div class="col-md-2 mt-1">
+
+                    <div class="col-md-2 mt-1 pt-1">
                         <button type="button" id="btn-aplicar" class="btn btn-dark btn-block mt-4 "><i
-                                class="fas fa-calculator"></i> Aplicar</button>
+                                class="fas fa-percent"></i> Aplicar</button>
                     </div>
-                    <div class="col-md-2"></div>
+                    <div class="col-md-2 mt-1 pt-1">
+                        <button data-toggle='modal' id="btn-comprobante" data-target='.bd-example-modal-lg'
+                            class='btn btn-primary  mt-4'> <i class="fas fa-file-invoice-dollar"></i> Factura fiscal</button>
+                    </div>
+                    <div class="col-md-2 "> </div>
                     <div class="col-md-2 mt-1">
                         <button type="button" id="btn-payT" class="btn btn-success btn-block mt-4 pl-2"><i
-                                class="fab fa-cc-amazon-pay fa-lg"></i> Pagar</button>
+                                class="fab fa-cc-amazon-pay fa-lg"></i> Procesar</button>
                         <button type="button" id="btn-payM" class="btn btn-success btn-block mt-4 pl-2"><i
-                                class="fab fa-cc-amazon-pay fa-lg"></i> Pagar</button>
+                                class="fab fa-cc-amazon-pay fa-lg"></i> Procesar</button>
                     </div>
 
-                    <div class="col-md-2 mt-1">
+                    {{-- <div class="col-md-2 mt-1">
                         <button type="button" id="btn-dividir" class="btn btn-primary btn-block mt-4 pl-2"><i
                                 class="fas fa-divide"></i> Dividir cuentas</button>
-                    </div>
+                        <button type="button" id="btn-dividirM" class="btn btn-primary btn-block mt-4 pl-2"><i
+                                class="fas fa-divide"></i> Dividir cuentas</button>
+                    </div> --}}
                 </div>
                 <div class="row mt-3" id="fila-botones">
                     <div class="col-md-12">
-                        <button class="btn btn-primary rounded-pill float-left" name="btn-agregar" id="btn-generar"><i
+                        <button class="btn btn-primary float-left" name="btn-agregar" id="btn-generar"><i
                                 class="fas fa-file-invoice-dollar"></i>
                             Generar</button>
-                    
+
 
                         <a class="btn btn-secondary rounded-pill float-right text-white" name="btn-imprimir"
                             id="btn-imprimir"><i class="fas fa-print"></i>
                             Imprimir</a>
                     </div>
                 </div>
-                <hr class="mt-5">
+                <hr class="bg-white">
+                {{-- <h5 class="text-center font-weight-bold text-white">Platos</h5> --}}
                 <div class="row mt-4">
-                    <h5 class="">Platos</h5>
+
                     <hr>
                     <table class="table tabla-existencia table-bordered" id="table-receta">
-                        <thead style="font-size: 15px;" class="text-center font-weight-bold thead-dark">
+                        <thead style="font-size: 15px;" class="text-center font-weight-bold thead-dark ">
                             <tr>
                                 <th>Plato</th>
                                 <th>Precio</th>
+                                <th>Pago</th>
                                 <th id="editar-permisos">Facturar</th>
                             </tr>
                         </thead>
-                        <tbody id="platos">
+                        <tbody id="platos" class="text-white">
 
                         </tbody>
 
@@ -144,7 +153,7 @@
 
 </div>
 
-<div class="card" id="listadoUsers">
+<div class="card card-listado" id="listadoUsers">
     <div class="card-header text-center bg-dark">
         <h4> Listado de ordenes</h4>
     </div>
@@ -173,6 +182,45 @@
         </table>
     </div>
 
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ventana comprobante fiscal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="row ">
+                        <div class="col-md-4">
+                            <label for="name" class="text-dark">RNC/Cedula</label>
+                            <input type="text" name="rnc" id="rnc" class="form-control"
+                                data-inputmask='"mask": "999999999[99]"' data-mask>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="nombre_cont" class="text-dark">Nombre/Razon Social</label>
+                            <input type="text" name="nombre_cont" id="nombre_cont" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="estado_cont" class="text-dark">Estado</label>
+                            <input type="text" name="estado_cont" id="estado_cont" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i></button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="far fa-save"></i> Guardar</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 

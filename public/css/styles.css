@@ -1,23 +1,21 @@
-
 .select2-container--default .select2-selection--single {
     padding: 7px;
     padding-bottom: 28px;
     border: 1px solid #31343940;
 }
 
-.menuLineUp{
-    border-top: 1px solid black;   
+.menuLineUp {
+    border-top: 1px solid black;
 }
 
-#myTab{
-    border-bottom: 1px solid black;
-    margin-bottom: 12px; 
+#myTab {
+    border-bottom: 1px solid #fff;
+    margin-bottom: 12px;
 }
 
-.link-menu{
+.link-menu {
     font-weight: bold;
     /* background-color: #007bffb3; */
-    
 }
 
 .datatables {
@@ -25,11 +23,11 @@
     text-align: center;
 }
 
-.widget-user .card-footer{
+.widget-user .card-footer {
     padding-top: 0px;
 }
 
-.card-body .menu{
+.card-body .menu {
     padding-left: 15px;
     padding-top: 10px;
     padding-bottom: 0px;
@@ -37,3 +35,92 @@
 /* .card-img-top{
     width: 88%;
 } */
+
+
+
+.login-logo,
+.register-logo {
+    color: #fff;
+}
+
+.login-page {
+    background: url(../adminlte/img/alienyard.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-color: #1B1B1E;
+}
+
+.login-card-body,
+.register-card-body {
+    box-shadow: 5px 10px 8px 10px;
+}
+
+table.dataTable thead{
+    background-color: #343a40 !important;
+    color: #fff;
+}
+
+/* .carta-menu{
+    background: url(../adminlte/img/alienyard.jpg);
+    background-color: rgba(0, 0, 0, 0);
+    background-position-x: 0%;
+    background-position-y: 0%;
+    background-repeat: repeat;
+    background-repeat: no-repeat;
+    /* background-attachment: fixed; */
+    /* background-position: center;
+    background-color: #1B1B1E; */
+/* } */ 
+
+.nav-pills .nav-link{
+    border-radius: 0%;
+}
+
+.global-back{
+    background: rgb(27, 27, 30) url("../adminlte/img/alienyard.jpg") no-repeat scroll center center;
+}
+
+label:not(.form-check-label):not(.custom-file-label){
+    color: #fff;
+    font-size: 15px;
+}
+
+.card{
+   background:#201e1ee6; 
+}
+
+.bg-dark{
+    background-color: #2d30339e !important; 
+}
+.card-footer{
+    background-color: #2d30339e !important;
+}
+/* .alien-logo{
+    font-family: 'Odibee Sans', cursive;
+} */
+table.dataTable td, table.dataTable th{
+    color: #fff;
+    font-weight: bold;
+}
+table.dataTable tr.dtrg-group td{
+    background-color: #fff;
+    color: #000;
+}
+
+.card-listado{
+    background: #201e1ee6; 
+}
+
+.header-chart{
+    background: #ffffff2b;
+}
+
+.error {
+    color: red;
+}
+
+.datatables tfoot{
+    background-color: #343a40 !important;
+    color: #fff;
+}

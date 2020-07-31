@@ -136,6 +136,7 @@ class ingredienteController extends Controller
         $id_categoria = $request->input('categoria');
         $nombre = $request->input('nombre');
         $disponible = $request->input('disponible');
+        $nota = $request->input('nota');
         $costo = $request->input('costo');
         $fecha_ingreso = $request->input('fechaIngreso');
 
@@ -160,6 +161,7 @@ class ingredienteController extends Controller
             $inventario = new Inventario();
             $inventario->id_ingrediente = $ingrediente->id;
             $inventario->disponible = $disponible;
+            $inventario->nota = $nota;
             $inventario->costo = $costo;
             $inventario->fecha_ingreso = $fecha_ingreso;
             $inventario->save();
@@ -189,6 +191,7 @@ class ingredienteController extends Controller
 
             $inventario = Inventario::where('id_ingrediente', $id)->get()->first();
             $inventario->disponible = $disponible;
+            $inventario->nota = $nota;
             $inventario->costo = $costo;
             $inventario->fecha_ingreso = $fecha_ingreso;
             $inventario->save();
@@ -242,6 +245,9 @@ class ingredienteController extends Controller
             })
             ->editColumn('costo', function ($ingrediente) {
                 return number_format($ingrediente->costo);
+            })
+            ->editColumn('disponible', function ($ingrediente) {
+                return ($ingrediente->disponible <= 0) ? 0 : $ingrediente->disponible;
             })
             ->addColumn('Opciones', function ($ingrediente) {
                 return '<button id="btnEdit" onclick="mostrar(' . $ingrediente->id . ')" class="btn btn-warning btn-sm mr-1"> <i class="fas fa-pencil-alt"></i></button>' .

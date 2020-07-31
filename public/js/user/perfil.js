@@ -22,7 +22,7 @@ $(document).ready(function() {
     $.validator.addMethod("pwcheck", function(value) {
         return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
             && /[a-z]/.test(value) // has a lowercase letter
-            && /[A-Z]/.test(value) // has a lowercase letter
+            && /[A-Z]/.test(value) // has a uppercase letter
             && /\d/.test(value) // has a digit
      });
 
@@ -71,18 +71,7 @@ $(document).ready(function() {
     $("#btn-guardar").click(function(e) {
         // validacion(e);
         e.preventDefault();
-        var form = $("#formulario").valid();
-        // console.log(form);
-        if(form){
-            guardar();
-        }else{
-            Swal.fire(
-                "Info",
-                "Asegurese de cumplir con los requerimientos de la contraseña",
-                "info"
-            ); 
-        }
-      
+        guardar();
       
     });
 
@@ -179,56 +168,69 @@ $(document).ready(function() {
 
     $("#btn-edit").click(function(e) {
         e.preventDefault();
-        var user = {
-            id: $("#id").val(),
-            name: $("#name").val(),
-            surname: $("#surname").val(),
-            email: $("#email").val(),
-            username: $("#username").val(),
-            edad: $("#edad").val(),
-            telefono: $("#telefono").val(),
-            celular: $("#celular").val(),
-            direccion: $("#direccion").val(),
-            role: $("#role").val(),
-            password: $("#password").val(),
-            avatar: $("#avatar_name").val()
-        };
 
-        $.ajax({
-            url: "user",
-            type: "post",
-            dataType: "json",
-            data: JSON.stringify(user),
-            contentType: "application/json",
-            success: function(datos) {
-                if (datos.status == "success") {
-                    Swal.fire(
-                        "Success",
-                        "Usuario actualizado correctamente",
-                        "success"
-                    );
-                    $("#id").val("");
-                    limpiar();
-                    tabla.ajax.reload();
-                    mostrarForm(false);
-                    // $("#listadoUsers").show();
-                    // $("#registroForm").hide();
-                    // $("#btnCancelar").hide();
-                    // $("#btn-edit").hide();
-                    // $("#btn-guardar").show();
-                    // $("#btnAgregar").show();
-                } else {
+        var form = $("#formulario").valid();
+        // console.log(form);
+
+        if(form){
+            var user = {
+                id: $("#id").val(),
+                name: $("#name").val(),
+                surname: $("#surname").val(),
+                email: $("#email").val(),
+                username: $("#username").val(),
+                edad: $("#edad").val(),
+                telefono: $("#telefono").val(),
+                celular: $("#celular").val(),
+                direccion: $("#direccion").val(),
+                role: $("#role").val(),
+                password: $("#password").val(),
+                avatar: $("#avatar_name").val()
+            };
+    
+            $.ajax({
+                url: "user",
+                type: "post",
+                dataType: "json",
+                data: JSON.stringify(user),
+                contentType: "application/json",
+                success: function(datos) {
+                    if (datos.status == "success") {
+                        Swal.fire(
+                            "Success",
+                            "Usuario actualizado correctamente",
+                            "success"
+                        );
+                        $("#id").val("");
+                        limpiar();
+                        tabla.ajax.reload();
+                        mostrarForm(false);
+                        // $("#listadoUsers").show();
+                        // $("#registroForm").hide();
+                        // $("#btnCancelar").hide();
+                        // $("#btn-edit").hide();
+                        // $("#btn-guardar").show();
+                        // $("#btnAgregar").show();
+                    } else {
+                        bootbox.alert(
+                            "Ocurrio un error durante la creacion del usuario verifique los datos suministrados!!"
+                        );
+                    }
+                },
+                error: function() {
                     bootbox.alert(
-                        "Ocurrio un error durante la creacion del usuario verifique los datos suministrados!!"
+                        "Ocurrio un error, trate rellenando los campos obligatorios(*)"
                     );
                 }
-            },
-            error: function() {
-                bootbox.alert(
-                    "Ocurrio un error, trate rellenando los campos obligatorios(*)"
-                );
-            }
-        });
+            });
+        }else{
+            Swal.fire(
+                "Info",
+                "Asegurese de cumplir con los requerimientos de la contraseña",
+                "info"
+            ); 
+        }
+    
     });
 
 

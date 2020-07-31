@@ -91,6 +91,8 @@ $(document).ready(function() {
                 if (datos.status == "success") {
                   
                     for (let i = 0; i < datos.producto.length; i++) {
+                        var str = datos.producto[i].precio;
+                        var res = str.replace(".00", "");
                        let menu = 
                         "<div class='col-xs-12 col-sm-12 col-md-6 col-lg-4'>"+
                             "<div class='card card-widget widget-user' style='width: 18rem;'>"+
@@ -98,17 +100,17 @@ $(document).ready(function() {
                                     "<div class='card-body menu'>"+
                                     // "<h5 class='card-title font-weight-bold'>"+datos.producto[i].nombre+"</h5>"+
                                     // "<p class='card-text'><strong>Precio:</strong> <span class='badge badge-warning'>"+datos.producto[i].precio+"</span></p>"+
-                                    "<h2 class='lead'  style='font-weight: bold;' ><b>"+datos.producto[i].nombre+"</b></h2>"+
-                                    "<p class='text-muted '><b style='font-size: 15px;'>Precio: RD$ </b><span class='badge badge-warning' style='font-size: 15px;'>"+datos.producto[i].precio+"</span></p>"+
+                                    "<h2 class='lead'  style='font-weight: bold; color: #fff;' ><b>"+datos.producto[i].nombre+"</b></h2>"+
+                                    "<p class='text-muted '><b style='font-size: 15px;' class='text-white'>Precio: </b><span class='badge badge-warning' style='font-size: 15px;'>RD$ "+res+"</span></p>"+
                                 "</div>"+
                                 "<div class='card-footer'>"+
                                     "<div class='row'>"+
                                         "<div class='col-sm-6 border-right'>"+
                                         "<div class='description-block'>"+
                                             "<h5 class='description-header'>"+
-                                            "<button data-toggle='modal' data-target='.bd-example-modal-lg' onclick='ver("+datos.producto[i].id+")'  class=' btn btn-secondary'><i class='fas fa-eye'></i></button>"+
+                                            "<button data-toggle='modal' data-target='.bd-example-modal-lg' onclick='ver("+datos.producto[i].id+")'  class=' btn btn-primary'><i class='fas fa-eye'></i></button>"+
                                             "</h5>"+
-                                            "<span class='description-text'>Ingredientes</span>"+
+                                            "<span class='description-text'></span>"+
                                         "</div>"+
                                         "</div>"+
                                         "<div class='col-sm-6'>"+
@@ -191,7 +193,7 @@ $(document).ready(function() {
                     for (let i = 0; i < datos.categoria.length; i++) {
                        var varMenu = 
                         "<li class=lnav-item'>"+
-                        "<a class='nav-link link-menu border-right' id='pills-"+datos.categoria[i].nombre+"-tab' data-toggle='pill' href='#"+datos.categoria[i].nombre+"' role='tab' aria-controls='home' aria-selected='true'>"+datos.categoria[i].nombre+"</a>"+
+                        "<a class='nav-link link-menu border-right text-white' id='pills-"+datos.categoria[i].nombre+"-tab' data-toggle='pill' href='#"+datos.categoria[i].nombre+"' role='tab' aria-controls='home' aria-selected='true'>"+datos.categoria[i].nombre+"</a>"+
                         "</li>"
                         
                         $("#myTab").append(varMenu);
@@ -556,7 +558,7 @@ function productoReceta(id){
                     let receta = 
                     "<div class='custom-control custom-checkbox'>"+
                     "<input class='custom-control-input' onclick='test("+datos.receta[i].id+")'    type='checkbox' name='receta"+datos.receta[i].id+"' id='ingrediente"+datos.receta[i].id+"'"+
-                    "value='Plato: No agregar "+datos.receta[i].ingrediente.nombre+" de este plato.'>"+
+                    "value='Plato: No agregar "+datos.receta[i].ingrediente.nombre+" de este plato.'>  <input type='hidden' id='nombre"+datos.receta[i].id+"' value="+datos.receta[i].ingrediente.id+">"+
                     "<label for='ingrediente"+datos.receta[i].id+"' class='custom-control-label'>No ponerle "+datos.receta[i].ingrediente.nombre+" de este plato.</label>"+
                     "</div>"
 
@@ -618,7 +620,7 @@ $("#btnComment").click(function(e){
    
 })
 
-$('input[type="checkbox"]').click(function(){
+$('input[name="termino"]').click(function(){
 
     if($(this).prop("checked") == true){
         var comentario = {
@@ -675,15 +677,67 @@ $('input[type="checkbox"]').click(function(){
 
 });
 
+$("input[name='entrega']").click(function(){
+    if($(this).prop("checked") == true){
+        var entrega = {
+            plato: plato,
+            entrega: $(this).val()
+        }
+      
+        $.ajax({
+            url: "entrega/plato",
+            type: "post",
+            dataType: "json",
+            data: JSON.stringify(entrega),
+            contentType: "application/json",
+            success: function(datos) {
+                if (datos.status == "success") {
+                comment = datos.comentario.id;
+            
+       
+                }
+            },
+            error: function() {
+                console.log("Ocurrio un error");
+            }
+        });
+    }else if($(this).prop("checked") == false){
+        console.log("Hi...");
+        // var entrega = {
+        //     plato: plato,
+        //     entrega: $(this).val()
+        // }
+      
+        // $.ajax({
+        //     url: "entrega/plato/delete",
+        //     type: "post",
+        //     dataType: "json",
+        //     data: JSON.stringify(entrega),
+        //     contentType: "application/json",
+        //     success: function(datos) {
+        //         if (datos.status == "success") {
+        //         comment = "";
+            
+       
+        //         }
+        //     },
+        //     error: function() {
+        //         console.log("Ocurrio un error");
+        //     }
+        // });
+    }
+})
+
 function test(id){
     
     if($("input[name='receta"+id+"']").prop("checked") == true){
         console.log($("#ingrediente"+id).val());
         var comentario = {
             plato: plato,
-            termino: $("#ingrediente"+id).val()
+            termino: $("#ingrediente"+id).val(),
+            ingrediente: $("#nombre"+id).val()
         }
-    
+      
         $.ajax({
             url: "comentario",
             type: "post",
@@ -706,7 +760,8 @@ function test(id){
     }else if($("input[name='receta"+id+"']").prop("checked") == false){
         var comentario = {
             plato: plato,
-            termino: $("#ingrediente"+id).val()
+            termino: $("#ingrediente"+id).val(),
+            ingrediente: $("#nombre"+id).val()
         }
     
         $.ajax({

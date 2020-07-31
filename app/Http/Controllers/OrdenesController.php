@@ -13,6 +13,8 @@ use App\Recetas;
 use App\Comentario;
 use App\Factura;
 use App\DetalleFactura;
+use App\Inventario;
+use App\Ingredientes;
 use  Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -217,12 +219,14 @@ class OrdenesController extends Controller
 
         $id = $request->input('plato');
         $termino = $request->input('termino');
+        $ingrediente = $request->input('ingrediente');
 
         if (!empty($id)) {
             $comentario = new Comentario();
 
             $comentario->plato = $id;
             $comentario->comentario = $termino;
+            $comentario->ingrediente = $ingrediente;
             $comentario->save();
 
             $data = [
@@ -275,6 +279,68 @@ class OrdenesController extends Controller
         return response()->json($data, $data['code']);
     }
 
+    public function entrega(Request $request)
+    {
+
+        $id = $request->input('plato');
+        $entrega = $request->input('entrega');
+
+        if (!empty($id)) {
+            $plato = DetallePedido::find($id);
+            $plato->delivery = $entrega;
+            $plato->save();   
+         
+
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'plato' => $plato
+            ];
+        } else {
+            $data = [
+                'code' => 400,
+                'status' => 'error',
+                'message' => 'ocurrio un error'
+            ];
+        }
+
+        return response()->json($data, $data['code']);
+    }
+
+    // public function destroyEntrega(Request $request)
+    // {
+    //     $id = $request->input('plato');
+    //     $entrega = $request->input('termino');
+
+    //     if (!empty($id)) {
+    //         $comentario = Comentario::where('plato', $id)
+    //             ->where('comentario', $termino)->get()->first();
+
+    //         if (is_object($comentario)) {
+    //             $comentario->delete();
+
+    //             $data = [
+    //                 'code' => 200,
+    //                 'status' => 'success',
+    //                 'comentario' => $comentario
+    //             ];
+    //         } else {
+    //             $data = [
+    //                 'code' => 400,
+    //                 'status' => 'error',
+    //                 'message' => 'ocurrio un error'
+    //             ];
+    //         }
+    //     } else {
+    //         $data = [
+    //             'code' => 400,
+    //             'status' => 'error',
+    //             'message' => 'Comentario no encontrado'
+    //         ];
+    //     }
+    //     return response()->json($data, $data['code']);
+    // }
+
     public function comentarioManual(Request $request)
     {
         $comentario = $request->input('comentario');
@@ -312,7 +378,8 @@ class OrdenesController extends Controller
 
     public function ordenes()
     {
-        $ordenes = MaestroPedido::orderBy('id', 'desc')->get();
+        $ordenes = MaestroPedido::where('estado_id', '!=', '7')
+        ->orderBy('id', 'desc')->get();
 
         if (count($ordenes) <= 0) {
             $data = [
@@ -382,7 +449,9 @@ class OrdenesController extends Controller
         $orden = MaestroPedido::find($id);
 
         if (is_object($orden)) {
-            $orden->delete();
+            $orden->estado_id = 7;
+            $orden->hora_pago = date('Y/m/d h:i:s');
+            $orden->save();
 
             $data = [
                 'code' => 200,
@@ -435,11 +504,52 @@ class OrdenesController extends Controller
             $orden->estado_id = 5;
             $orden->save();
 
+            $detallePedido = DetallePedido::where('id_maestroPedido', $id)->get();
+
+            //ingredientes a sacar para no restarle de inventario
+            $comentarios = [];
+
+            for ($i=0; $i < count($detallePedido) ; $i++) { 
+                array_push($comentarios, $detallePedido[$i]['id']);
+            }
+
+            $comentario = Comentario::whereIn('plato', $comentarios)->get();
+
+            $noCountIngredientes = [];
+
+            for ($i=0; $i < count($comentario) ; $i++) { 
+                array_push($noCountIngredientes, $comentario[$i]['ingrediente']);
+            }
+            // Termina sacar los ingredintes a no disminuir de inventario
+
+            $productos = [];
+
+            for ($i=0; $i < count($detallePedido) ; $i++) { 
+                array_push($productos, $detallePedido[$i]['producto_id']);
+            }
+
+            $receta = Recetas::whereIn('id_producto', $productos)->get();
+
+            $ingredientes = [];
+
+            for ($i=0; $i < count($receta) ; $i++) { 
+                array_push($ingredientes, $receta[$i]['id_ingrediente']);
+            }
+            //Sacar del array id que concuerden para no disminuirlo de inventario
+            $ingredientes = array_diff($ingredientes, $noCountIngredientes);
+
+            $inventario = Inventario::whereIn('id_ingrediente', $ingredientes)->get();
+
+            for ($i=0; $i < count($inventario) ; $i++) { 
+                $inventario[$i]->disponible = $inventario[$i]['disponible'] - 1;
+                $inventario[$i]->save();
+            }
 
             $data = [
                 'code' => 200,
                 'status' => 'success',
-                'orden' => $orden
+                'orden' => $orden,
+                'inventario' => $inventario->load('ingrediente')
             ];
         } else {
             $data = [
@@ -528,12 +638,23 @@ class OrdenesController extends Controller
         if (is_object($orden)) {
             $detalle = DetallePedido::where('id_maestroPedido', $id)->get();
 
+            $factura = Factura::where('pedido', $id)->get();
+            $facturas = array();
+            for ($i=0; $i < count($factura) ; $i++) { 
+                array_push($facturas, $factura[$i]['id']);
+
+            }
+    
+            $detalle_factura = DetalleFactura::whereIn('factura', $facturas)->get();
+
             $data = [
                 'code' => 200,
                 'status' => 'success',
                 'orden' => $orden,
                 'detalle' => $detalle->load('producto'),
-                'total' => $detalle->sum('costo')
+                'total' => $detalle->sum('costo'),
+                'factura' => $factura,
+                'detalle_factura' => $detalle_factura
             ];
         } else {
             $data = [
@@ -551,10 +672,9 @@ class OrdenesController extends Controller
 
         $validator = Validator::make($request->all(), [
             'pedido' => 'required',
-            'no_factura' => 'required',
+            // 'no_factura' => 'required',
             'tipo_factura' => 'required',
             'total' => 'required',
-            'efectivo' => 'required'
 
         ]);
 
@@ -572,47 +692,79 @@ class OrdenesController extends Controller
             $itbis = $request->input('itbis');
             $total = $request->input('total');
             $pago = $request->input('efectivo');
+            $rnc = $request->input('rnc');
+            $nombre = $request->input('nombre');
+            $estado = $request->input('estado');
+
+            $estado = $estado == 'ACTIVO' ? 1 : 0;
 
             $total = trim($total, 'RD$');
             $pago = trim($pago, 'RD$_');
             (!empty($itbis) ? $itbis = trim($itbis, '_%') : 0);
             $descuento = trim($descuento, '_%');
             $no_factura = trim($no_factura, '_');
+            $rnc = trim($rnc, '_');
 
-            $factura = new Factura();
+            if (!empty($pago)) {
+                $factura = Factura::where('pedido', $pedido)->first();
 
-            $factura->pedido = $pedido;
-            $factura->user_id = auth()->user()->id;
-            $factura->no_factura = $no_factura;
-            $factura->fecha = date('Y/m/d h:i:s');
-            $factura->tipo_factura = $tipo_factura;
-            $factura->descuento = $descuento;
-            $factura->itbis = $itbis;
-          
+                if (is_object($factura)) {
+                    $factura->pago = $pago;
+                    $factura->save();
 
-            $factura->total = $total;
-            $factura->pago = $pago;
-            $factura->save();
+                    $cambio = $pago - $factura->total;
 
-            $detalle_pedido = DetallePedido::where('id_maestroPedido', $pedido)->get();
+                    $data = [
+                        'code' => 200,
+                        'status' => 'success',
+                        'factura' => $factura,
+                        'cambio' => $cambio
+                    ];
+                } else {
+                    $data = [
+                        'code' => 404,
+                        'status' => 'error',
+                        'message' => 'Ocurrio un error'
+                    ];
+                }
+            } else {
+                $factura = new Factura();
 
-            $cambio = $pago - $total;
+                $factura->pedido = $pedido;
+                $factura->user_id = auth()->user()->id;
+                $factura->no_factura = $no_factura;
+                $factura->fecha = date('Y/m/d h:i:s');
+                $factura->tipo_factura = $tipo_factura;
+                $factura->descuento = $descuento;
+                $factura->itbis = $itbis;
+                $factura->manual = 0;
+                $factura->rnc_o_cedula = $rnc;
+                $factura->razon_social = $nombre;
+                $factura->estado = $estado;
 
-            for ($i = 0; $i < count($detalle_pedido); $i++) {
-                $detalle[$i] = new DetalleFactura();
-                $detalle[$i]->factura = $factura->id;
-                $detalle[$i]->producto = $detalle_pedido[$i]->producto_id;
-                $detalle[$i]->costo = $detalle_pedido[$i]->costo;
-                $detalle[$i]->save();
+
+                $factura->total = $total;
+                // $factura->pago = $pago;
+                $factura->save();
+
+                $detalle_pedido = DetallePedido::where('id_maestroPedido', $pedido)->get();
+
+
+                for ($i = 0; $i < count($detalle_pedido); $i++) {
+                    $detalle[$i] = new DetalleFactura();
+                    $detalle[$i]->factura = $factura->id;
+                    $detalle[$i]->producto = $detalle_pedido[$i]->producto_id;
+                    $detalle[$i]->costo = $detalle_pedido[$i]->costo;
+                    $detalle[$i]->save();
+                }
+
+                $data = [
+                    'code' => 200,
+                    'status' => 'success',
+                    'factura' => $factura,
+                    'detalle' => $detalle_pedido
+                ];
             }
-
-            $data = [
-                'code' => 200,
-                'status' => 'success',
-                'factura' => $factura,
-                'detalle' => $detalle_pedido,
-                'cambio' => number_format($cambio)
-            ];
         }
 
         return response()->json($data, $data['code']);
@@ -684,6 +836,7 @@ class OrdenesController extends Controller
             $factura->fecha = date('Y/m/d h:i:s');
             $factura->tipo_factura = $tipo_factura;
             $factura->total = 0;
+            $factura->manual = 1;
             // $factura->descuento = $descuento;
             // $factura->itbis = $itbis;
             // $itbis_real = $itbis / 100;
@@ -703,17 +856,21 @@ class OrdenesController extends Controller
 
     public function agregarDetalle($id, Request $request)
     {
-        $factura = $request->input('factura');
+        $factura_id = $request->input('factura');
 
         $orden_detalle = DetallePedido::find($id);
 
-        if (!empty($factura) && is_object($orden_detalle)) {
+        if (!empty($factura_id) && is_object($orden_detalle)) {
             $costo = $orden_detalle->costo;
             $producto = $orden_detalle->producto_id;
 
             $detalle = new DetalleFactura();
 
-            $detalle->factura = $factura;
+            $factura = Factura::find($factura_id);
+            $factura->total = $costo;
+            $factura->save();
+
+            $detalle->factura = $factura_id;
             $detalle->producto = $producto;
             $detalle->costo = $costo;
             $detalle->save();
@@ -787,7 +944,7 @@ class OrdenesController extends Controller
             $detalle = DetalleFactura::where('factura', $factura->id)->get()->load('plato');
             $total = $factura->total;
 
-            $cambio = $factura->pago - $total;  
+            $cambio = $factura->pago - $total;
 
             $factura->fecha = date('d/m/20y', strtotime($factura->fecha));
             $factura->fecha_impresion = date('d/m/20y h:i:s', strtotime($factura->fecha_impresion));
@@ -809,18 +966,19 @@ class OrdenesController extends Controller
         }
     }
 
-    public function aplicar(Request $request){
+    public function aplicar(Request $request)
+    {
         $monto = $request->input('monto');
         $descuento = $request->input('descuento');
         $itbis = $request->input('itbis');
-        
+
 
         $descuento = trim($descuento, '_%');
         // $descuento = ($descuento == "") ? 0 : $descuento;
-     
-        $itbis = trim($itbis, '_%');
+
+        $itbis = trim($itbis, '_%') == "" ? 0 : trim($itbis, '_%'); 
         // $itbis = ($itbis == "") ? 0 : $itbis;
-     
+
         $monto = trim($monto, 'RD$_');
 
         $descuento = $descuento / 100;
@@ -833,12 +991,200 @@ class OrdenesController extends Controller
         $total = $subtotal - $monto_desc;
 
         $data = [
-        'code' => 200,
-        'status' => 'success',
-        'total' => $total,
-        'subtotal' => $subtotal
+            'code' => 200,
+            'status' => 'success',
+            'total' => $total,
+            'subtotal' => $subtotal
         ];
-        
+
         return response()->json($data, $data['code']);
     }
+
+    public function seleccionar(Request $request)
+    {
+
+        $id = $request->input('factura');
+        $factura = Factura::find($id);
+      
+        if (is_object($factura)) {
+            $detalle = DetalleFactura::where('factura', $id)->get();
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'factura' => $factura,
+                'detalle' => $detalle,
+                'total' => $detalle->sum('costo')
+            ];
+        } else {
+            $data = [
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'Ocurrio un error'
+            ];
+        }
+
+        return response()->json($data, $data['code']);
+    }
+
+    //Posiblemente cambie en un futuro en base al numero de factura
+    public function getNoFactura()
+    {
+        $factura = Factura::orderBy('id', 'desc')->first();
+
+        if (\is_object($factura)) {
+            $sec = $factura->no_factura;
+
+            // echo $sec;
+            // die();
+        }
+
+        if (empty($sec)) {
+            $sec = 000000;
+
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'sec' => $sec 
+            ];
+        } else {
+
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'sec' => $sec + 1
+            ];
+        }
+        return response()->json($data, $data['code']);
+    }
+
+    public function consultaOrdenes($desde, $hasta)
+    {   
+        $ordenes = DB::table('maestro_pedido')->join('users', 'maestro_pedido.user_id', '=', 'users.id')
+            ->join('estado_pedido', 'maestro_pedido.estado_id', '=', 'estado_pedido.id')
+            ->join('canal', 'maestro_pedido.canal_id', '=', 'canal.id')
+            ->join('metodo_pago', 'maestro_pedido.metodo_pago', '=', 'metodo_pago.id')
+            ->select([
+                'maestro_pedido.id', 'maestro_pedido.numeroOrden', 'estado_pedido.estado', 'maestro_pedido.delivery',
+                'canal.canal', 'maestro_pedido.estado_pago', 'maestro_pedido.fecha_creacion', 'maestro_pedido.hora_pago',
+                'metodo_pago.metodo', 'users.name' , 'users.surname'
+            ])
+            ->where(DB::raw('DATE(fecha_creacion)'),'>=', $desde)
+            ->where(DB::raw('DATE(hora_pago)'),'<=', $hasta)
+            ->where('estado_id', '6')
+            ->orWhere('estado_id', '7');
+
+        return DataTables::of($ordenes)
+            ->addColumn('Expandir', function ($orden){
+                return "";
+            })
+            ->editColumn('name', function ($orden) {
+                return $orden->name.' '. $orden->surname;
+            })
+            ->editColumn('numeroOrden', function ($orden) {
+                return '#'. $orden->numeroOrden;
+            })
+            ->editColumn('fecha_creacion', function ($orden) {
+                return date("d/m/20y", strtotime($orden->fecha_creacion));
+            })
+            ->editColumn('hora_pago', function ($orden) {
+                return date("h:i:s A ", strtotime($orden->hora_pago));
+            })
+            // ->editColumn('canal', function ($producto) {
+            //     return '<span style="font-size: 15px;" class="badge badge-warning font-weight-bold">' . $producto->canal . '</span>';
+            // })
+            // ->editColumn('estado', function ($producto) {
+            //     return '<span style="font-size: 15px;" class="badge badge-primary font-weight-bold">' . $producto->estado . '</span>';
+            // })
+            // ->editColumn('delivery', function ($producto) {
+            //     return '<span style="font-size: 15px;" class="badge badge-success font-weight-bold">' . $producto->delivery . '</span>';
+            // })
+            // ->addColumn('Opciones', function ($orden) {
+            //     return ($orden->estado_pago == 1) ? '<span style="font-size: 15px;" class="badge badge-success font-weight-bold">Facturado</span>' :
+            //         '<button id="btnEdit" onclick="mostrar(' . $orden->id . ')" class="btn btn-dark btn-sm mr-1"> <i class="fas fa-cash-register"></i></button>';
+            // })
+
+            ->rawColumns(['estado'])
+            ->make(true);
+    }
+
+    public function consultaFacturas($desde, $hasta)
+    {   
+       
+        $ordenes = DB::table('factura')->join('users', 'factura.user_id', '=', 'users.id')
+            ->join('maestro_pedido', 'factura.pedido', '=', 'maestro_pedido.id')
+            ->select([
+                'factura.id', 'factura.no_factura', 'factura.fecha', 'factura.tipo_factura',
+                'factura.total', 'factura.pago','maestro_pedido.numeroOrden',
+                'maestro_pedido.metodo_pago', 'users.name' , 'users.surname'
+            ])
+            ->where('fecha', '>', $desde)
+            ->where('fecha', '<', $hasta);
+
+        return DataTables::of($ordenes)
+            // ->addColumn('Expandir', function ($orden){
+            //     return "";
+            // })
+            ->editColumn('name', function ($orden) {
+                return $orden->name.' '. $orden->surname;
+            })
+            ->editColumn('numeroOrden', function ($orden) {
+                return '#'. $orden->numeroOrden;
+            })
+            ->editColumn('metodo_pago', function ($orden) {
+               return ($orden->metodo_pago == 1) ? "Efectivo" :"Tarjeta";
+            })
+            ->editColumn('fecha', function ($orden) {
+                return date("d/m/20y h:i:s ", strtotime($orden->fecha));
+            })
+            ->editColumn('total', function ($orden) {
+                return "RD$ ".str_replace(".00", "", $orden->total);
+            })
+            ->editColumn('pago', function ($orden) {
+                return "RD$ ".str_replace(".00", "", $orden->pago);
+            })
+            // ->editColumn('hora_pago', function ($orden) {
+            //     return date("h:i:s A ", strtotime($orden->hora_pago));
+            // })
+            // ->editColumn('canal', function ($producto) {
+            //     return '<span style="font-size: 15px;" class="badge badge-warning font-weight-bold">' . $producto->canal . '</span>';
+            // })
+            // ->editColumn('estado', function ($producto) {
+            //     return '<span style="font-size: 15px;" class="badge badge-primary font-weight-bold">' . $producto->estado . '</span>';
+            // })
+            // ->editColumn('delivery', function ($producto) {
+            //     return '<span style="font-size: 15px;" class="badge badge-success font-weight-bold">' . $producto->delivery . '</span>';
+            // })
+            // ->addColumn('Opciones', function ($orden) {
+            //     return ($orden->estado_pago == 1) ? '<span style="font-size: 15px;" class="badge badge-success font-weight-bold">Facturado</span>' :
+            //         '<button id="btnEdit" onclick="mostrar(' . $orden->id . ')" class="btn btn-dark btn-sm mr-1"> <i class="fas fa-cash-register"></i></button>';
+            // })
+
+            ->rawColumns([])
+            ->make(true);
+    }
+
+    public function consultaInventario()
+    {   
+       
+        $inventario = DB::table('inventario')->join('ingrediente', 'inventario.id_ingrediente', '=', 'ingrediente.id')
+            ->select([
+                'inventario.id', 'inventario.disponible', 'inventario.nota', 'inventario.costo',
+                'ingrediente.nombre', 'inventario.fecha_ingreso'
+            ]);
+
+        return DataTables::of($inventario)
+            ->editColumn('fecha_ingreso', function ($inventario) {
+                return date("d/m/20y", strtotime($inventario->fecha_ingreso));
+            })
+            ->editColumn('costo', function ($inventario) {
+                return "RD$ ".str_replace(".00", "", $inventario->costo);
+            })
+            ->editColumn('disponible', function ($inventario) {
+                return ($inventario->disponible <= 20) ? "<span  style='font-size: 15px;' class='badge badge-danger'>".$inventario->disponible. "</span>":
+                "<span style='font-size: 15px;' class='badge badge-primary'>".$inventario->disponible. "</span>";
+            })
+            ->rawColumns(['disponible'])
+            ->make(true);
+    }
+    
 }

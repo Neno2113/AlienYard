@@ -354,7 +354,7 @@
                                                                                     alt="Pagado">
                                                                             </td>
                                                                         </tr>
-                                                                        <tr>
+                                                                        {{-- <tr>
                                                                             <td class="data-table-amount"
                                                                                 style="width: 85px;">
                                                                                 <span>
@@ -377,7 +377,7 @@
                                                                             <td style="width: 315px;" align="left">
                                                                                 RD$ {{$cambio}}
                                                                             </td>
-                                                                        </tr>
+                                                                        </tr> --}}
                                                                     </table>
                                                                 </td>
                                                             </tr>
@@ -388,7 +388,7 @@
                                                     <td width="355" class="footer">
                                                         <center>
                                                             <img width="213" height="48"
-                                                                src="https://www.filepicker.io/api/file/2KMVSEJSOaxy1uHWWt1A">
+                                                                src="https://lh3.googleusercontent.com/proxy/kDN5TeRFSUScMJEBgUjAqLLj-wc-TXKUWSqyBC9lDDOXiLq-OJA7GtHikwKSQE6y3JDQbLcDX09ODSA_TIhElV0vNeHWIp69lwzA">
                                                         </center>
                                                     </td>
                                                 </tr>

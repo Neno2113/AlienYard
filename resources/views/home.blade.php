@@ -19,8 +19,10 @@
       <div class="icon">
         <i class="ion ion-ios-cart"></i>
       </div>
-      <a href="/sistemaCCH/public/orden_pedido" class="small-box-footer">Ver más <i
+      @if (Auth::user()->role == 1)
+      <a href="/AlienYard/public/ordenes" class="small-box-footer">Ver más <i
           class="fas fa-arrow-circle-right"></i></a>
+      @endif
     </div>
   </div>
 
@@ -35,7 +37,9 @@
       <div class="icon">
         <i class="ion ion-ios-briefcase"></i>
       </div>
-      <a href="/sistemaCCH/public/corte" class="small-box-footer">Ver más <i class="fas fa-arrow-circle-right"></i></a>
+      @if (Auth::user()->role == 1)
+      <a href="/AlienYard/public/ordenes" class="small-box-footer">Ver más <i class="fas fa-arrow-circle-right"></i></a>
+      @endif
     </div>
   </div>
   <div class="col-lg-3 col-6">
@@ -49,9 +53,11 @@
       <div class="icon">
         <i class="ion ion-android-restaurant"></i>
       </div>
-      <a href="/sistemaCCH/public/existencia" class="small-box-footer">Ver más <i
+      @if (Auth::user()->role == 1)
+      <a href="/AlienYard/public/cobro" class="small-box-footer">Ver más <i
           class="fas fa-arrow-circle-right"></i></a>
-    </div>
+        @endif
+        </div>
   </div>
   <div class="col-lg-3 col-6">
     <!-- small box -->
@@ -64,9 +70,11 @@
       <div class="icon">
         <i class="ion ion-cash"></i>
       </div>
+      @if (Auth::user()->role == 1)
       <a href="/sistemaCCH/public/orden_pedido" class="small-box-footer">Ver más <i
           class="fas fa-arrow-circle-right"></i></a>
-    </div>
+        @endif
+        </div>
   </div>
 </div>
 <!-- Main row -->
@@ -76,8 +84,8 @@
     <!-- Custom tabs (Charts with tabs)-->
     @if (Auth::user()->role == 1)
     <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">
+        <div class="card-header header-chart">
+          <h3 class="card-title text-white">
             <i class="fas fa-chart-pie mr-1"></i>
             Ventas ultimos 12 meses
           </h3>
@@ -101,9 +109,9 @@
 
     <!-- /.card -->
     <!-- TABLE: LATEST ORDERS -->
-    {{-- <div class="card">
-      <div class="card-header border-transparent text-black bg-gradient-info">
-        <h3 class="card-title">Ultimas Ordenes generadas</h3>
+    <div class="card">
+      <div class="card-header header-chart">
+        <h3 class="card-title text-white"><i class="fas fa-warehouse"></i> Productos a reabastecer pronto</h3>
 
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -118,15 +126,15 @@
       <div class="card-body p-0">
         <div class="table-responsive">
           <table class="table m-0">
-            <thead>
+            <thead class="text-white">
               <tr>
-                <th>Orden ID</th>
-                <th>Cliente</th>
-                <th>Status</th>
-                <th>Fecha Entrega</th>
+                <th>Ingrediente</th>
+                <th>Nota</th>
+                <th>Disponible</th>
+                <th>Fecha Ingreso</th>
               </tr>
             </thead>
-            <tbody id="latest_orders">
+            <tbody class="text-white" id="latest_orders" style="font-size: 16px;">
        
 
             </tbody>
@@ -136,10 +144,10 @@
       </div>
       <!-- /.card-body -->
       <div class="card-footer clearfix">
-        <a href="/sistemaCCH/public/orden_pedido" class="btn btn-sm btn-secondary float-right">Ver todas las ordenes</a>
+        <a href="/AlienYard/public/consulta-inventario" class="btn btn-sm btn-secondary float-right">Reporte de inventario</a>
       </div>
       <!-- /.card-footer -->
-    </div> --}}
+    </div>
 
      <!-- TABLE: LATEST CORTES -->
      {{-- <div class="card ">
@@ -191,8 +199,8 @@
      <!-- Custom tabs (Charts with tabs)-->
      @if (Auth::user()->role == 1)
      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">
+        <div class="card-header header-chart">
+          <h3 class="card-title text-white">
             <i class="fas fa-chart-pie mr-1"></i>
             Ventas ultimos 10 dias
           </h3>

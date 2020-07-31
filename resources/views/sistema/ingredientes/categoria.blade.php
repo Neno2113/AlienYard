@@ -38,7 +38,7 @@
             <div class="card-footer  text-muted ">
                 <button class="btn  btn-danger mt-1" id="btnCancelar"><i class="fas fa-arrow-alt-circle-left fa-lg"></i>
                     Cancelar</button>
-                <button type="submit" id="btn-guardar" class="btn btn-info mt-1 float-right"><i
+                <button type="submit" id="btn-guardar" class="btn btn-primary mt-1 float-right"><i
                         class="far fa-save fa-lg"></i> Guardar</button>
                 <button type="submit" id="btn-edit" class="btn btn-warning mt-1 float-right"><i
                         class="far fa-edit fa-lg"></i> Editar</button>
@@ -51,7 +51,7 @@
 </div>
 {{-- </div> --}}
 
-<div class="card" id="listadoUsers">
+<div class="card card-listado" id="listadoUsers">
     <div class="card-header text-center bg-dark">
         <h4> Listado de categorias</h4>
     </div>

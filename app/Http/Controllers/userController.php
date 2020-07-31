@@ -19,6 +19,7 @@ class userController extends Controller
         $apellido = $request->input('surname', true);
         $edad = $request->input('edad', true);
         $email = $request->input('email', true);
+        $username = $request->input('username', true);
         $role = $request->input('role', true);
         $password = $request->input('password', true);
         $direccion = $request->input('direccion', true);
@@ -38,6 +39,7 @@ class userController extends Controller
             $user = new User();
             $user->name = $nombre;
             $user->email = $email;
+            $user->username = $username;
             $user->password = $pwd;
             $user->role = $role;
             $user->direccion = $direccion;
@@ -60,6 +62,7 @@ class userController extends Controller
 
             $user = User::find($id);
             $user->name = $nombre;
+            $user->username = $username;
             $user->email = $email;
             $user->password = $pwd;
             $user->role = $role;

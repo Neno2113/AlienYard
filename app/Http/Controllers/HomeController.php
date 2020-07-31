@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Factura;
+use App\Inventario;
 use App\MaestroPedido;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -50,10 +51,8 @@ class HomeController extends Controller
     public function ventas10dias()
     {
 
-        $sqlquery = "SELECT CONCAT(DAY(fecha), '-', MONTH(fecha)) as fecha, SUM(total) as total FROM factura GROUP BY fecha ORDER BY fecha DESC limit 0,10";
+        $sqlquery = "SELECT CONCAT(DAY(fecha), '-', MONTH(fecha)) as date, SUM(total) as total FROM factura GROUP BY date ORDER BY fecha DESC limit 0,10";
         $result = DB::select($sqlquery);
-
-
 
         $data = [
             'code' => 200,
@@ -109,7 +108,7 @@ class HomeController extends Controller
     public function ventasDelDia(){
         $venta = "SELECT IFNULL(SUM(total),0) as total_venta FROM factura WHERE DATE(fecha) = curdate()";
         $result = DB::select($venta);
-        $dia;
+        // $dia;
 
         for ($i=0; $i < count($result) ; $i++) { 
             $dia = $result[$i]->total_venta;
@@ -119,7 +118,27 @@ class HomeController extends Controller
             'code' => 200,
             'status' => 'success',
             'result' => $result,
-            'dia' => $dia
+            'dia' => str_replace(".00", "", $dia)
+        ];
+
+        return response()->json($data, $data['code']);
+    }
+
+    public function inventario(){
+        $inventario = Inventario::where('disponible', '<=', 20)->get();
+
+        for ($i=0; $i <count($inventario) ; $i++) { 
+            $inventario[$i]->fecha_ingreso = date("d/m/20y", strtotime($inventario[$i]->fecha_ingreso));
+
+            if($inventario[$i]->disponible <= 0 ){
+                $inventario[$i]->disponible = 0;
+            }
+        }
+      
+        $data = [
+            'code' => 200,
+            'status' => 'success',
+            'inventario' => $inventario->load('ingrediente')
         ];
 
         return response()->json($data, $data['code']);

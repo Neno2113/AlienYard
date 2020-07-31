@@ -101,6 +101,7 @@ $(document).ready(function() {
             categoria: $("#categoria").val(),
             nombre: $("#nombre").val(),
             disponible: $("#disponible").val(),
+            nota: $("#nota").val(),
             costo: $("#costo").val(),
             fechaIngreso: $("#fecha_ingreso").val()
         };
@@ -284,13 +285,19 @@ function mostrar(id) {
         $("#btn-guardar").hide();
         $("#ver-contra").show();
         $("#vatar").show();
+        let disponible = Number(data.inventario.disponible);
+        // console.log(data.inventario.disponible);
+        if(disponible <= 0){
+            disponible = 0;
+        }
+        // console.log(disponible);
 
         // console.log(data);
         // $("#test").attr("src", '/AlienYard/public/avatar/'+data.user.avatar)
         $("#id").val(data.ingrediente.id);
         $("#categoria").val(data.ingrediente.categoria.id).trigger("change").select2();
         $("#nombre").val(data.ingrediente.nombre).attr("readonly", false);
-        $("#disponible").val(data.inventario.disponible).attr("readonly", false);
+        $("#disponible").val(disponible).attr("readonly", false);
         $("#costo").val(data.inventario.costo).attr("readonly", false);
         $("#fecha_ingreso").val(data.inventario.fecha_ingreso).attr("readonly", false);
     });

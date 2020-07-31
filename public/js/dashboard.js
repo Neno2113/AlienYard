@@ -12,9 +12,11 @@ $(document).ready(function() {
         venta12meses();
         venta10dias();
         ordenesLista();
+        inventario();
         // latest_orders();
         // latest_products();
         // latest_cortes();
+        Chart.defaults.global.defaultFontColor = 'white';
     }
 
     //funcion para limpiar el formulario(los inputs)
@@ -58,8 +60,8 @@ $(document).ready(function() {
             dataType: "json",
             success: function(datos) {
                 if (datos.status == "success") {
-                    console.log(datos);
-                    $("#ventaDeldia").html(datos.dia);
+                    // console.log(datos);
+                    $("#ventaDeldia").html("RD$ "+datos.dia);
                 } else {
                     bootbox.alert("Ocurrio un error !!");
                 }
@@ -170,6 +172,8 @@ $(document).ready(function() {
                     }
 
                     var ctx = document.getElementById("ventas12meses");
+
+               
                     var myChart = new Chart(ctx, {
                         type: "bar",
                         data: {
@@ -232,7 +236,7 @@ $(document).ready(function() {
 
                     //Fecha en mes de ventas
                     for (let i = 0; i < datos.result.length; i++) {
-                        fechas.push(datos.result[i].fecha);
+                        fechas.push(datos.result[i].date);
                     }
 
                     //totales
@@ -255,7 +259,11 @@ $(document).ready(function() {
                                         "rgba(255, 206, 86, 0.2)",
                                         "rgba(75, 192, 192, 0.2)",
                                         "rgba(153, 102, 255, 0.2)",
-                                        "rgba(255, 159, 64, 0.2)"
+                                        "rgba(255, 159, 64, 0.2)",
+                                        "rgba(147, 255, 64, 0.2)",
+                                        "rgba(148, 9, 9, 0.2)",
+                                        "rgba(158, 176, 0, 0.2)",
+                                        "rgba(12, 99, 0, 0.2)"
                                     ],
                                     borderColor: [
                                         "rgba(255, 99, 132, 1)",
@@ -291,31 +299,31 @@ $(document).ready(function() {
         });
     }
 
-    function latest_orders() {
+    function inventario() {
         $.ajax({
-            url: "latest_orders",
+            url: "inventario",
             type: "get",
             dataType: "json",
             success: function(datos) {
                 if (datos.status == "success") {
-                    let ordenes = datos.ordenes;
-                    for (let i = 0; i < datos.ordenes.length; i++) {
+                    // console.log(datos);
+                    // let ingredientes = datos.inventario;
+                    for (let i = 0; i < datos.inventario.length; i++) {
                         var orden =
                             "<tr>" +
                             "<td>" +
-                            "<a href='pages/examples/invoice.html'>" +
-                            ordenes[i].no_orden_pedido +
-                            "</a></td>" +
+                            datos.inventario[i].ingrediente.nombre +
+                            "</td>"+
                             "<td>" +
-                            ordenes[i].cliente.nombre_cliente +
+                            datos.inventario[i].nota +
+                            "</td>"+
+                            "<td>" +
+                            "<span class='badge badge-danger'>"+
+                            datos.inventario[i].disponible +
+                            "</span>"+
                             "</td>" +
                             "<td>" +
-                            ordenes[i].status_orden_pedido +
-                            "</td>" +
-                            "<td>" +
-                            "<div class='sparkbar' data-color='#00a65a' data-height='20'>" +
-                            ordenes[i].fecha_entrega +
-                            "</div>" +
+                            datos.inventario[i].fecha_ingreso +
                             "</td>" +
                             "</tr>";
                         $("#latest_orders").append(orden);

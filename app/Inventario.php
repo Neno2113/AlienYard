@@ -14,6 +14,6 @@ class Inventario extends Model
 
     public function ingrediente()
     {
-        return $this->belongsTo('App\ingrediente', 'id_ingrediente');
+        return $this->belongsTo('App\Ingredientes', 'id_ingrediente');
     }
 }

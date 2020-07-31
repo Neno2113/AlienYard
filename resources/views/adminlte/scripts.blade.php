@@ -39,12 +39,16 @@
 
 
 <!-- Jquery validation-->
-{{-- <script src="{{asset('jquery-validation/dist/jquery.validate.min.js')}}"></script> --}}
+<script src="{{asset('/adminlte/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
 
 <!-- Select2-->
 <script src="{{asset('/adminlte/plugins/select2/js/select2.full.min.js')}}"></script>
 <!-- Booboxjs -->
 {{-- <script src="{{asset('/adminlte/plugins/sweetalert2/sweetalert2.min.js')}}"></script> --}}
+
+<!-- Booboxjs -->
+<script src="{{asset('/adminlte/plugins/bootbox/bootbox.min.js')}}"></script>
+<script src="{{asset('/adminlte/plugins/bootbox/bootbox.locales.min.js')}}"></script>
 
 
 <!-- Ekko lightbox-->

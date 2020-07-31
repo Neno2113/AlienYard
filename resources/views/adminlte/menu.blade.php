@@ -1,10 +1,10 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-light-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
   <a href="#" class="brand-link">
-    <img src="{{asset('/adminlte/img/AdminLTELogo.png')}}" alt="AdminLTE Logo"
+    <img src="{{URL('/adminlte/img/alienyardLogo.jpg')}}" alt="alienyard Logo"
       class="brand-image img-circle elevation-3" style="opacity: .8">
-    <span class="brand-text font-weight-light">AlenYard</span>
+    <span class="brand-text font-weight-light">AlienYard</span>
   </a>
 
   <!-- Sidebar -->
@@ -16,7 +16,7 @@
           alt="User Image">
       </div>
       <div class="info">
-        <a href="#" class="d-block">{{Auth::user()->name}} {{Auth::user()->surname}}</a>
+        <a href="/user-only" class="d-block">{{Auth::user()->name}} {{Auth::user()->surname}}</a>
       </div>
     </div>
 
@@ -37,7 +37,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="/AlienYard/public/home" class="nav-link">
+              <a href="/home" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Dashboard</p>
               </a>
@@ -48,19 +48,25 @@
           <a href="#" class="nav-link">
             <i class="fas fa-users"></i>
             <p>
-              Usuarios
+              Manejo de usuarios
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="/AlienYard/public/user" class="nav-link">
+              <a href="/user" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Usuarios</p>
+                <p>Crear, Editar, Eliminar</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/AlienYard/public/permisos" class="nav-link">
+              <a href="/user-only" class="nav-link" >
+                <i class="far fa-circle nav-icon"></i>
+                <p>Perfil</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/permisos" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Permisos</p>
               </a>
@@ -77,13 +83,13 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="/AlienYard/public/categoria-ingredientes" class="nav-link">
+              <a href="/categoria-ingredientes" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Categoria ingredientes</p>
+                <p>Categoria Ingredientes</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/AlienYard/public/ingredientes" class="nav-link">
+              <a href="/ingredientes" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Ingredientes</p>
               </a>
@@ -94,19 +100,19 @@
           <a href="#" class="nav-link">
             <i class="fas fa-hamburger"></i>
             <p>
-              Producto
+              Platos
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="/AlienYard/public/categoria-producto" class="nav-link">
+              <a href="/categoria-producto" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Categoria</p>
+                <p>Categoria Producto</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/AlienYard/public/productos" class="nav-link">
+              <a href="/productos" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Producto</p>
               </a>
@@ -123,23 +129,53 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="/AlienYard/public/menu" class="nav-link">
+              <a href="/menu" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Menu</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/AlienYard/public/ordenes" class="nav-link">
+              <a href="/ordenes" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Ordenes</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/AlienYard/public/cobro" class="nav-link">
+              <a href="/cobro" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Pago</p>
               </a>
             </li>
+          </ul>
+        </li>
+        <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+            <i class="fas fa-list-alt"></i>
+            <p>
+              Reportes
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/consulta-orden" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Ordenes</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/consulta-facturas" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Facturas</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/consulta-inventario" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Inventario</p>
+              </a>
+            </li>
+        
           </ul>
         </li>
     </nav>
@@ -158,7 +194,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="/sistemaCCH/public/home" class="nav-link">
+              <a href="/sistemaCCH/home" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Dashboard</p>
               </a>
@@ -177,14 +213,14 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="/AlienYard/public/user" class="nav-link">
+              <a href="/user-only" class="nav-link" >
                 <i class="far fa-circle nav-icon"></i>
-                <p>Usuarios</p>
+                <p>Perfil</p>
               </a>
             </li>
             @if (Auth::user()->permisos()->where('permiso', 'Categoria ingredientes')->first())
             <li class="nav-item">
-              <a href="/AlienYard/public/categoria-ingredientes" class="nav-link">
+              <a href="/categoria-ingredientes" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Categoria ingredientes</p>
               </a>
@@ -192,7 +228,7 @@
             @endif
             @if (Auth::user()->permisos()->where('permiso', 'Ingredientes')->first())
             <li class="nav-item">
-              <a href="/AlienYard/public/ingredientes" class="nav-link">
+              <a href="/ingredientes" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Ingredientes</p>
               </a>
@@ -200,7 +236,7 @@
             @endif
             @if (Auth::user()->permisos()->where('permiso', 'Categoria producto')->first())
             <li class="nav-item">
-              <a href="/AlienYard/public/categoria-producto" class="nav-link">
+              <a href="/categoria-producto" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Categoria</p>
               </a>
@@ -208,7 +244,7 @@
             @endif
             @if (Auth::user()->permisos()->where('permiso', 'Producto')->first())
             <li class="nav-item">
-              <a href="/AlienYard/public/productos" class="nav-link">
+              <a href="/productos" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Producto</p>
               </a>
@@ -216,7 +252,7 @@
             @endif
             @if (Auth::user()->permisos()->where('permiso', 'Menu')->first())
             <li class="nav-item">
-              <a href="/AlienYard/public/menu" class="nav-link">
+              <a href="/menu" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Menu</p>
               </a>
@@ -224,7 +260,7 @@
             @endif
             @if (Auth::user()->permisos()->where('permiso', 'Ordenes')->first())
             <li class="nav-item">
-              <a href="/AlienYard/public/ordenes" class="nav-link">
+              <a href="/ordenes" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Ordenes</p>
               </a>
@@ -232,7 +268,7 @@
             @endif
             @if (Auth::user()->permisos()->where('permiso', 'Pago')->first())
             <li class="nav-item">
-              <a href="/AlienYard/public/cobro" class="nav-link">
+              <a href="/cobro" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Pago</p>
               </a>

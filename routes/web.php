@@ -20,6 +20,10 @@ Route::get('/user', function () {
     return view('sistema.user.users');
 })->middleware('auth', 'Admin:Usuarios');
 
+Route::get('/user-only', function () {
+    return view('sistema.user.userOnly');
+})->middleware('auth', 'Admin:Usuarios');
+
 
 Route::get('/categoria-ingredientes', function () {
     return view('sistema.ingredientes.categoria');
@@ -56,6 +60,20 @@ Route::get('/cobro', function () {
 Route::get('/permisos', function () {
     return view('sistema.user.permiso');
 })->middleware('auth');
+
+Route::get('/consulta-orden', function () {
+    return view('sistema.consultas.consulta');
+})->middleware('auth');
+
+
+Route::get('/consulta-facturas', function () {
+    return view('sistema.consultas.facturas');
+})->middleware('auth');
+
+Route::get('/consulta-inventario', function () {
+    return view('sistema.consultas.inventario');
+})->middleware('auth');
+
 
 
 Auth::routes();
@@ -110,6 +128,7 @@ Route::post('/detalle/delete/{id}', 'OrdenesController@destroyDetalle');
 Route::post('/update-costo/{id}', 'OrdenesController@updateCosto');
 Route::get('/producto-receta/{id}', 'OrdenesController@recetaProducto');
 Route::post('/comentario', 'OrdenesController@comentario');
+Route::post('/entrega/plato', 'OrdenesController@entrega');
 Route::post('/delete-comment', 'OrdenesController@destroyComment');
 Route::post('/comentario-manual', 'OrdenesController@comentarioManual');
 
@@ -126,9 +145,11 @@ Route::post('/facturar/total', 'OrdenesController@storeFacturaCompleta');
 Route::post('/facturar/termino', 'OrdenesController@ordenFacturada');
 Route::post('/facturar/manual', 'OrdenesController@storeFacturaManual');
 Route::post('/facturar/agregar/{id}', 'OrdenesController@agregarDetalle');
+Route::post('/facturar/seleccionar', 'OrdenesController@seleccionar');
 Route::post('/facturar/terminar', 'OrdenesController@terminarFacturaManual');
 Route::get('/imprimir/factura/{id}', 'OrdenesController@imprimir');
 Route::post('/monto/aplicar', 'OrdenesController@aplicar');
+Route::get('/factura/sec', 'OrdenesController@getNoFactura');
 
 //Permiso
 Route::get('permiso/{id}', 'PermisoController@show');
@@ -144,3 +165,7 @@ Route::get('ventasDelDia', 'HomeController@ventasDelDia');
 Route::get('ordenes/nuevas', 'HomeController@ordenesNuevas');
 Route::get('ordenes/proceso', 'HomeController@ordenesProceso');
 Route::get('ordenes/listas', 'HomeController@ordenesLista');
+Route::get('inventario', 'HomeController@inventario');
+
+//consultas
+// Route::get('reporte/ordenes/{desde}/{hasta}', 'OrdenesController@consultaOrdenes');

@@ -54,13 +54,17 @@
                         <label for="">Fecha</label>
                         <input type="date" name="fecha_ingreso" id="fecha_ingreso" class="form-control" placeholder="Fecha">
                     </div>
+                    <div class="col-md-4">
+                        <label for="">Nota</label>
+                        <textarea name="nota" id="nota" cols="40" rows="2" placeholder="Equivalente de cada producto"></textarea>
+                    </div>
                 </div>
 
             </div>
             <div class="card-footer  text-muted ">
                 <button class="btn  btn-danger mt-1" id="btnCancelar"><i class="fas fa-arrow-alt-circle-left fa-lg"></i>
                     Cancelar</button>
-                <button type="submit" id="btn-guardar" class="btn btn-info mt-1 float-right"><i
+                <button type="submit" id="btn-guardar" class="btn btn-primary mt-1 float-right"><i
                         class="far fa-save fa-lg"></i> Guardar</button>
                 <button type="submit" id="btn-edit" class="btn btn-warning mt-1 float-right"><i
                         class="far fa-edit fa-lg"></i> Editar</button>
@@ -73,7 +77,7 @@
 </div>
 {{-- </div> --}}
 
-<div class="card" id="listadoUsers">
+<div class="card card-listado" id="listadoUsers">
     <div class="card-header text-center bg-dark">
         <h4> Listado de ingredientes</h4>
     </div>

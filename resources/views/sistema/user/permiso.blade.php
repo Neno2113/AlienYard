@@ -25,7 +25,7 @@
             </div>
             <div class="card-body">
                 <form action="" id="formulario" class="form-group carta panel-body">
-                    <h5>Formulario de asignacion de permisos de acceso:</h5>
+                    <h5 class="text-white text-center font-weight-bold">Formulario de asignacion de permisos de acceso</h5>
                     <hr>
                     <div class="row" id="fila1">
                         <div class="col-md-5">
@@ -66,7 +66,7 @@
                   
                     <br>
                     <div class="row mt-4">
-                        <table class="table table-bordered text-center">
+                        <table class="table table-bordered text-center text-white">
                             <thead class="text-center bg-dark">
                                 <tr>
                                     <th>Usuario</th>
@@ -94,7 +94,7 @@
 </div>
 {{-- </div> --}}
 
-<div class="card" id="listadoUsers">
+<div class="card card-listado" id="listadoUsers">
     <div class="card-header text-center bg-dark">
         <h4 > Listado de usuarios</h4>
     </div>

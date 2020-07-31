@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="page-header">
-                            <h1 class="text-center">Ordenes</h1>
+                            <h1 class="text-center text-white">Ordenes</h1>
                         </div>
                         <hr class="menuLineUp">
                     </div>
@@ -38,7 +38,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Platos de la orden</h5>
+                <h5 class="modal-title font-weight-bold">Platos de la orden</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

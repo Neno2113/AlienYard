@@ -46,16 +46,17 @@ $(document).ready(function() {
                             "<div id='color"+datos.ordenes[i].id+"' class='info-box bg-warning'>"+
                                 "<span class='info-box-icon'><i class='fas fa-hamburger'></i></span>"+
                                 "<div class='info-box-content'>"+
-                                    "<span class='info-box-number'>Orden# "+datos.ordenes[i].numeroOrden+"</span>"+
-                                    "<span class='info-box-text'><strong>Canal:</strong> "+datos.ordenes[i].canal.canal+"</span>"+
-                                    "<span class='info-box-text'><strong>Delivery:</strong> "+datos.ordenes[i].delivery+"</span>"+
+                                    "<span class='info-box-number h6'>Orden# "+datos.ordenes[i].numeroOrden+"</span>"+
+                                    "<span class='info-box-text h6'><strong>Canal:</strong> "+datos.ordenes[i].canal.canal+"</span>"+
+                                    // "<span class='info-box-text'><strong>Delivery:</strong> "+datos.ordenes[i].delivery+"</span>"+
                                     "<div class='progress'>"+
                                     "<div class='progress-bar' style='width: 100%'></div>"+
                                      "</div>"+
                                     "<span class='progress-description'>"+
-                                    "<button class='btn btn-secondary btn-sm font-weight-bold' id='btnPreparar"+datos.ordenes[i].id+"' onclick='preparar("+datos.ordenes[i].id+")' ><i class='fas fa-store fa-lg'></i> Preparar</button>"+
-                                        "<button type='button' id='btnDelete"+datos.ordenes[i].id+"' class='btn btn-danger btn-sm mr-1' style='display: none' onclick='ordenDelete("+datos.ordenes[i].id+")'><i class='fas fa-trash-alt'></i> Eliminar</button>"+
-                                        "<button type='button' id='btnPlatos"+datos.ordenes[i].id+"' class='btn btn-dark btn-sm' style='display: none'  data-toggle='modal' data-target='.bd-comentarios-modal-lg' onclick='ver("+datos.ordenes[i].id+")' ><i class='fas fa-utensils'></i> Platos</button>"+
+                                    "<button class='btn btn-secondary btn-block font-weight-bold' id='btnPreparar"+datos.ordenes[i].id+"' onclick='preparar("+datos.ordenes[i].id+")' ><i class='fas fa-store fa-lg'></i> Preparar</button>"+
+                                    "<button type='button' id='btnPlatos"+datos.ordenes[i].id+"' class='btn btn-dark btn-block' style='display: none'  data-toggle='modal' data-target='.bd-comentarios-modal-lg' onclick='ver("+datos.ordenes[i].id+")' ><i class='fas fa-utensils'></i> Platos</button>"+    
+                                    "<button type='button' id='btnDelete"+datos.ordenes[i].id+"' class='btn btn-danger btn-block mr-1' style='display: none' onclick='ordenDelete("+datos.ordenes[i].id+")'><i class='fas fa-trash-alt'></i> Eliminar</button>"+
+                         
                                     "</span>"+
                                 "</div>"+
                             "</div>"+
@@ -68,15 +69,16 @@ $(document).ready(function() {
                             "<div id='color"+datos.ordenes[i].id+"' class='info-box bg-info'>"+
                                 "<span class='info-box-icon'><i class='fas fa-hamburger'></i></span>"+
                                 "<div class='info-box-content'>"+
-                                    "<span class='info-box-number'>Orden# "+datos.ordenes[i].numeroOrden+"</span>"+
-                                    "<span class='info-box-text'><strong>Canal:</strong> "+datos.ordenes[i].canal.canal+"</span>"+
-                                    "<span class='info-box-text'><strong>Delivery:</strong> "+datos.ordenes[i].delivery+"</span>"+
+                                    "<span class='info-box-number h6'>Orden# "+datos.ordenes[i].numeroOrden+"</span>"+
+                                    "<span class='info-box-text h6'><strong>Canal:</strong> "+datos.ordenes[i].canal.canal+"</span>"+
+                                    // "<span class='info-box-text'><strong>Delivery:</strong> "+datos.ordenes[i].delivery+"</span>"+
                                     "<div class='progress'>"+
                                     "<div class='progress-bar' style='width: 100%'></div>"+
                                      "</div>"+
                                     "<span class='progress-description'>"+
-                                        "<button type='button' id='btnDelete"+datos.ordenes[i].id+"' class='btn btn-danger btn-sm mr-1' onclick='ordenDelete("+datos.ordenes[i].id+")'><i class='fas fa-trash-alt'></i> Eliminar</button>"+
-                                        "<button type='button' id='btnPlatos"+datos.ordenes[i].id+"' class='btn btn-dark btn-sm'   data-toggle='modal' data-target='.bd-comentarios-modal-lg' onclick='ver("+datos.ordenes[i].id+")' ><i class='fas fa-utensils'></i> Platos</button>"+
+                                    "<button type='button' id='btnPlatos"+datos.ordenes[i].id+"' class='btn btn-dark btn-block'   data-toggle='modal' data-target='.bd-comentarios-modal-lg' onclick='ver("+datos.ordenes[i].id+")' ><i class='fas fa-utensils'></i> Platos</button>"+
+                                        "<button type='button' id='btnDelete"+datos.ordenes[i].id+"' class='btn btn-danger btn-block mr-1' onclick='ordenDelete("+datos.ordenes[i].id+")'><i class='fas fa-trash-alt'></i> Eliminar</button>"+
+                    
                                     "</span>"+
                                 "</div>"+
                             "</div>"+
@@ -88,15 +90,16 @@ $(document).ready(function() {
                             "<div id='color"+datos.ordenes[i].id+"' class='info-box bg-success'>"+
                                 "<span class='info-box-icon'><i class='fas fa-hamburger'></i></span>"+
                                 "<div class='info-box-content'>"+
-                                    "<span class='info-box-number'>Orden# "+datos.ordenes[i].numeroOrden+"</span>"+
-                                    "<span class='info-box-text'><strong>Canal:</strong> "+datos.ordenes[i].canal.canal+"</span>"+
-                                    "<span class='info-box-text'><strong>Delivery:</strong> "+datos.ordenes[i].delivery+"</span>"+
+                                    "<span class='info-box-number h6'>Orden# "+datos.ordenes[i].numeroOrden+"</span>"+
+                                    "<span class='info-box-text h6'><strong>Canal:</strong> "+datos.ordenes[i].canal.canal+"</span>"+
+                                    // "<span class='info-box-text'><strong>Delivery:</strong> "+datos.ordenes[i].delivery+"</span>"+
                                     "<div class='progress'>"+
                                     "<div class='progress-bar' style='width: 100%'></div>"+
                                      "</div>"+
                                     "<span class='progress-description'>"+
-                                        "<button type='button' id='btnDelete"+datos.ordenes[i].id+"' class='btn btn-danger btn-sm mr-1' onclick='ordenDelete("+datos.ordenes[i].id+")'><i class='fas fa-trash-alt'></i> Eliminar</button>"+
-                                        "<button type='button' id='btnPlatos"+datos.ordenes[i].id+"' class='btn btn-dark btn-sm'   data-toggle='modal' data-target='.bd-comentarios-modal-lg' onclick='ver("+datos.ordenes[i].id+")' ><i class='fas fa-utensils'></i> Platos</button>"+
+                                    "<button type='button' id='btnPlatos"+datos.ordenes[i].id+"' class='btn btn-dark btn-block'   data-toggle='modal' data-target='.bd-comentarios-modal-lg' onclick='ver("+datos.ordenes[i].id+")' ><i class='fas fa-utensils'></i> Platos</button>"+
+                                        "<button type='button' id='btnDelete"+datos.ordenes[i].id+"' class='btn btn-danger btn-block ' onclick='ordenDelete("+datos.ordenes[i].id+")'><i class='fas fa-trash-alt'></i> Eliminar</button>"+
+
                                     "</span>"+
                                 "</div>"+
                             "</div>"+
@@ -258,7 +261,7 @@ function comentarios(id){
 
                 if(datos.comentarioManual){
                     let comentarioManual = 
-                    "<li class='list-group-item' style='font-size: 16px;'>Comentario: "+datos.comentarioManual+"</li>";
+                    "<li class='list-group-item font-weight-bold' style='font-size: 16px;'>Comentario: "+datos.comentarioManual+"</li>";
     
                     $("#comment"+id).append(comentarioManual);
                 }
@@ -266,7 +269,7 @@ function comentarios(id){
 
                 for (let i = 0; i < datos.comentarios.length; i++) {
                     let comentarios =
-                    "<li class='list-group-item' style='font-weight: bolder;font-size: 16px;'><i class='far fa-comment'></i> "+datos.comentarios[i].comentario+"</li>";
+                    "<li class='list-group-item' style='font-weight: bolder;font-size: 16px;'><input type='hidden'><i class='far fa-comment'></i> "+datos.comentarios[i].comentario+"</li>";
                     
                         
                     $("#comment"+id).append(comentarios); 
@@ -290,6 +293,7 @@ function ver(id){
         contentType: "application/json",
         success: function(datos) {
             if (datos.status == "success") {
+                console.log(datos);
                 $("#accordion").empty();
                 orden = id;
 
@@ -298,7 +302,9 @@ function ver(id){
                     "<div class='card card-dark'>"+
                     "<div class='card-header d-flex justify-content-center'>"+
                         "<h4 class='card-title font-weight-bold'><i class='fas fa-hamburger'></i> "+
-                    "<a data-toggle='collapse' data-parent='#accordion' href='#plato"+datos.ordenes[i].id+"'>"+ datos.ordenes[i].producto.nombre+"</a>"+
+                    "<a data-toggle='collapse' data-parent='#accordion' href='#plato"+datos.ordenes[i].id+"'>"+ datos.ordenes[i].producto.nombre+
+                    " <span style='font-size: 15px;' class='badge badge-primary'>#"+datos.ordenes[i].delivery+"</span>"+
+                    "</a>"+
                     "</h4>"+
                     "</div>"+
                     "<div id='plato"+datos.ordenes[i].id+"' class='panel-collapse collapse in'>"+
@@ -364,6 +370,7 @@ function ordenDelete(id){
 
 $("#btnReady").click(function(e){
     e.preventDefault();
+    // $(this).attr("disabled", true);
 
     Swal.fire({
         title: "¿Esta orden esta lista?",
@@ -392,6 +399,27 @@ $("#btnReady").click(function(e){
                         "La orden esta lista.", 
                         "success");    
                         $("#color"+datos.orden.id).removeClass("bg-info").addClass("bg-success");
+                        $('.bd-comentarios-modal-lg').modal('hide')
+                        // $("#btnReady").addClass("lito"+datos.orden.id);
+                        // $(".lito"+datos.orden.id).attr('disabled', true);
+
+                        let inventarios = datos.inventario;
+                        console.log(inventarios);
+                        Object.entries(inventarios).forEach(([key, val]) => {
+                            if(val.disponible <= 0 ){
+                                val.disponible = 0;
+                            }
+                            
+                            if(val.disponible <= 20){
+                              
+                                bootbox.alert({
+                                    message:'El ingrediente <strong>'+val.ingrediente.nombre +'</strong> se esta agotando actualmente quedan '+val.disponible,
+                                });
+
+                             
+                            }
+                          
+                        });
                         
                     }
                 },
@@ -406,6 +434,25 @@ $("#btnReady").click(function(e){
 
 });
 
+
+// function verificarInventario(){
+
+//     $.ajax({
+//         url: "verificar/inventario",
+//         type: "get",
+//         dataType: "json",
+//         contentType: "application/json",
+//         success: function(datos) {
+//             if (datos.status == "success") {
+//                 console.log()
+                
+//             }
+//         },
+//         error: function() {
+//             console.log("Ocurrio un error");
+//         }
+//     });  
+// }
 
 function preparar(id){
 

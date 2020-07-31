@@ -24,22 +24,22 @@
                         alt="User Image">
 
                     <p>
-                        {{Auth::user()->name}} {{Auth::user()->surname}}- Web Developer
+                        {{Auth::user()->name}} {{Auth::user()->surname}}
                         <small>Miembro desde  {{date("d-m-20y", strtotime(Auth::user()->created_at))}}</small>
                     </p>
                 </li>
                 <!-- Menu Body -->
                 <li class="user-body">
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-12 text-center">
                             <a href="#">Sales</a>
                         </div>
-                    </div>
+                    </div> --}}
                     <!-- /.row -->
                 </li>
                 <!-- Menu Footer-->
                 <li class="user-footer">
-                    <a href="/sistemaCCH/public/user" class="btn btn-default btn-flat">Usuarios</a>
+                    <a href="/user-only" class="btn btn-default btn-flat">Perfil</a>
                     <a href="{{ route('logout') }}" class="btn btn-default btn-flat float-right"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cierrar sesion</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
