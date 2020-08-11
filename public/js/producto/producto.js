@@ -4,6 +4,37 @@ $(document).ready(function() {
 
     var tabla;
 
+    $("#formulario").validate({
+        errorClass: "error",
+        validClass: "is-valid",
+        element: "#name",
+        highlight: function( element, errorClass, validClass ) {
+          $(element).addClass(`is-invalid ${errorClass}`).removeClass(validClass);
+        },
+        unhighlight: function( element, errorClass, validClass ) {
+          $(element).removeClass(`is-invalid ${errorClass}`).addClass(validClass);
+        },
+        rules: {
+            nombre: {
+                required: true,
+                minlength: 2
+            },
+            costo: {
+                required: true
+            }
+        },
+        messages: {
+            nombre: {
+                required: "El nombre es obligatorio",
+                minlength: "Este campo debe tener mas de 2 letras.",
+            },
+            costo: {
+                required: "El costo es obligatorio"
+            },
+         
+        }  
+    })
+
     function init() {
         listar();
         mostrarForm(false);
@@ -120,6 +151,8 @@ $(document).ready(function() {
 
     $("#btn-guardar").click(function(e) {
       e.preventDefault();
+
+
       limpiar();
       tabla.ajax.reload();
       mostrarForm(false);
@@ -333,8 +366,19 @@ $(document).ready(function() {
 
 
     $("#btn-crear").click(function() {
+        var form = $("#formulario").valid();
+
+
+        if(form){
+            guardar();
+        }else{
+            Swal.fire(
+                "Info",
+                "Asegurese de cumplir con los requerimientos del formulario",
+                "info"
+            ); 
+        }
       
-        guardar();
       
     });
 
@@ -401,8 +445,8 @@ function mostrar(id) {
 
             var fila =
             '<tr id="fila'+datos.receta[i].id+'">'+
-            "<td class=''><input type='hidden' id='usuario"+datos.receta[i].id+"' value="+datos.receta[i].id+">"+datos.receta[i].producto.nombre+"</td>"+
-            "<td class='font-weight-bold'><input type='hidden' id='permiso"+datos.receta.id+"' value="+datos.receta.id+">"+datos.receta[i].ingrediente.nombre+"</td>"+
+            "<td ><input type='hidden' id='usuario"+datos.receta[i].id+"' value="+datos.receta[i].id+">"+datos.receta[i].producto.nombre+"</td>"+
+            "<td ><input type='hidden' id='permiso"+datos.receta.id+"' value="+datos.receta.id+">"+datos.receta[i].ingrediente.nombre+"</td>"+
             "<td><button type='button' id='btn-eliminar' onclick='delIngrediente("+datos.receta[i].id+")' class='btn btn-danger'><i class='fas fa-minus-square'></i></button></td>"+
             "</tr>";
 
@@ -438,8 +482,8 @@ function mostrarReceta(id) {
 
             var fila =
             '<tr id="fila'+datos.receta[i].id+'">'+
-            "<td class=''><input type='hidden' id='usuario"+datos.receta[i].id+"' value="+datos.receta[i].id+">"+datos.receta[i].producto.nombre+"</td>"+
-            "<td class='font-weight-bold'><input type='hidden' id='permiso"+datos.receta.id+"' value="+datos.receta.id+">"+datos.receta[i].ingrediente.nombre+"</td>"+
+            "<td ><input type='hidden' id='usuario"+datos.receta[i].id+"' value="+datos.receta[i].id+">"+datos.receta[i].producto.nombre+"</td>"+
+            "<td ><input type='hidden' id='permiso"+datos.receta.id+"' value="+datos.receta.id+">"+datos.receta[i].ingrediente.nombre+"</td>"+
             "<td><button type='button' id='btn-eliminar' onclick='delIngrediente("+datos.receta[i].id+")' class='btn btn-danger'><i class='fas fa-minus-square'></i></button></td>"+
             "</tr>";
 

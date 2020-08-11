@@ -14,19 +14,18 @@
 <div class="row ">
     <div class="col-12">
         <div class="card  mb-3" id="registroForm">
-            <div class="card-header text-center bg-dark">
+            <div class="card-header text-center bg-danger">
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
                             class="fas fa-minus"></i></button>
                     <button type="button" class="btn btn-tool" data-card-widget="remove"><i
                             class="fas fa-remove"></i></button>
                 </div>
-                <h4>Permisos</h4>
             </div>
             <div class="card-body">
                 <form action="" id="formulario" class="form-group carta panel-body">
-                    <h5 class="text-white text-center font-weight-bold">Formulario de asignacion de permisos de acceso</h5>
-                    <hr>
+                    <h4 class="text-white text-center font-weight-bold">Formulario de asignacion de permisos de acceso</h4>
+                    <hr class="bg-white">
                     <div class="row" id="fila1">
                         <div class="col-md-5">
                             <label for="">Accesos</label>
@@ -58,23 +57,23 @@
                                 <option value=""></option>
                             </select>
                         </div>
-                        <div class="col-md-2 mt-4">
-                            <button type="button" id="btn-agregar" name="btn-agregar" class="btn btn-dark mt-1"><i class="fas fa-key"></i> Agregar</button>
+                        <div class="col-md-2 mt-3">
+                            <button type="button" id="btn-agregar" name="btn-agregar" class="btn btn-success mt-3 pt-1"><i class="fas fa-key"></i> Agregar</button>
                         </div>
                     </div>
           
                   
                     <br>
                     <div class="row mt-4">
-                        <table class="table table-bordered text-center text-white">
-                            <thead class="text-center bg-dark">
+                        <table class="table table-bordered text-center text-dark">
+                            <thead class="text-center thead-light">
                                 <tr>
                                     <th>Usuario</th>
                                     <th>Acceso</th>
                                     <th id="editar-permisos">Eliminar</th>
                                 </tr>
                             </thead>
-                            <tbody id="permisos-agregados">
+                            <tbody class="bg-light" id="permisos-agregados">
 
                             </tbody>
                         </table>
@@ -111,7 +110,7 @@
                     <th>Email</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody class="text-white font-weight-bold"></tbody>
             <tfoot>
                 <tr>
                     <th></th>

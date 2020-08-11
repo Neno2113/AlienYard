@@ -68,7 +68,7 @@ $(document).ready(function() {
         mostrarForm(false);
         Swal.fire(
             'Success',
-            'Permisos agregados correctamente.',
+            'Permiso agregado correctamente.',
             'success'
         )
 
@@ -115,12 +115,14 @@ $(document).ready(function() {
                     let usuario = $("#usuario option:selected").text();
                     let permiso = $("#permisos option:selected").text();
                     var cont;
-                    var fila =
-                    '<tr id="fila'+datos.permiso.id+'">'+
-                    "<td class=''><input type='hidden' id='usuario"+datos.permiso.user.id+"' value="+datos.permiso.user.id+">"+datos.permiso.user.name+"</td>"+
-                    "<td class='font-weight-bold'><input type='hidden' id='permiso"+datos.permiso.id+"' value="+datos.permiso.id+">"+datos.permiso.permiso+"</td>"+
-                    "<td><button type='button' id='btn-eliminar' onclick='delAcceso("+datos.permiso.id+")' class='btn btn-danger'><i class='fas fa-user-lock'></i></i></button></td>"+
-                    "</tr>";
+                    var fila = `
+                    <tr id="fila'+datos.permiso.id+'">
+                    <td class=''><input type='hidden' id='usuario${datos.permiso.user.id}' value="${datos.permiso.user.id}">${datos.permiso.user.name}</td>
+                    <td class='font-weight-bold'><input type='hidden' id='permiso${datos.permiso.user.id}' value="${datos.permiso.user.id}">${datos.permiso.permiso}</td>
+                    <td><button type='button' id='btn-eliminar' onclick='delAcceso(${datos.permiso.id})' class='btn btn-danger'><i class='fas fa-user-lock'></i></i></button></td>
+                    </tr>
+                    `;
+    
                     $("#permisos-agregados").append(fila);
                 } else {
                     bootbox.alert(

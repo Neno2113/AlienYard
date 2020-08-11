@@ -12,23 +12,25 @@
 </div>
 
 <div class="row "> 
-    <div class="col-md-3"></div>
-    <div class="col-md-5">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
         <div class="card  mb-3" id="registroForm">
-            <div class="card-header text-center bg-dark">
+            <div class="card-header text-center bg-danger p-2">
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
                             class="fas fa-minus"></i></button>
                     <button type="button" class="btn btn-tool" data-card-widget="remove"><i
                             class="fas fa-remove"></i></button>
                 </div>
-                <h4>Categoria Producto</h4>
+                {{-- <h4>Categoria Producto</h4> --}}
             </div>
             <div class="card-body">
+                <h4 class="font-weight-bold text-center text-white">Categoria del plato</h4>
+                <hr class="bg-white">
                 <div class="row">
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
-                        <label for="">Nombre</label>
+                        <label for="" class="text-center">Nombre</label>
                         <input type="text" name="nombre" id="nombre" class="form-control">
                         <input type="hidden" name="id" id="id">
                     </div>
@@ -66,7 +68,7 @@
                 
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody class="text-white font-weight-bold"></tbody>
             <tfoot>
                 <tr>
                     <th></th>

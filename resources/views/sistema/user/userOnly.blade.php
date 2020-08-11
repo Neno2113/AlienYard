@@ -26,7 +26,7 @@
 
                         <h3 class="profile-username text-center text-white">{{Auth::user()->name}} {{Auth::user()->surname}}</h3>
 
-                        <p class="text-muted text-center text-white">
+                        <p class="text-center text-white">
                             @if (Auth::user()->role == 1)
                             Administrador
                             @elseif(Auth::user()->role == 2)

@@ -49,7 +49,7 @@
         <h4>Listado de Ordenes</h4>
     </div>
     <div class="card-body">
-        <table id="users" class="table table-bordered table-hover datatables" style="width: 100%">
+        <table id="users"  class="tabla-reportes table table-bordered table-hover text-dark text-center" style="width: 100%">
             <thead>
                 <tr>
                     <th></th>    
@@ -63,8 +63,8 @@
                 
                 </tr>
             </thead>
-            <tbody></tbody>
-            <tfoot>
+            <tbody class="bg-light text-dark reportes-body"></tbody>
+            <tfoot class="text-white">
                 <tr>
                     <th></th>    
                     <th>#Orden</th>

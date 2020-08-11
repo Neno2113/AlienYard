@@ -1070,8 +1070,8 @@ class OrdenesController extends Controller
             ])
             ->where(DB::raw('DATE(fecha_creacion)'),'>=', $desde)
             ->where(DB::raw('DATE(hora_pago)'),'<=', $hasta)
-            ->where('estado_id', '6')
-            ->orWhere('estado_id', '7');
+            ->where('estado_id', '6');
+            // ->OrWhere('estado_id', '7');
 
         return DataTables::of($ordenes)
             ->addColumn('Expandir', function ($orden){

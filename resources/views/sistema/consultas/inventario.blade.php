@@ -47,7 +47,7 @@
                     <th>Fecha Ingreso</th>            
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody class="bg-light text-dark reportes-body"></tbody>
             <tfoot>
                 <tr>
                     <th>Ingrediente</th>

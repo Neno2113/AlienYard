@@ -11,16 +11,18 @@
 <div class="row ">
     <div class="col-12">
         <div class="card  mb-3" id="registroForm">
-            <div class="card-header text-center bg-dark">
+            <div class="card-header text-center bg-danger p-2">
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
                             class="fas fa-minus"></i></button>
                     <button type="button" class="btn btn-tool" data-card-widget="remove"><i
                             class="fas fa-remove"></i></button>
                 </div>
-                <h4>Pagos</h4>
+                {{-- <h4>Pagos</h4> --}}
             </div>
             <div class="card-body">
+                <h4 class="font-weight-bold text-center text-white">Pagos</h4>
+                <hr class="bg-white">
                 <div class="d-flex flex-row-reverse ">
                     <div class="col-md-2">
                         <label for="" class="ml-4">Numero orden</label>
@@ -82,7 +84,7 @@
                     </div>
 
                     <div class="col-md-2 mt-1 pt-1">
-                        <button type="button" id="btn-aplicar" class="btn btn-dark btn-block mt-4 "><i
+                        <button type="button" id="btn-aplicar" class="btn btn-warning btn-block mt-4 "><i
                                 class="fas fa-percent"></i> Aplicar</button>
                     </div>
                     <div class="col-md-2 mt-1 pt-1">
@@ -121,8 +123,8 @@
                 <div class="row mt-4">
 
                     <hr>
-                    <table class="table tabla-existencia table-bordered" id="table-receta">
-                        <thead style="font-size: 15px;" class="text-center font-weight-bold thead-dark ">
+                    <table class="table table-bordered" id="table-receta">
+                        <thead style="font-size: 16px;" class="text-center font-weight-bold thead-light ">
                             <tr>
                                 <th>Plato</th>
                                 <th>Precio</th>
@@ -130,7 +132,7 @@
                                 <th id="editar-permisos">Facturar</th>
                             </tr>
                         </thead>
-                        <tbody id="platos" class="text-white">
+                        <tbody id="platos" class="bg-light">
 
                         </tbody>
 
@@ -169,7 +171,7 @@
                     <th>Delivery</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody class="text-white font-weight-bold"></tbody>
             <tfoot>
                 <tr>
                     <th>Actions</th>

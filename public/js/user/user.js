@@ -2,8 +2,62 @@ $(document).ready(function() {
     $("[data-mask]").inputmask();
 
     $("#formulario").validate({
+        errorClass: "error",
+        validClass: "is-valid",
+        element: "#name",
+        highlight: function( element, errorClass, validClass ) {
+          $(element).addClass(`is-invalid ${errorClass}`).removeClass(validClass);
+        },
+        unhighlight: function( element, errorClass, validClass ) {
+          $(element).removeClass(`is-invalid ${errorClass}`).addClass(validClass);
+        },
         rules: {
-     
+            name: {
+                required: true,
+                minlength: 2
+            },
+            surname: {
+                required: true,
+                minlength: 2
+            },
+            edad: {
+                required: true,
+                digits: true
+            }
+        },
+        messages: {
+            name: {
+                required: "El nombre es obligatorio",
+                minlength: "Este campo debe tener mas de 2 letras.",
+            },
+            surname: {
+                required: "El apelido es obligatorio",
+                minlength: "Este campo debe tener mas de 2 letras.",
+            },
+            edad: {
+                required: "La edad es obligatoria"
+            },
+         
+         
+        }  
+    })
+
+
+
+    $("#formulario_sistema").validate({
+        errorClass: "error",
+        validClass: "is-valid",
+        highlight: function( element, errorClass, validClass ) {
+            $(element).addClass(`is-invalid ${errorClass}`).removeClass(validClass);
+        },
+        unhighlight: function( element, errorClass, validClass ) {
+            $(element).removeClass(`is-invalid ${errorClass} `).addClass(validClass);
+        },
+        rules: {
+            correo: {
+                required: true,
+                email: true
+            },
             password: {
                 required: true,
                 pwcheck: true,
@@ -11,7 +65,11 @@ $(document).ready(function() {
             }
         },
         messages: {
-         
+            correo: {
+                required: "El email es un campo obligatorio",
+                emial: "El correo debe ser un correo valido"
+            },
+            
             password: {
                 required: "La contraseña es obligatoria",
                 pwcheck: "La contraseña debe contener al menos 8 caracteres entre minusculas, mayusculas, numeros y un caracter especial",
@@ -54,7 +112,7 @@ $(document).ready(function() {
         $("#direccion")
             .val("")
             .attr("readonly", false);
-        $("#email")
+        $("#correo")
             .val("")
             .attr("readonly", false);
         $("#role")
@@ -72,8 +130,9 @@ $(document).ready(function() {
         // validacion(e);
         e.preventDefault();
         var form = $("#formulario").valid();
+        var form_sistema = $("#formulario_sistema").valid();
         // console.log(form);
-        if(form){
+        if(form && form_sistema){
             guardar();
         }else{
             Swal.fire(
@@ -90,7 +149,7 @@ $(document).ready(function() {
         var user = {
             name: $("#name").val(),
             surname: $("#surname").val(),
-            email: $("#email").val(),
+            email: $("#correo").val(),
             username: $("#username").val(),
             edad: $("#edad").val(),
             telefono: $("#telefono").val(),
@@ -183,7 +242,7 @@ $(document).ready(function() {
             id: $("#id").val(),
             name: $("#name").val(),
             surname: $("#surname").val(),
-            email: $("#email").val(),
+            email: $("#correo").val(),
             username: $("#username").val(),
             edad: $("#edad").val(),
             telefono: $("#telefono").val(),
@@ -289,12 +348,14 @@ $(document).ready(function() {
         if (flag) {
             $("#listadoUsers").hide();
             $("#registroForm").show();
+            $("#registroUserForm").show();
             $("#permisoForm").show();
             $("#btnCancelar").show();
             $("#btnAgregar").hide();
         } else {
             $("#listadoUsers").show();
             $("#registroForm").hide();
+            $("#registroUserForm").hide();
             $("#permisoForm").hide();
             $("#btnCancelar").hide();
             $("#btnAgregar").show();
@@ -321,6 +382,7 @@ function mostrar(id_user) {
         // data = JSON.parse(data);
         $("#listadoUsers").hide();
         $("#registroForm").show();
+        $("#registroUserForm").show();
         $("#btnCancelar").show();
         $("#btn-edit").show();
         $("#btnAgregar").hide();
@@ -339,7 +401,7 @@ function mostrar(id_user) {
         $("#telefono").val(data.user.telefono);
         $("#celular").val(data.user.celular);
         $("#direccion").val(data.user.direccion);
-        $("#email").val(data.user.email);
+        $("#correo").val(data.user.email);
         $("#username").val(data.user.username);
         $("#role").val(data.user.role);
     });

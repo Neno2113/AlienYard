@@ -274,9 +274,9 @@ function mostrar(id) {
             for (let i = 0; i < data.detalle.length; i++) {
                 var platos =     
                 '<tr id="fila'+data.detalle[i].id+'">'+
-                "<td class='text-center font-weight-bold'>"+data.detalle[i].producto.nombre+"</td>"+
-                "<td class='font-weight-bold text-center'>RD$ "+data.detalle[i].costo+"</td>"+
-                "<td class='font-weight-bold text-center'><input type='hidden' id='factura"+data.detalle[i].id+"' value="+data.detalle_factura[i].factura+"><button type='button' name='cobro"+data.detalle_factura[i].factura+"' id='cobrar"+data.detalle_factura[i].factura+"' onclick='seleccionarpago("+data.detalle[i].id+")' class='btn btn-dark'><i class='fas fa-cash-register'></i></button></td>"+
+                "<td class='text-center font-weight-normal'>"+data.detalle[i].producto.nombre+"</td>"+
+                "<td class='font-weight-normal text-center'>RD$ "+data.detalle[i].costo+"</td>"+
+                "<td class='font-weight-normal text-center'><input type='hidden' id='factura"+data.detalle[i].id+"' value="+data.detalle_factura[i].factura+"><button type='button' name='cobro"+data.detalle_factura[i].factura+"' id='cobrar"+data.detalle_factura[i].factura+"' onclick='seleccionarpago("+data.detalle[i].id+")' class='btn btn-dark'><i class='fas fa-cash-register'></i></button></td>"+
                 "<td class='text-center'><button type='button' id='agregar"+data.detalle[i].id+"' onclick='agregar("+data.detalle[i].id+")' class='btn btn-primary'><i class='fas fa-cart-plus'></i></button></td>"+
                 "</tr>";
     
@@ -289,9 +289,9 @@ function mostrar(id) {
             for (let i = 0; i < data.detalle.length; i++) {
                 var platos =     
                 '<tr id="fila'+data.detalle[i].id+'">'+
-                "<td class='text-center font-weight-bold'>"+data.detalle[i].producto.nombre+"</td>"+
-                "<td class='font-weight-bold text-center'>RD$ "+data.detalle[i].costo+"</td>"+
-                "<td class='font-weight-bold text-center'><input type='hidden' ><button type='button' id='cobrar' onclick='seleccionarpago("+data.detalle[i].id+")' class='btn btn-dark'><i class='fas fa-cash-register'></i></button></td>"+
+                "<td class='text-center font-weight-normal'>"+data.detalle[i].producto.nombre+"</td>"+
+                "<td class='font-weight-normal text-center'>RD$ "+data.detalle[i].costo+"</td>"+
+                "<td class='font-weight-normal text-center'><input type='hidden' ><button type='button' id='cobrar' onclick='seleccionarpago("+data.detalle[i].id+")' class='btn btn-dark'><i class='fas fa-cash-register'></i></button></td>"+
                 "<td class='text-center'><button type='button' id='agregar"+data.detalle[i].id+"' onclick='agregar("+data.detalle[i].id+")' class='btn btn-primary'><i class='fas fa-cart-plus'></i></button></td>"+
                 "</tr>";
     

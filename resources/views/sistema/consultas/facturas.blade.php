@@ -63,7 +63,7 @@
                 
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody class="bg-light text-dark reportes-body"></tbody>
             <tfoot>
                 <tr>
                    

@@ -55,7 +55,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
-  <link rel="stylesheet" href="{{asset('css/styles.css')}}">
+  {{-- <link rel="stylesheet" href="{{asset('css/styles.css')}}"> --}}
 
   <!-- PACE -->
   {{-- <script src="{{asset('adminlte/plugins/pace/pace.min.js')}}"></script>

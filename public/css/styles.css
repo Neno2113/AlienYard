@@ -99,9 +99,14 @@ label:not(.form-check-label):not(.custom-file-label){
 /* .alien-logo{
     font-family: 'Odibee Sans', cursive;
 } */
-table.dataTable td, table.dataTable th{
+/* table.dataTable td, table.dataTable th{
     color: #fff;
     font-weight: bold;
+} */
+
+.tabla-reportes .reportes-body{
+    color: #343a40 !important;
+    font-weight: normal !important;
 }
 table.dataTable tr.dtrg-group td{
     background-color: #fff;
@@ -116,11 +121,20 @@ table.dataTable tr.dtrg-group td{
     background: #ffffff2b;
 }
 
-.error {
+/* .error {
     color: red;
-}
+} */
 
 .datatables tfoot{
     background-color: #343a40 !important;
     color: #fff;
+}
+
+.error {
+    color: #ff1616 !important;
+}
+
+
+.btn-success {
+    background-color: #03681a;
 }
