@@ -14,6 +14,7 @@ use App\Comentario;
 use App\Factura;
 use App\DetalleFactura;
 use App\Inventario;
+use App\Comprobante;
 use App\Ingredientes;
 use  Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
@@ -541,7 +542,7 @@ class OrdenesController extends Controller
             $inventario = Inventario::whereIn('id_ingrediente', $ingredientes)->get();
 
             for ($i=0; $i < count($inventario) ; $i++) { 
-                $inventario[$i]->disponible = $inventario[$i]['disponible'] - 1;
+                $inventario[$i]->disponible = $inventario[$i]['disponible'] - $receta[$i]['cantidad_consumible'];
                 $inventario[$i]->save();
             }
 
@@ -689,6 +690,9 @@ class OrdenesController extends Controller
             $no_factura = $request->input('no_factura');
             $tipo_factura = $request->input('tipo_factura');
             $descuento = $request->input('descuento');
+            $rnc_cedula = $request->input('rnc_cedula');
+            $razon_social = $request->input('razon_social');
+            $estado_contribuyente = $request->input('estado_contribuyente');
             $itbis = $request->input('itbis');
             $total = $request->input('total');
             $pago = $request->input('efectivo');
@@ -697,6 +701,7 @@ class OrdenesController extends Controller
             $estado = $request->input('estado');
 
             $estado = $estado == 'ACTIVO' ? 1 : 0;
+            $estado_contribuyente == 'Activo' ? 1 : 0;
 
             $total = trim($total, 'RD$');
             $pago = trim($pago, 'RD$_');
@@ -736,6 +741,9 @@ class OrdenesController extends Controller
                 $factura->fecha = date('Y/m/d h:i:s');
                 $factura->tipo_factura = $tipo_factura;
                 $factura->descuento = $descuento;
+                $factura->rnc_o_cedula = $rnc_cedula;
+                $factura->razon_social = $razon_social;
+                $factura->estado = $estado_contribuyente;
                 $factura->itbis = $itbis;
                 $factura->manual = 0;
                 $factura->rnc_o_cedula = $rnc;
@@ -820,11 +828,18 @@ class OrdenesController extends Controller
             $pedido = $request->input('pedido');
             $no_factura = $request->input('no_factura');
             $tipo_factura = $request->input('tipo_factura');
+            $rnc_cedula = $request->input('rnc_cedula');
+            $razon_social = $request->input('razon_social');
+            $estado_contribuyente = $request->input('estado_contribuyente');
             // $descuento = $request->input('descuento');
             // $itbis = $request->input('itbis');
             // $total = $request->input('total');
             // $pago = $request->input('efectivo');
-
+            if($estado_contribuyente == 'Activo'){
+                $estado_contribuyente = 1;
+            }else{
+                $estado_contribuyente = 0;
+            }
 
             $no_factura = trim($no_factura, '_');
 
@@ -836,6 +851,9 @@ class OrdenesController extends Controller
             $factura->fecha = date('Y/m/d h:i:s');
             $factura->tipo_factura = $tipo_factura;
             $factura->total = 0;
+            $factura->rnc_o_cedula = $rnc_cedula;
+            $factura->razon_social = $razon_social;
+            $factura->estado = $estado_contribuyente;
             $factura->manual = 1;
             // $factura->descuento = $descuento;
             // $factura->itbis = $itbis;
@@ -878,7 +896,8 @@ class OrdenesController extends Controller
             $data = [
                 'code' => 200,
                 'status' => 'success',
-                'detalle' => $detalle
+                'detalle' => $detalle,
+                'factura' => $factura
             ];
         } else {
             $data = [
@@ -1186,5 +1205,43 @@ class OrdenesController extends Controller
             ->rawColumns(['disponible'])
             ->make(true);
     }
+
+    public function selectComprobante(Request $request)
+    {
+        $data = [];
+
+        if($request->has('q')){
+            $search = $request->q;
+            $data = Comprobante::select('id', 'rnc_cedula', 'razon_social', 'estado')
+                            ->where('rnc_cedula', 'LIKE', "%$search%")
+                            ->get();
+        }
+
+        return response()->json($data);
+    }
+
+    public function contribuyente($id){
+        $comprobante = Comprobante::find($id);
+
+        if(is_object($comprobante)){
+
+
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'contribuyente' => $comprobante
+            ];
+        }else{
+            $data = [
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'No se encontro la persona'
+            ];
+        }
+
+        return response()->json($data, $data['code']);
+    }
+
+
     
 }

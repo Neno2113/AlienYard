@@ -445,13 +445,13 @@ function ver(id_user) {
 
 function eliminar(id_user) {
     Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        title: "¿Estas seguro de eliminar este usuario?",
+        text: "No podra revertir esta accion!",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
+        confirmButtonText: "Si, eliminarlo!"
     }).then(result => {
         if (result.value) {
             accionEliminar(id_user);
@@ -483,7 +483,7 @@ function accionEliminar(id){
         contentType: "application/json",
         success: function(datos) {
             if (datos.status == "success") {
-                Swal.fire("Deleted!", "Your file has been deleted.", "success");    
+                Swal.fire("Eliminado!", "El usuario ha sido eliminado correctamente!", "success");    
                 $("#id").val("");
 
                 $("#users").DataTable().ajax.reload();

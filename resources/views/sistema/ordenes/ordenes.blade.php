@@ -51,7 +51,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i
                         class="fas fa-times fa-lg"></i></button>
-                <button type="button" class="btn btn-primary mr-3" id="btnReady"><i class="fas fa-hamburger"></i>
+                <button type="button" class="btn btn-info mr-3" id="btnReady"><i class="fas fa-hamburger"></i>
                     Listo</button>
 
             </div>

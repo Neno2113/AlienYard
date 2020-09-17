@@ -27,32 +27,38 @@
                     <h4 class="text-white text-center font-weight-bold">Formulario de asignacion de permisos de acceso</h4>
                     <hr class="bg-white">
                     <div class="row" id="fila1">
-                        <div class="col-md-5">
-                            <label for="">Accesos</label>
-                            <select name="tags[]" id="permisos" class="form-control select2">
+                        <div class="col-md-7">
+                            <label for="" class="text-center">Accesos</label>
+                            <select  name="tags[]" id="permisos" class="form-control select2">
                                 {{-- <option disabled>DASHBOARD</option>
                                 <option value="Dashboard">Dashboard</option>
                                 <option  disabled>_______________________________________________________</option> --}}
-                                <option disabled>USUARIOS</option>
-                                <option value="Usuarios">Usuarios</option>
+                                <option disabled>Usuarios</option>
+                                <option value="Usuarios">Crear, Editar, Eliminar</option>
+                                <option value="Perfil">Perfil</option>
                                 <option  disabled>_______________________________________________________</option>
                                 <option disabled>Ingredientes</option>
-                                <option value="Categoria ingredientes">Categoria</option>
+                                <option value="Cat-ingredientes">Categoria</option>
                                 <option value="Ingredientes">Ingredientes</option>
                                 <option  disabled>_______________________________________________________</option>
-                                <option disabled>Producto</option>
-                                <option value="Categoria producto">Categoria</option>
-                                <option value="Producto">Producto</option>
+                                <option disabled>Platos</option>
+                                <option value="Cat-platos">Categoria</option>
+                                <option value="Platos">Platos</option>
                                 <option  disabled>_______________________________________________________</option>
                                 <option disabled>Ordenes</option>
                                 <option value="Menu">Menu</option>
-                                <option value="Ordenes">Cocinero</option>
-                                <option value="Pago">Cobros</option>
+                                <option value="Cocina">Cocina</option>
+                                <option value="Pago">Pagos</option>
+                                <option  disabled>_______________________________________________________</option>
+                                <option disabled>Reportes</option>
+                                <option value="Rep-ordenes">Ordenes</option>
+                                <option value="Rep-facturas">Facturas</option>
+                                <option value="Rep-inventario">Inventario</option>
                             </select>
                         </div>
                
-                        <div class="col-md-5">
-                            <label for="">Usuario</label>
+                        <div class="col-md-3">
+                            <label for="" class="text-center">Usuario</label>
                             <select name="usuario" id="usuario" class="form-control select2">
                                 <option value=""></option>
                             </select>

@@ -335,7 +335,7 @@ function ver(id){
 
 function ordenDelete(id){
     Swal.fire({
-        title: "Estas seguro de eliminar esta orden?",
+        title: "¿Estas seguro de eliminar esta orden?",
         text: "No podra revertir esta accion",
         type: "warning",
         showCancelButton: true,
@@ -395,7 +395,7 @@ $("#btnReady").click(function(e){
                 contentType: "application/json",
                 success: function(datos) {
                     if (datos.status == "success") {
-                        Swal.fire("Success!", 
+                        Swal.fire("Orden lista!", 
                         "La orden esta lista.", 
                         "success");    
                         $("#color"+datos.orden.id).removeClass("bg-info").addClass("bg-success");
@@ -463,7 +463,7 @@ function preparar(id){
         contentType: "application/json",
         success: function(datos) {
             if (datos.status == "success") {
-                Swal.fire("Success!", 
+                Swal.fire("Orden en proceso!", 
                 "Ha indicado que va a trabajar esta orden.", 
                 "success");  
                 $("#btnPreparar"+id).hide();

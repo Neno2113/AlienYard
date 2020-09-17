@@ -83,7 +83,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="form-group row">
 
                         <div class="input-group mb-3">
-                            <input id="login" type="text" placeholder="Email o Username" class="form-control {{ $errors->has('username') || $errors->has('email') ? ' is-invalid' : '' }}"
+                            <input id="login" type="text" placeholder="Email o nombre de usuario" class="form-control {{ $errors->has('username') || $errors->has('email') ? ' is-invalid' : '' }}"
                                 name="login" value="{{ old('username') ?: old('email')  }}" required autofocus>
                             <div class="input-group-append">
                                 <div class="input-group-text">
@@ -123,13 +123,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <input class="form-check-input" type="checkbox" name="remember" id="remember"
                                     {{ old('remember') ? 'checked' : '' }}>
                                 <label class="form-check-label" for="remember">
-                                    {{ __('Remember Me') }}
+                                    {{ __('Recuerdame') }}
                                 </label>
                             </div>
                         </div>
                         <!-- /.col -->
                         <div class="col-6">
-                            <button type="submit" class="btn btn-primary btn-block"> {{ __('Iniciar sesion') }}</button>
+                            <button type="submit" class="btn btn-info btn-block"> {{ __('Iniciar sesion') }}</button>
 
                             {{-- @if (Route::has('password.request'))
                   <a class="btn btn-link" href="{{ route('password.request') }}">

@@ -15,6 +15,54 @@ $(document).ready(function() {
     }
 
 
+    $("#cedulaSearch").select2({
+        placeholder: "RNC o Cedula",
+        ajax: {
+            url: "cedula_search",
+            dataType: "json",
+            delay: 250,
+            processResults: function(data) {
+                return {
+                    results: $.map(data, function(item) {
+                        return {
+                            text: item.rnc_cedula,
+                            id: item.id
+                        };
+                    })
+                };
+            },
+            cache: true
+        }
+    });
+
+    $("#cedulaSearch").on("change",  () => {
+        let id = $("#cedulaSearch").val();
+        
+        $.ajax({
+            url: "contribuyente/"+id,
+            type: "get",
+            dataType: "json",
+            contentType: "application/json",
+            success: function(datos) {
+                if (datos.status == "success") {
+                    let estado;
+                    console.log(datos);
+                    if(datos.contribuyente.estado == 1){
+                        estado = 'Activo';
+                    }else{
+                        estado = 'No Activo';
+                    }
+                    $("#nombre_cont").val(datos.contribuyente.razon_social);
+                    $("#estado_cont").val(estado);
+                }
+            },
+            error: function() {
+                console.log("Ocurrio un error");
+            }
+        });
+    })
+
+
     
     function metodoPago(){
         $.ajax({
@@ -59,6 +107,9 @@ $(document).ready(function() {
         var categoria = {
             pedido: $("#pedido").val(),
             no_factura: $("#numero_factura").val(),
+            rnc_cedula: $("#cedulaSearch option:selected").text(),
+            razon_social: $("#nombre_cont").val(),
+            estado_contribuyente: $("#estado_cont").val(),
             tipo_factura: $("#tipo_factura").val(),
             descuento: $("#descuento").val(),
             itbis: $("#itbis").val(),
@@ -93,7 +144,7 @@ $(document).ready(function() {
                         $("#btn-guardar").attr("disabled", false);
                     }else{
                         Swal.fire(
-                            "Success",
+                            "Orden facturada",
                             "Orden procesada",
                             "success"
                         );
@@ -177,7 +228,7 @@ $(document).ready(function() {
                     mostrarForm(false);
                     tabla.ajax.reload();
                     Swal.fire(
-                        "Success",
+                        "Orden cerrada con exito!",
                         "Orden facturada correctamente",
                         "success"
                     );
@@ -256,7 +307,6 @@ function mostrar(id) {
         $("#efectivo").attr("disabled", true);
         
       
-
         $("#pedido").val(data.orden.id);
         $("#numero_orden").val("# "+data.orden.numeroOrden).attr('disabled', true);
         $("#canal").val(data.orden.canal.canal).attr('disabled', true);
@@ -276,8 +326,8 @@ function mostrar(id) {
                 '<tr id="fila'+data.detalle[i].id+'">'+
                 "<td class='text-center font-weight-normal'>"+data.detalle[i].producto.nombre+"</td>"+
                 "<td class='font-weight-normal text-center'>RD$ "+data.detalle[i].costo+"</td>"+
-                "<td class='font-weight-normal text-center'><input type='hidden' id='factura"+data.detalle[i].id+"' value="+data.detalle_factura[i].factura+"><button type='button' name='cobro"+data.detalle_factura[i].factura+"' id='cobrar"+data.detalle_factura[i].factura+"' onclick='seleccionarpago("+data.detalle[i].id+")' class='btn btn-dark'><i class='fas fa-cash-register'></i></button></td>"+
-                "<td class='text-center'><button type='button' id='agregar"+data.detalle[i].id+"' onclick='agregar("+data.detalle[i].id+")' class='btn btn-primary'><i class='fas fa-cart-plus'></i></button></td>"+
+                "<td class='font-weight-normal text-center'><input type='hidden' id='factura"+data.detalle[i].id+"' value="+data.detalle_factura[i].factura+"><button type='button' name='cobro"+data.detalle_factura[i].factura+"' id='cobrar"+data.detalle[i].id+"' onclick='seleccionarpago("+data.detalle[i].id+")' class='btn btn-dark'><i class='fas fa-cash-register'></i></button></td>"+
+                "<td class='text-center'><button type='button' id='agregar"+data.detalle[i].id+"' onclick='agregar("+data.detalle[i].id+")' class='btn btn-default'><i class='fas fa-cart-plus'></i></button></td>"+
                 "</tr>";
     
                 $("#platos").append(platos);
@@ -291,8 +341,8 @@ function mostrar(id) {
                 '<tr id="fila'+data.detalle[i].id+'">'+
                 "<td class='text-center font-weight-normal'>"+data.detalle[i].producto.nombre+"</td>"+
                 "<td class='font-weight-normal text-center'>RD$ "+data.detalle[i].costo+"</td>"+
-                "<td class='font-weight-normal text-center'><input type='hidden' ><button type='button' id='cobrar' onclick='seleccionarpago("+data.detalle[i].id+")' class='btn btn-dark'><i class='fas fa-cash-register'></i></button></td>"+
-                "<td class='text-center'><button type='button' id='agregar"+data.detalle[i].id+"' onclick='agregar("+data.detalle[i].id+")' class='btn btn-primary'><i class='fas fa-cart-plus'></i></button></td>"+
+                "<td class='font-weight-normal text-center'><input type='hidden' id='factura"+data.detalle[i].id+"' ><button type='button' id='cobrar"+data.detalle[i].id+"' onclick='seleccionarpago("+data.detalle[i].id+")' class='btn btn-dark' ><i class='fas fa-cash-register'></i></button></td>"+
+                "<td class='text-center'><button type='button' id='agregar"+data.detalle[i].id+"' onclick='agregar("+data.detalle[i].id+")' class='btn btn-default'><i class='fas fa-cart-plus'></i></button></td>"+
                 "</tr>";
     
                 $("#platos").append(platos);
@@ -425,6 +475,9 @@ $("#btn-generar").click(function(e){
         pedido: $("#pedido").val(),
         no_factura: $("#numero_factura").val(),
         tipo_factura: $("#tipo_factura").val(),
+        rnc_cedula: $("#cedulaSearch option:selected").text(),
+        razon_social: $("#nombre_cont").val(),
+        estado_contribuyente: $("#estado_cont").val(),
         descuento: $("#descuento").val(),
         itbis: $("#itbis").val(),
         total: $("#total").val(),
@@ -439,19 +492,20 @@ $("#btn-generar").click(function(e){
         contentType: "application/json",
         success: function(datos) {
             if (datos.status == "success") {
+                console.log(datos);
                 $("#btn-payT").attr('disabled', true);
                 $("#btn-dividir").attr('disabled', true);
                 $("#btn-generar").attr('disabled', true);
                 $("#fila-botones").show();
                 $("#btn-payT").hide();
                 // $("#efectivo").attr('disabled', false);
-                $("td:nth-child(3) ,th:nth-child(3)").show();
+            
                 $("#btn-payM").show().attr('disabled', false);
                 $("#factura").val(datos.factura.id);
                 $("#total").val("");
                 numeroFactura();
                 Swal.fire(
-                    "Success",
+                    "Factura",
                     "Factura generada correctamente",
                     "success"
                 );
@@ -483,6 +537,7 @@ function agregar(id){
         factura: $("#factura").val()
     };
 
+   
     $.ajax({
         url: "facturar/agregar/"+id,
         type: "POST",
@@ -491,13 +546,19 @@ function agregar(id){
         contentType: "application/json",
         success: function(datos) {
             if (datos.status == "success") {
-               
+                $("td:nth-child(3) ,th:nth-child(3)").show();
+                $("#factura"+id).val(datos.factura.id);
+                $("#cobrar"+id).attr("name", "cobro"+datos.factura.id);
                 $("#agregar"+id).attr('disabled', true);
              
                 let val = $("#total").val();
                 let total = Number(val) + Number(datos.detalle.costo);
                 $("#btn-imprimir").attr("href", 'imprimir/factura/'+datos.detalle.factura);
                 $("#total").val(total); 
+                // mostrar(datos.factura.pedido);
+               
+               
+               
                 const Toast = Swal.mixin({
                     toast: true,
                     position: 'top-end',
@@ -560,7 +621,8 @@ $("#btn-payM").click(function(e) {
                 $("#btn-payM").attr("disabled", true);
                 $("#btn-payT").show();
                 $("#btn-imprimir").attr('disabled', false);
-                $("#cobrar"+datos.factura.id).attr("disabled", true);
+                // $("[name='cobrar"+datos.factura.id+).attr("disabled", true);
+                $("[name='cobro"+datos.factura.id+"']").attr("disabled", true);
                 $("#btn-guardar").attr("disabled", false);
                 
                 Swal.fire(

@@ -67,7 +67,7 @@ $(document).ready(function() {
         tabla.ajax.reload();
         mostrarForm(false);
         Swal.fire(
-            'Success',
+            'Permiso',
             'Permiso agregado correctamente.',
             'success'
         )
@@ -285,7 +285,7 @@ function mostrar(id_user) {
         $("#ver-contra").show();
         $("#editar-permisos").show();
         $("#permisos-agregados").empty();
-        $("#usuario").val(id_user).trigger('change');
+        $("#usuario").val(id_user).trigger('change').attr("disabled", true);
 
         for (let i = 0; i < data.permiso.length; i++) {
             var fila =
@@ -329,7 +329,7 @@ function eliminarAcceso(id){
             if (datos.status == "success") {
                 // console.log(datos);
                 Swal.fire(
-                    'Success',
+                    'Permiso',
                     'Permiso eliminado correctamente.',
                     'success'
                 )

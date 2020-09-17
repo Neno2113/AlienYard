@@ -49,7 +49,7 @@
                 </div>
                 <div class="row mt-3">
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="">Tipos de factura</label>
                         <select name="tipo_factura" id="tipo_factura" class="form-control select2">
                             <option value="" disabled>Elige un tipo de factura</option>
@@ -63,13 +63,14 @@
                             data-inputmask='"mask": "99999[99999]"' data-mask>
                         <input type="hidden" name="factura" id="factura">
                     </div>
-                    <div class="col-md-2">
+                
+                    <div class="col-md-3">
                         <label for="">Total</label>
-                        <input type="text" name="total" id="total" class="form-control text-center font-weight-bold">
+                        <input type="text" name="total" id="total" class="form-control text-center font-weight-bold total-input">
                     </div>
                     <div class="col-md-3">
                         <label for="">Efectivo</label>
-                        <input type="text" name="efectivo" id="efectivo" class="form-control text-center"
+                        <input type="text" name="efectivo" id="efectivo" class="form-control text-center total-input"
                             data-inputmask='"mask": "RD$ 9[,]999"' data-mask>
                     </div>
                 </div>
@@ -99,16 +100,16 @@
                                 class="fab fa-cc-amazon-pay fa-lg"></i> Procesar</button>
                     </div>
 
-                    {{-- <div class="col-md-2 mt-1">
+                    <div class="col-md-2 mt-1">
                         <button type="button" id="btn-dividir" class="btn btn-primary btn-block mt-4 pl-2"><i
                                 class="fas fa-divide"></i> Dividir cuentas</button>
                         <button type="button" id="btn-dividirM" class="btn btn-primary btn-block mt-4 pl-2"><i
                                 class="fas fa-divide"></i> Dividir cuentas</button>
-                    </div> --}}
+                    </div>
                 </div>
                 <div class="row mt-3" id="fila-botones">
                     <div class="col-md-12">
-                        <button class="btn btn-primary float-left" name="btn-agregar" id="btn-generar"><i
+                        <button class="btn btn-primary float-left rounded-pill" name="btn-agregar" id="btn-generar"><i
                                 class="fas fa-file-invoice-dollar"></i>
                             Generar</button>
 
@@ -200,18 +201,18 @@
             <div class="modal-body">
                 <div class="form-group">
                     <div class="row ">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="name" class="text-dark">RNC/Cedula</label>
-                            <input type="text" name="rnc" id="rnc" class="form-control"
-                                data-inputmask='"mask": "999999999[99]"' data-mask>
+                            <select name="cedulaSearch" id="cedulaSearch" class="form-control select2">
+                            </select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label for="nombre_cont" class="text-dark">Nombre/Razon Social</label>
                             <input type="text" name="nombre_cont" id="nombre_cont" class="form-control">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="estado_cont" class="text-dark">Estado</label>
-                            <input type="text" name="estado_cont" id="estado_cont" class="form-control">
+                            <input type="text" name="estado_cont" id="estado_cont" class="form-control text-center">
                         </div>
                     </div>
                 </div>
@@ -219,7 +220,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-times"></i></button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="far fa-save"></i> Guardar</button>
+                {{-- <button type="button" class="btn btn-info" data-dismiss="modal"><i class="far fa-save"></i> Guardar</button> --}}
             </div>
         </div>
     </div>

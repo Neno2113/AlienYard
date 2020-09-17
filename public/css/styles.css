@@ -135,6 +135,28 @@ table.dataTable tr.dtrg-group td{
 }
 
 
-.btn-success {
+.btn-success, .alert-success {
     background-color: #03681a;
+}
+
+.btn-warning {
+    background-color: #ffc107a6;
+}
+
+.btn-primary {
+    background-color: #007bff88;
+}
+
+.alert-info {
+    background-color: #148ea1a6;
+}
+
+.p-alertas {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.total-input {
+    border-color: #28a745;
+    color: #216C2A;
 }

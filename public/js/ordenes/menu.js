@@ -258,7 +258,7 @@ $(document).ready(function() {
                     $(".btn-agregar").show()
 
                     Swal.fire(
-                        "Success",
+                        "Pedido creado",
                         "Pedido creado correctamente",
                         "success"
                     );
@@ -374,12 +374,12 @@ function ver(id){
                 "<div class='card mb-3' style='max-width: 776px;'>"+
                 "<div class='row no-gutters'>"+
                     "<div class='col-md-4'>"+
-                    "<img src='producto/img/"+datos.producto.imagen+"')' style='margin-top: 20px;' class='card-img' alt='...'>"+
+                    "<img src='producto/img/"+datos.producto.imagen+"')' style='margin-top: 3px; padding:19px;' class='card-img' alt='...'>"+
                     "</div>"+
                     "<div class='col-md-8'>"+
                     "<div class='card-body'>"+
                         "<ul class='list-group text-center'>"+
-                        "<li class='list-group-item active bg-dark'>"+datos.producto.nombre+"</li>"+
+                        "<li class='list-group-item  bg-danger'>"+datos.producto.nombre+"</li>"+
                         "<li id='detalle'  class='list-group-item'></li>"+
                         
                         "</ul>"+
@@ -466,7 +466,7 @@ function agregarPedido(id){
 
 function deleteDetalle(id){
     Swal.fire({
-        title: "Estas seguro de eliminar este plato del pedido?",
+        title: "¿Estas seguro de eliminar este plato del pedido?",
         text: "Lo puede volver agregar si lo borra",
         type: "warning",
         showCancelButton: true,
@@ -483,7 +483,7 @@ function deleteDetalle(id){
                 success: function(datos) {
                     if (datos.status == "success") {
                         console.log(datos);
-                        Swal.fire("Deleted!", 
+                        Swal.fire("Plato eliminado!", 
                         "El plato ha sido eliminado.", 
                         "success");    
                     
@@ -558,7 +558,7 @@ function productoReceta(id){
                     let receta = 
                     "<div class='custom-control custom-checkbox'>"+
                     "<input class='custom-control-input' onclick='test("+datos.receta[i].id+")'    type='checkbox' name='receta"+datos.receta[i].id+"' id='ingrediente"+datos.receta[i].id+"'"+
-                    "value='Plato: No agregar "+datos.receta[i].ingrediente.nombre+" de este plato.'>  <input type='hidden' id='nombre"+datos.receta[i].id+"' value="+datos.receta[i].ingrediente.id+">"+
+                    "value='Plato: No agregar "+datos.receta[i].ingrediente.nombre+" a este plato.'>  <input type='hidden' id='nombre"+datos.receta[i].id+"' value="+datos.receta[i].ingrediente.id+">"+
                     "<label for='ingrediente"+datos.receta[i].id+"' class='custom-control-label'>No ponerle "+datos.receta[i].ingrediente.nombre+" de este plato.</label>"+
                     "</div>"
 

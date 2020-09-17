@@ -44,11 +44,13 @@ $(document).ready(function() {
                     // console.log(datos);
                     $("#cant_orden").html(datos.ordenesTomadas);
                 } else {
-                    bootbox.alert("Ocurrio un error !!");
+                    // bootbox.alert("Ocurrio un error !!");
+                    $("#cant_orden").html("0");
                 }
             },
             error: function() {
-                bootbox.alert("Ocurrio un error!!");
+                // bootbox.alert("Ocurrio un error!!");
+                $("#cant_orden").html("0");
             }
         });
     }
@@ -63,11 +65,13 @@ $(document).ready(function() {
                     // console.log(datos);
                     $("#ventaDeldia").html("RD$ "+datos.dia);
                 } else {
-                    bootbox.alert("Ocurrio un error !!");
+                    // bootbox.alert("Ocurrio un error !!");
+                    $("#ventaDeldia").html("RD$ 0");
                 }
             },
             error: function() {
                 console.log("error");
+                $("#ventaDeldia").html("RD$ 0");
             }
         });
     }
@@ -81,11 +85,13 @@ $(document).ready(function() {
                 if (datos.status == "success") {
                     $("#ordenes_proceso").html(datos.ordenesProceso);
                 } else {
-                    bootbox.alert("Ocurrio un error !!");
+                    // bootbox.alert("Ocurrio un error !!");
+                    $("#ordenes_proceso").html("0");
                 }
             },
             error: function() {
-                bootbox.alert("Ocurrio un error!!");
+                // bootbox.alert("Ocurrio un error!!");
+                $("#ordenes_proceso").html("0");
             }
         });
     }
@@ -97,14 +103,16 @@ $(document).ready(function() {
             dataType: "json",
             success: function(datos) {
                 if (datos.status == "success") {
-                    console.log(datos);
+                    // console.log(datos);
                     $("#ordenes_listas").html(datos.ordenesLista);
                 } else {
-                    bootbox.alert("Ocurrio un error !!");
+                    // bootbox.alert("Ocurrio un error !!");
+                    $("#ordenes_listas").html("0");
                 }
             },
             error: function() {
-                bootbox.alert("Ocurrio un error!!");
+                // bootbox.alert("Ocurrio un error!!");
+                $("#ordenes_listas").html("0");
             }
         });
     }

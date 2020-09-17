@@ -2,7 +2,7 @@
 
 @section('seccion', 'Ordenes')
 
-@section('title', 'Menu')
+@section('title', 'Menú')
 
 @section('content')
 
@@ -13,7 +13,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="page-header">
-              <h1 class="text-center" style="color: #fff;">Menu</h1>
+              <h1 class="text-center" style="color: #fff;">Menú</h1>
             </div>
             {{-- <hr class="menuLineUp"> --}}
           </div>
@@ -259,7 +259,7 @@
 
         </div>
         <div class="row justify-content-end">
-          <button type="button" class="btn btn-primary mr-3" id="btnComment"><i class="far fa-comment"></i>
+          <button type="button" class="btn btn-info mr-3" id="btnComment"><i class="far fa-comment"></i>
             Comentar</button>
         </div>
       </div>

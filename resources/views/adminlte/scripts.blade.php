@@ -67,6 +67,11 @@
 <!-- SweetAlert-->
 <script src="{{asset('adminlte/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
 
+<!-- Moment-->
+<script src="{{asset('adminlte/plugins/moment/moment.min.js')}}"></script>
+<script src="{{asset('adminlte/plugins/moment/locales.min.js')}}"></script>
+<script src="{{asset('adminlte/plugins/moment/locale/es-do.js')}}"></script>
+
 <!-- InputMASK -->
 <script src="{{asset('adminlte/plugins/inputmask/jquery.inputmask.bundle.js')}}"></script>
 <!-- AdminLTE App -->

@@ -10,7 +10,7 @@ use App\Ingredientes;
 use App\producto;
 use App\Recetas;
 use Illuminate\Support\Facades\Validator;
-use  Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class productoController extends Controller
@@ -348,6 +348,7 @@ class productoController extends Controller
                 $receta = new Recetas();
                 $receta->id_producto = $producto;
                 $receta->id_ingrediente = $ingrediente;
+                $receta->cantidad_consumida = 1;
                 $receta->save();
 
                 $data = [
@@ -568,6 +569,31 @@ class productoController extends Controller
                 'code' => 200,
                 'status' => 'success',
                 'producto' => $producto
+            ];
+        }else{
+            $data = [
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'No se encontro ningun producto'
+            ];
+        }
+
+        return response()->json($data, $data['code']);
+    }
+
+    public function ajustarCantidad($id, Request $request ){
+        $cantidad = $request->input('cantidad');
+        $receta = Recetas::find($id);
+        $cantidad = trim($cantidad, '_');
+
+        if(is_object($receta) && !empty($cantidad)){
+            $receta->cantidad_consumida = $cantidad;
+            $receta->save();
+
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'receta' => $receta
             ];
         }else{
             $data = [

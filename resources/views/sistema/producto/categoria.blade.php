@@ -7,7 +7,7 @@
 @section('content')
 {{-- <div class="container"> --}}
 <div class="row mt-3 ml-3">
-    <button class="btn btn-primary mb-3 " id="btnAgregar"><i class="fas fa-plus-circle"></i> Agregar</button>
+   
     {{-- <button class="btn btn-danger mb-3 " id="btnCancelar"><i class="fas fa-window-close"></i></button> --}}
 </div>
 
@@ -54,8 +54,14 @@
 {{-- </div> --}}
 
 <div class="card card-listado" id="listadoUsers">
-    <div class="card-header text-center bg-dark">
-        <h4> Listado de categorias</h4>
+    <div class="card-header bg-dark">
+        <div class="row">
+            <div class="col-12">
+                <button class="btn btn-primary float-left" id="btnAgregar"><i class="fas fa-plus"></i> Agregar</button>
+                <h4 class="text-center">Listado de categorias</h4>
+            </div>
+        </div>
+        
     </div>
     <div class="card-body">
 

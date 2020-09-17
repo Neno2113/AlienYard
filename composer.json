@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.32",
+        "backpack/backupmanager": "^3.0",
         "barryvdh/laravel-dompdf": "^0.8.6",
         "dg/mysql-dump": "^1.5",
         "fideloper/proxy": "^4.0",

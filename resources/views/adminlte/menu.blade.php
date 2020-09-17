@@ -85,7 +85,7 @@
             <li class="nav-item">
               <a href="/categoria-ingredientes" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Categoria Ingredientes</p>
+                <p>Categoria</p>
               </a>
             </li>
             <li class="nav-item">
@@ -108,13 +108,13 @@
             <li class="nav-item">
               <a href="/categoria-producto" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Categoria Producto</p>
+                <p>Categoria</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="/productos" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Producto</p>
+                <p>Platos</p>
               </a>
             </li>
           </ul>
@@ -131,7 +131,7 @@
             <li class="nav-item">
               <a href="/menu" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Menu</p>
+                <p>Menú</p>
               </a>
             </li>
             <li class="nav-item">
@@ -178,6 +178,25 @@
         
           </ul>
         </li>
+        <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+            <i class="fas fa-clone"></i>
+            <p>
+              Copias de seguridad
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href='/respaldos' class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Respaldos</p>
+              </a>
+            </li>
+          
+        
+          </ul>
+        </li>
     </nav>
     @elseif (Auth::user()->role != "1")
     <nav class="mt-2">
@@ -207,7 +226,7 @@
             <i class="far fa-list-alt"></i>
             {{-- <li class="nav-header">CORTE Y FASES</li> --}}
             <p>
-              Menu de acceso
+              Menú de acceso
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
@@ -218,7 +237,7 @@
                 <p>Perfil</p>
               </a>
             </li>
-            @if (Auth::user()->permisos()->where('permiso', 'Categoria ingredientes')->first())
+            @if (Auth::user()->permisos()->where('permiso', 'Cat-ingredientes')->first())
             <li class="nav-item">
               <a href="/categoria-ingredientes" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
@@ -234,7 +253,7 @@
               </a>
             </li>
             @endif
-            @if (Auth::user()->permisos()->where('permiso', 'Categoria producto')->first())
+            @if (Auth::user()->permisos()->where('permiso', 'Cat-platos')->first())
             <li class="nav-item">
               <a href="/categoria-producto" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
@@ -242,11 +261,11 @@
               </a>
             </li>
             @endif
-            @if (Auth::user()->permisos()->where('permiso', 'Producto')->first())
+            @if (Auth::user()->permisos()->where('permiso', 'Platos')->first())
             <li class="nav-item">
               <a href="/productos" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Producto</p>
+                <p>Platos</p>
               </a>
             </li>
             @endif
@@ -254,11 +273,11 @@
             <li class="nav-item">
               <a href="/menu" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Menu</p>
+                <p>Menú</p>
               </a>
             </li>
             @endif
-            @if (Auth::user()->permisos()->where('permiso', 'Ordenes')->first())
+            @if (Auth::user()->permisos()->where('permiso', 'Cocina')->first())
             <li class="nav-item">
               <a href="/ordenes" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
@@ -271,6 +290,30 @@
               <a href="/cobro" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Pago</p>
+              </a>
+            </li>
+            @endif
+            @if (Auth::user()->permisos()->where('permiso', 'Rep-ordenes')->first())
+            <li class="nav-item">
+              <a href="/consulta-orden" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Reporte Ordenes</p>
+              </a>
+            </li>
+            @endif
+            @if (Auth::user()->permisos()->where('permiso', 'Rep-facturas')->first())
+            <li class="nav-item">
+              <a href="/consulta-facturas" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Reporte Facturas</p>
+              </a>
+            </li>
+            @endif
+            @if (Auth::user()->permisos()->where('permiso', 'Rep-inventario')->first())
+            <li class="nav-item">
+              <a href="/consulta-inventario" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Reporte Inventario</p>
               </a>
             </li>
             @endif

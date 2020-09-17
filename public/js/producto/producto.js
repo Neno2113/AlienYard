@@ -190,6 +190,7 @@ $(document).ready(function() {
                     $("#producto-div").hide();
                     $("#formUpload").hide();
                     $("#btn-guardar").show();
+                    $("#btn-crear").hide();
                     // $("#button-div").hide();
                     
                 } else {
@@ -239,13 +240,18 @@ $(document).ready(function() {
                         type: 'success',
                         title: 'Ingrediente agregado correctamente.'
                     })
-                    var fila =
-                    '<tr id="fila'+datos.receta.id+'">'+
-                    "<td class=''><input type='hidden' id='usuario"+datos.receta.id+"' value="+datos.receta.id+">"+datos.receta.producto.nombre+"</td>"+
-                    "<td class='font-weight-bold'><input type='hidden' id='permiso"+datos.receta.id+"' value="+datos.receta.id+">"+datos.receta.ingrediente.nombre+"</td>"+
-                    "<td><button type='button' id='btn-eliminar' onclick='delIngrediente("+datos.receta.id+")' class='btn btn-danger'><i class='fas fa-minus-square'></i></button></td>"+
-                    "</tr>";
+                    var fila =`
+                    <tr id="fila${datos.receta.id}">
+                    <td ><input type='hidden' id='usuario${datos.receta.id}' value="${datos.receta.id}">${datos.receta.producto.nombre}</td>
+                    <td ><input type='hidden' id='permiso${datos.receta.id}' value="${datos.receta.id}">${datos.receta.ingrediente.nombre}</td>
+                    <td ><input type='text' id='consumible${datos.receta.id}' value="1" class="form-control-sm text-center" data-inputmask='"mask": "99[99]"' data-mask></td>
+                    <td><button type='button' id='btn-eliminar' onclick='ajustarCantidad(${datos.receta.id})' class='btn btn-success mr-2'><i class="far fa-check-circle"></i></button>
+                    <button type='button' id='btn-eliminar' onclick='delIngrediente(${datos.receta.id})' class='btn btn-danger '><i class='fas fa-minus-square'></i></button>
+                    </td>
+                    </tr>
+                    `;
                     $("#ingredientes").append(fila);
+                    $("[data-mask]").inputmask();
 
                 } else {
                     bootbox.alert(
@@ -297,7 +303,7 @@ $(document).ready(function() {
                 { data: "Opciones", orderable: false, searchable: false },
                 { data: "status", orderable: false, searchable: false },
             ],
-            order: [[1, "asc"]],
+            order: [[2, "asc"]],
             rowGroup: {
                 dataSrc: "categoria"
             }
@@ -443,16 +449,21 @@ function mostrar(id) {
 
         for (let i = 0; i < datos.receta.length; i++) {
 
-            var fila =
-            '<tr id="fila'+datos.receta[i].id+'">'+
-            "<td ><input type='hidden' id='usuario"+datos.receta[i].id+"' value="+datos.receta[i].id+">"+datos.receta[i].producto.nombre+"</td>"+
-            "<td ><input type='hidden' id='permiso"+datos.receta.id+"' value="+datos.receta.id+">"+datos.receta[i].ingrediente.nombre+"</td>"+
-            "<td><button type='button' id='btn-eliminar' onclick='delIngrediente("+datos.receta[i].id+")' class='btn btn-danger'><i class='fas fa-minus-square'></i></button></td>"+
-            "</tr>";
-
+            var fila =`
+            <tr id="fila${datos.receta[i].id}">
+            <td ><input type='hidden' id='usuario${datos.receta[i].id}' value="${datos.receta[i].id}">${datos.receta[i].producto.nombre}</td>
+            <td ><input type='hidden' id='permiso${datos.receta[i].id}' value="${datos.receta.id}">${datos.receta[i].ingrediente.nombre}</td>
+            <td ><input type='text' id='consumible${datos.receta[i].id}' value="${datos.receta[i].cantidad_consumida}" class="form-control-sm text-center" data-inputmask='"mask": "99[99]"' data-mask></td>
+            <td><button type='button' id='btn-eliminar' onclick='ajustarCantidad(${datos.receta[i].id})' class='btn btn-success mr-2'><i class="far fa-check-circle"></i></button>
+            <button type='button' id='btn-eliminar' onclick='delIngrediente(${datos.receta[i].id})' class='btn btn-danger'><i class='fas fa-minus-square'></i></button>
+            </td>
+            </tr>
+            `;
+            $("#consumible"+datos.receta[i].id).inputmask('9999');
             $("#ingredientes").append(fila);
             
         }
+        $("[data-mask]").inputmask();
     });
 }
 
@@ -480,16 +491,22 @@ function mostrarReceta(id) {
 
         for (let i = 0; i < datos.receta.length; i++) {
 
-            var fila =
-            '<tr id="fila'+datos.receta[i].id+'">'+
-            "<td ><input type='hidden' id='usuario"+datos.receta[i].id+"' value="+datos.receta[i].id+">"+datos.receta[i].producto.nombre+"</td>"+
-            "<td ><input type='hidden' id='permiso"+datos.receta.id+"' value="+datos.receta.id+">"+datos.receta[i].ingrediente.nombre+"</td>"+
-            "<td><button type='button' id='btn-eliminar' onclick='delIngrediente("+datos.receta[i].id+")' class='btn btn-danger'><i class='fas fa-minus-square'></i></button></td>"+
-            "</tr>";
-
+            var fila =`
+            <tr id="fila${datos.receta[i].id}">
+            <td ><input type='hidden' id='usuario${datos.receta[i].id}' value="${datos.receta[i].id}">${datos.receta[i].producto.nombre}</td>
+            <td ><input type='hidden' id='permiso${datos.receta[i].id}' value="${datos.receta[i].id}">${datos.receta[i].ingrediente.nombre}</td>
+            <td ><input type='text' id='consumible${datos.receta[i].id}' value="${datos.receta[i].cantidad_consumida}" class="form-control-sm text-center" data-inputmask='"mask": "99[99]"' data-mask></td>
+            <td><button type='button' id='btn-eliminar' onclick='ajustarCantidad(${datos.receta[i].id})' class='btn btn-success mr-2'><i class="far fa-check-circle"></i></button>
+            <button type='button' id='btn-eliminar' onclick='delIngrediente(${datos.receta[i].id})' class='btn btn-danger'><i class='fas fa-minus-square'></i></button>
+            </td>
+            </tr>
+            `;
+            
+            $("#consumible"+datos.receta[i].id).inputmask('9999');
             $("#ingredientes").append(fila);
             
         }
+        $("[data-mask]").inputmask();
     });
 }
 
@@ -595,6 +612,50 @@ function delIngrediente(id) {
     //         });
     //     }
     // });
+}
+
+function ajustarCantidad(id){
+    console.log(id);
+
+    var cantidad = {
+        cantidad: $("#consumible"+id).val()
+    };
+   
+    $.ajax({
+        url: "producto/ajustar/"+id,
+        type: "post",
+        dataType: "json",
+        data: JSON.stringify(cantidad),
+        contentType: "application/json",
+        success: function(datos) {
+            if (datos.status == "success") {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    onOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+        
+                Toast.fire({
+                    type: 'success',
+                    title: 'Cantidad ajustada correctamente.'
+                })
+            
+            } else {
+                bootbox.alert(
+                    "Ocurrio un error durante la creacion del usuario verifique los datos suministrados!!"
+                );
+            }
+        },
+        error: function(datos) {
+           console.log(datos.responseJSON);
+        }
+    });
 }
 
 function desactivar(id) {

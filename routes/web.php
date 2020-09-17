@@ -22,12 +22,12 @@ Route::get('/user', function () {
 
 Route::get('/user-only', function () {
     return view('sistema.user.userOnly');
-})->middleware('auth', 'Admin:Usuarios');
+})->middleware('auth', 'Admin:Perfil');
 
 
 Route::get('/categoria-ingredientes', function () {
     return view('sistema.ingredientes.categoria');
-})->middleware('auth', 'Admin:Categoria ingredientes');
+})->middleware('auth', 'Admin:Cat-ingredientes');
 
 
 Route::get('/ingredientes', function () {
@@ -38,12 +38,12 @@ Route::get('/ingredientes', function () {
 
 Route::get('/categoria-producto', function () {
     return view('sistema.producto.categoria');
-})->middleware('auth', 'Admin:Categoria producto');
+})->middleware('auth', 'Admin:Cat-platos');
 
 
 Route::get('/productos', function () {
     return view('sistema.producto.producto');
-})->middleware('auth', 'Admin:Producto');
+})->middleware('auth', 'Admin:Platos');
 
 Route::get('/menu', function () {
     return view('sistema.ordenes.menu');
@@ -51,7 +51,7 @@ Route::get('/menu', function () {
 
 Route::get('/ordenes', function () {
     return view('sistema.ordenes.ordenes');
-})->middleware('auth', 'Admin:Ordenes');
+})->middleware('auth', 'Admin:Cocina');
 
 Route::get('/cobro', function () {
     return view('sistema.ordenes.cobro');
@@ -72,6 +72,14 @@ Route::get('/consulta-facturas', function () {
 
 Route::get('/consulta-inventario', function () {
     return view('sistema.consultas.inventario');
+})->middleware('auth');
+
+Route::get('/backup', function () {
+    return view('backup');
+})->middleware('auth');
+
+Route::get('/respaldos', function () {
+    return view('sistema.respaldo.backup');
 })->middleware('auth');
 
 
@@ -115,6 +123,7 @@ Route::post('/producto/delete/{id}', 'productoController@destroyProducto');
 Route::get('/producto/mostrar/{id}', 'productoController@showProducto');
 Route::post('/producto/desactivar/{id}', 'productoController@desactivar');
 Route::post('/producto/activar/{id}', 'productoController@activar');
+Route::post('/producto/ajustar/{id}', 'productoController@ajustarCantidad');
 
 //Menu
 Route::get('/categoria-menu', 'productoController@categoriaMenu');
@@ -150,6 +159,8 @@ Route::post('/facturar/terminar', 'OrdenesController@terminarFacturaManual');
 Route::get('/imprimir/factura/{id}', 'OrdenesController@imprimir');
 Route::post('/monto/aplicar', 'OrdenesController@aplicar');
 Route::get('/factura/sec', 'OrdenesController@getNoFactura');
+Route::get('/cedula_search', 'OrdenesController@selectComprobante');
+Route::get('/contribuyente/{id}', 'OrdenesController@contribuyente');
 
 //Permiso
 Route::get('permiso/{id}', 'PermisoController@show');
@@ -166,6 +177,13 @@ Route::get('ordenes/nuevas', 'HomeController@ordenesNuevas');
 Route::get('ordenes/proceso', 'HomeController@ordenesProceso');
 Route::get('ordenes/listas', 'HomeController@ordenesLista');
 Route::get('inventario', 'HomeController@inventario');
+
+
+//backup
+Route::get('backup', 'BackupController@index')->name('backup.index');
+Route::put('backup/create', 'BackupController@create')->name('backup.store');
+Route::get('backup/download/{file_name?}/{disco?}', 'BackupController@download')->name('backup.download');
+Route::delete('backup/delete', 'BackupController@delete');
 
 //consultas
 // Route::get('reporte/ordenes/{desde}/{hasta}', 'OrdenesController@consultaOrdenes');

@@ -28,10 +28,12 @@ class PermisoController extends Controller
             ];
         } else {
 
+          
 
             $permiso = $request->input('permiso');
             $user_id = $request->input('usuario');
-
+            // var_dump($permiso);
+            // die();
             $unico = PermisoUsuario::where('user_id', $user_id)
                 ->where('permiso', $permiso)->get()->first();
 
@@ -101,7 +103,7 @@ class PermisoController extends Controller
             ->select([
                 'users.name', 'users.surname', 'users.id',
                 'users.role', 'users.email'
-            ])->where('role', 'NOT LIKE', 'Administrador');
+            ])->where('role', 'NOT LIKE', '1');
 
         return DataTables::of($permisos)
             ->editColumn('name', function ($permiso) {
