@@ -296,27 +296,54 @@ function ver(id){
                 console.log(datos);
                 $("#accordion").empty();
                 orden = id;
-
+ 
                 for (let i = 0; i < datos.ordenes.length; i++) {
-                    let acordion =
-                    "<div class='card card-dark'>"+
-                    "<div class='card-header d-flex justify-content-center'>"+
-                        "<h4 class='card-title font-weight-bold'><i class='fas fa-hamburger'></i> "+
-                    "<a data-toggle='collapse' data-parent='#accordion' href='#plato"+datos.ordenes[i].id+"'>"+ datos.ordenes[i].producto.nombre+
-                    " <span style='font-size: 15px;' class='badge badge-primary'>#"+datos.ordenes[i].delivery+"</span>"+
-                    "</a>"+
-                    "</h4>"+
-                    "</div>"+
-                    "<div id='plato"+datos.ordenes[i].id+"' class='panel-collapse collapse in'>"+
-                        "<div class='card-body'>"+
-                        "<ul class='list-group' id='comment"+datos.ordenes[i].id+"'>"+
-                        
-                        "</ul>"+
-                        "</div>"+
-                    "</div>"+
-                    "</div>"
-                        
-                    $("#accordion").append(acordion); 
+                    if(datos.ordenes[i].comment_us){
+                        let acordion = `
+                        <div class='card card-dark'>
+                        <div class='card-header d-flex justify-content-center'>
+                            <h4 class='card-title font-weight-bold'><i class='fas fa-hamburger'></i>
+                           
+                        <a data-toggle='collapse' data-parent='#accordion' href='#plato${datos.ordenes[i].id}'> ${datos.ordenes[i].producto.nombre}
+                  
+                        <span style='font-size: 15px;' class='badge badge-primary'>#${datos.ordenes[i].delivery}</span>
+                        </a>
+                        <i class="fas fa-comment fa-lg chat-bubble"></i>  
+                        </h4>
+                        </div>
+                        <div id='plato${datos.ordenes[i].id}' class='panel-collapse collapse in'>
+                            <div class='card-body'>
+                            <ul class='list-group' id='comment${datos.ordenes[i].id}'>
+                            
+                            </ul>
+                            </div>
+                        </div>
+                        </div>
+                        `
+                        $("#accordion").append(acordion); 
+                    }else{
+                        let acordion = `
+                        <div class='card card-dark'>
+                        <div class='card-header d-flex justify-content-center'>
+                            <h4 class='card-title font-weight-bold'><i class='fas fa-hamburger'></i>
+                           
+                        <a data-toggle='collapse' data-parent='#accordion' href='#plato${datos.ordenes[i].id}'> ${datos.ordenes[i].producto.nombre}
+                  
+                        <span style='font-size: 15px;' class='badge badge-primary'>#${datos.ordenes[i].delivery}</span>
+                        </a>
+                        </h4>
+                        </div>
+                        <div id='plato${datos.ordenes[i].id}' class='panel-collapse collapse in'>
+                            <div class='card-body'>
+                            <ul class='list-group' id='comment${datos.ordenes[i].id}'>
+                            
+                            </ul>
+                            </div>
+                        </div>
+                        </div>
+                        `
+                        $("#accordion").append(acordion); 
+                    }                    
                 }
 
                 for (let i = 0; i < datos.ordenes.length; i++) {

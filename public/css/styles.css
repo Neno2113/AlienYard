@@ -160,3 +160,9 @@ table.dataTable tr.dtrg-group td{
     border-color: #28a745;
     color: #216C2A;
 }
+
+.chat-bubble {
+    color: red;
+    /* background: red;
+    border-radius: 37px; */
+}

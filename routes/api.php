@@ -27,5 +27,6 @@ Route::get('ordenes', 'OrdenesController@ordenesListas');
 Route::post('permisos', 'PermisoController@permisos');
 Route::get('reporte/ordenes/{desde?}/{hasta}', 'OrdenesController@consultaOrdenes');
 Route::get('reporte/facturas/{desde?}/{hasta}', 'OrdenesController@consultaFacturas');
+Route::get('reporte/facturas/dia', 'OrdenesController@consultaUltimasFacturas');
 Route::get('reporte/inventario', 'OrdenesController@consultaInventario');
 

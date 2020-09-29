@@ -31,11 +31,17 @@
                         <input type="date" name="hasta" id="hasta" class="form-control">
                     </div>
                     <div class="col-md-2 mt-4 pt-2">
-                        <button type="button" id="btn-generar" class="btn btn-dark pt-1"> <i class="fas fa-calculator"></i> Generar</a>
+                        <button type="button" id="btn-generar" class="btn btn-primary pt-1"> <i class="fas fa-calculator"></i> Generar</a>
         
                     </div>
                 </div>
                
+            </div>
+            <div class="card-footer  text-muted ">
+                <button class="btn  btn-danger mt-1" id="btnVolver"><i class="fas fa-arrow-alt-circle-left fa-lg"></i>
+                    Cancelar</button>
+            
+        
             </div>
          
 
@@ -45,8 +51,14 @@
 </div>
 
 <div class="card card-listado" id="listadoUsers">
-    <div class="card-header text-center bg-dark">
-        <h4>Listado de Facturas</h4>
+    <div class="card-header bg-dark">
+        <div class="row">
+            <div class="col-12">
+                <button class="btn btn-primary float-left" id="btn-filtrar"><i class="far fa-calendar-alt"></i> Filtrar</button>
+                <h4 class="text-center">Listado de Facturas</h4>
+            </div>
+        </div>
+      
     </div>
     <div class="card-body">
         <table id="users" class="table table-bordered table-hover datatables" style="width: 100%">
@@ -81,10 +93,7 @@
     <div class="card-footer  text-muted ">
         <button class="btn  btn-danger mt-1" id="btnCancelar"><i class="fas fa-arrow-alt-circle-left fa-lg"></i>
             Cancelar</button>
-        {{-- <button type="submit" id="btn-guardar" class="btn btn-info mt-1 float-right"><i
-                class="far fa-save fa-lg"></i> Guardar</button>
-        <button type="submit" id="btn-edit" class="btn btn-warning mt-1 float-right"><i
-                class="far fa-edit fa-lg"></i> Editar</button> --}}
+    
 
     </div>
 

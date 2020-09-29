@@ -65,23 +65,23 @@
         </div>
         <div class="card-body">
           <div class="row" id="producto-div">
-            <div class="col-md-4">
-              <input type="hidden" name="numeroOrden" id="numeroOrden">
+            <input type="hidden" name="numeroOrden" id="numeroOrden">
+            <input type="hidden" name="orden_id" id="orden_id">
+            {{-- <div class="col-md-4">
               <label for="">Metodo de pago</label>
               <select name="metodo_pago" id="metodo_pago" class="form-control select2">
                 <option value="" disabled>Elige un metodo de pago</option>
               </select>
-              <input type="hidden" name="orden_id" id="orden_id">
-            </div>
+            </div> --}}
 
-            <div class="col-md-4">
+            <div class="col-md-6">
               <label for="">Canal</label>
               <select name="canal" id="canal" class="form-control select2">
                 <option value="" disabled>Elige un canal</option>
               </select>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
               <label for="">Entrega</label>
               <select name="delivery" id="delivery" class="form-control">
                 <option value="" disabled>Elige una opcion de servir el plato </option>

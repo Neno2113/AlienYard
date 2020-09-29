@@ -80,7 +80,7 @@ class OrdenesController extends Controller
             ];
         } else {
             $canal = $request->input('canal');
-            $metodo = $request->input('metodo');
+            // $metodo = $request->input('metodo');
             $delivery = $request->input('delivery');
             $numeroOrden = $request->input('numeroOrden');
 
@@ -89,7 +89,7 @@ class OrdenesController extends Controller
             $orden->creado_por = auth()->user()->id;
             $orden->canal_id = $canal;
             $orden->numeroOrden = $numeroOrden + 1;
-            $orden->metodo_pago = $metodo;
+            $orden->metodo_pago = 1;
             $orden->delivery = $delivery;
             $orden->estado_pago = 0;
             $orden->estado_id = 3;
@@ -224,6 +224,10 @@ class OrdenesController extends Controller
 
         if (!empty($id)) {
             $comentario = new Comentario();
+
+            $detalle = DetallePedido::find($id);
+            $detalle->comment_us = 1;
+            $detalle->save();
 
             $comentario->plato = $id;
             $comentario->comentario = $termino;
@@ -403,6 +407,14 @@ class OrdenesController extends Controller
     {
         $platos = DetallePedido::where('id_maestroPedido', $id)->get();
 
+        $ids = [];
+
+        for ($i=0; $i < count($platos) ; $i++) { 
+            array_push($ids, $platos[$i]['id']);
+        }
+
+        $comentarios = Comentario::whereIn('plato', $ids)->get();
+
         if (count($platos) <= 0) {
             $data = [
                 'code' => 404,
@@ -413,7 +425,8 @@ class OrdenesController extends Controller
             $data = [
                 'code' => 200,
                 'status' => 'success',
-                'ordenes' => $platos->load('producto')
+                'ordenes' => $platos->load('producto'),
+                'comentario' => $comentarios
             ];
         }
 
@@ -1181,6 +1194,63 @@ class OrdenesController extends Controller
             ->rawColumns([])
             ->make(true);
     }
+
+    public function consultaUltimasFacturas()
+    {   
+
+        $date = date('20y-m-d');
+        $ordenes = DB::table('factura')->join('users', 'factura.user_id', '=', 'users.id')
+            ->join('maestro_pedido', 'factura.pedido', '=', 'maestro_pedido.id')
+            ->select([
+                'factura.id', 'factura.no_factura', 'factura.fecha', 'factura.tipo_factura',
+                'factura.total', 'factura.pago','maestro_pedido.numeroOrden',
+                'maestro_pedido.metodo_pago', 'users.name' , 'users.surname'
+            ])
+            ->where('fecha', '>', $date);
+
+        return DataTables::of($ordenes)
+            // ->addColumn('Expandir', function ($orden){
+            //     return "";
+            // })
+            ->editColumn('name', function ($orden) {
+                return $orden->name.' '. $orden->surname;
+            })
+            ->editColumn('numeroOrden', function ($orden) {
+                return '#'. $orden->numeroOrden;
+            })
+            ->editColumn('metodo_pago', function ($orden) {
+               return ($orden->metodo_pago == 1) ? "Efectivo" :"Tarjeta";
+            })
+            ->editColumn('fecha', function ($orden) {
+                return date("d/m/20y h:i:s ", strtotime($orden->fecha));
+            })
+            ->editColumn('total', function ($orden) {
+                return "RD$ ".str_replace(".00", "", $orden->total);
+            })
+            ->editColumn('pago', function ($orden) {
+                return "RD$ ".str_replace(".00", "", $orden->pago);
+            })
+            // ->editColumn('hora_pago', function ($orden) {
+            //     return date("h:i:s A ", strtotime($orden->hora_pago));
+            // })
+            // ->editColumn('canal', function ($producto) {
+            //     return '<span style="font-size: 15px;" class="badge badge-warning font-weight-bold">' . $producto->canal . '</span>';
+            // })
+            // ->editColumn('estado', function ($producto) {
+            //     return '<span style="font-size: 15px;" class="badge badge-primary font-weight-bold">' . $producto->estado . '</span>';
+            // })
+            // ->editColumn('delivery', function ($producto) {
+            //     return '<span style="font-size: 15px;" class="badge badge-success font-weight-bold">' . $producto->delivery . '</span>';
+            // })
+            // ->addColumn('Opciones', function ($orden) {
+            //     return ($orden->estado_pago == 1) ? '<span style="font-size: 15px;" class="badge badge-success font-weight-bold">Facturado</span>' :
+            //         '<button id="btnEdit" onclick="mostrar(' . $orden->id . ')" class="btn btn-dark btn-sm mr-1"> <i class="fas fa-cash-register"></i></button>';
+            // })
+
+            ->rawColumns([])
+            ->make(true);
+    }
+
 
     public function consultaInventario()
     {   

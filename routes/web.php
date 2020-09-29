@@ -117,7 +117,7 @@ Route::get('/producto/img/{filname}', 'productoController@getImage');
 Route::post('/ingrediente-select', 'productoController@ingredienteSelect');
 Route::get('catIngrediente-select', 'productoController@ingredienteCategoriaSelect');
 Route::post('/producto', 'productoController@store');
-Route::post('/receta', 'productoController@storeReceta');
+Route::post('/receta', 'productoController@P0');
 Route::post('/ingrediente/receta/{id}', 'productoController@delIngrediente');
 Route::post('/producto/delete/{id}', 'productoController@destroyProducto');
 Route::get('/producto/mostrar/{id}', 'productoController@showProducto');

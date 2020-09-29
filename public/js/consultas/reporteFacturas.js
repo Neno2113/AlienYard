@@ -7,7 +7,8 @@ $(document).ready(function() {
   
         $("#desde").val("");
         $("#hasta").val("");
-        mostrarForm(true);
+        mostrarForm(false);
+        listarUltimas();
        
     }
 
@@ -46,7 +47,15 @@ $(document).ready(function() {
         e.preventDefault();
         mostrarForm(true);
     });
+    $("#btnVolver").click(function(e) {
+        e.preventDefault();
+        mostrarForm(false);
+        listarUltimas();
+    });
 
+    $("#btn-filtrar").on('click', ()=>{
+        mostrarForm(true);
+    })
 
 
 
@@ -65,6 +74,45 @@ $("#btn-generar").click(function(){
 
 
 });
+
+function listarUltimas(){
+    $("#users").DataTable().destroy();
+    tabla = $("#users").DataTable({
+        serverSide: true,
+        responsive: true,
+        ajax: "api/reporte/facturas/dia",
+        dom: "Bfrtip",
+        iDisplayLength: 10,
+        buttons: [
+            "pageLength",
+            "copyHtml5",
+            {
+                extend: "excelHtml5",
+                autoFilter: true,
+                sheetnombre: "Exported data"
+            },
+            "csvHtml5",
+            {
+                extend: "pdfHtml5",
+                orientation: "landscape",
+                pageSize: "LEGAL"
+            }
+        ],
+        columns: [
+            { data: "name", name: "users.name"},
+            { data: "no_factura", name: "factura.no_factura"},
+            { data: "tipo_factura", name: "factura.tipo_factura"},
+            { data: "numeroOrden", name: "maestro_pedido.numeroOrden"},
+            { data: "fecha", name: "factura.fecha"},
+            { data: "metodo_pago", name: "maestro_pedido.metodo_pago"},
+            { data: "total", name: "factura.total"},
+        ],
+        order: [[1, "asc"]],
+        // rowGroup: {
+        //     dataSrc: "numeroOrden"
+        // }
+    });
+}
 
 
 
